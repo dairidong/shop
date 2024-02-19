@@ -18,48 +18,60 @@ $logout = function (Logout $logout) {
             <!-- Hamburger -->
             <div class="flex flex-1">
                 <div class="flex items-center">
-                    <x-drawer class="p-0 py-6">
-                        <x-slot:trigger class="cursor-pointer">
-                            <x-hamburger />
-                            </x-slot>
+                    <x-drawer class="px-0 py-6">
+                        <x-slot name="trigger" class="cursor-pointer">
+                            <x-hamburger ::data-open="open ? 'true' : 'false'" />
+                        </x-slot>
 
-                            {{--  Drawer Content  --}}
-                            <div class="text-neutral-700">
-                                <div class="relative w-full px-6 mb-8">
-                                    <input type="search" id="search-dropdown"
-                                           class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-md border-2 border-gray-300 focus:border-gray-600 focus:ring-0 focus:shadow-none"
-                                           placeholder="Search Product..." required
-                                    />
-                                    <button type="submit"
-                                            class="absolute top-0 end-6 p-2.5 text-sm font-medium h-full text-neutral-600">
-                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                             fill="none" viewBox="0 0 20 20">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                  stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                                        </svg>
-                                        <span class="sr-only">Search</span>
-                                    </button>
-                                </div>
-
-                                <ul class="font-bold text-lg mb-2">
-                                    <li class="hover:bg-gray-100">
-                                        <a class="border-y inline-flex w-full h-full p-3" href="#">首页</a>
-                                    </li>
-                                    <li class="hover:bg-gray-100">
-                                        <a class="border-y inline-flex w-full h-full p-3" href="#">商城</a>
-                                    </li>
-                                    <li class="hover:bg-gray-100">
-                                        <a class="border-y inline-flex w-full h-full p-3" href="#">关于</a>
-                                    </li>
-                                    <li class="hover:bg-gray-100">
-                                        <a class="border-y inline-flex w-full h-full p-3" href="#">联系我们</a>
-                                    </li>
-                                </ul>
-
-                                <div class="px-3 text-base font-medium text-neutral-600 hover:text-[#a90a0a]">
-                                    <a href="#">登录 / 注册</a>
-                                </div>
+                        {{--  Drawer Content  --}}
+                        <div class="text-neutral-700">
+                            <div class="relative w-full px-6 mb-8">
+                                <input type="search" id="search-dropdown"
+                                       class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-md border-2 border-gray-300 focus:border-gray-600 focus:ring-0 focus:shadow-none"
+                                       placeholder="Search Product..." required
+                                />
+                                <button type="submit"
+                                        class="absolute top-0 end-6 p-2.5 text-sm font-medium h-full text-neutral-600">
+                                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                         fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                              stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                    </svg>
+                                    <span class="sr-only">Search</span>
+                                </button>
                             </div>
+
+                            <ul class="font-bold text-lg mb-2">
+                                <li class="hover:bg-gray-100 hover:text-[#a90a0a]">
+                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-[#a90a0a] before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
+                                       href="#">
+                                        首页
+                                    </a>
+                                </li>
+                                <li class="hover:bg-gray-100 hover:text-[#a90a0a]">
+                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-[#a90a0a] before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
+                                       href="#">
+                                        商城
+                                    </a>
+                                </li>
+                                <li class="hover:bg-gray-100 hover:text-[#a90a0a]">
+                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-[#a90a0a] before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
+                                       href="#">
+                                        关于
+                                    </a>
+                                </li>
+                                <li class="hover:bg-gray-100 hover:text-[#a90a0a]">
+                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-[#a90a0a] before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
+                                       href="#">
+                                        联系我们
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <div class="p-4 text-base font-bold text-neutral-600 hover:text-[#a90a0a]">
+                                <a href="#">登录 / 注册</a>
+                            </div>
+                        </div>
                     </x-drawer>
 
                 </div>
