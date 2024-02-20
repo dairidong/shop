@@ -33,8 +33,9 @@ $login = function () {
         <form wire:submit="login">
             <!-- Email Address -->
             <div class="flex flex-col mb-4">
-                <label for="username" class="text-[#222] mb-2">用户名或 Email <span
-                        class="text-red-600">*</span></label>
+                <label for="username" class="text-[#222] mb-2">
+                    {{ __('Username Or Email') }} <span class="text-red-600">*</span>
+                </label>
                 <input id="username"
                        name="username"
                        wire:model="form.username"
