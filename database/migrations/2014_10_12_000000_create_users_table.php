@@ -15,7 +15,7 @@ return new class extends Migration
             $table->comment('用户表');
 
             $table->id();
-            $table->string('name')->comment('用户名');
+            $table->string('name')->unique()->comment('用户名');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable()->comment('邮箱验证时间');
             $table->string('password')->comment('密码');

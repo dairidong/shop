@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Session;
 use function Livewire\Volt\form;
 use function Livewire\Volt\layout;
 
-layout('layouts.guest');
+layout('layouts.app');
 
 form(LoginForm::class);
 
@@ -23,48 +23,74 @@ $login = function () {
 
 ?>
 
-<div>
+<div class="mt-14 container mx-auto lg:max-w-[1440px] flex flex-col items-center">
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form wire:submit="login">
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="form.email" id="email" class="block mt-1 w-full" type="email" name="email" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+    <h2 class="text-center text-xl font-medium my-4">登录</h2>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    <div class="w-1/2 border-4 p-6 border-dashed text-sm">
+        <form wire:submit="login">
+            <!-- Email Address -->
+            <div class="flex flex-col mb-4">
+                <label for="username" class="text-[#222] mb-2">用户名或 Email <span
+                        class="text-red-600">*</span></label>
+                <input id="username"
+                       name="username"
+                       wire:model="form.username"
+                       type="text"
+                       required
+                       autofocus
+                       class="w-full h-10 px-4 border-1 border-[#ccc] focus:border-1 focus:border-[#ccc] focus:ring-0"
+                       autocomplete="username"
+                >
+                <x-input-error :messages="$errors->get('username')" class="mt-2" />
+            </div>
 
-            <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+            <!-- Password -->
+            <div class="flex flex-col mb-4">
+                <label for="password" class="text-[#222] mb-2">{{ __('Password') }} <span class="text-red-600">*</span></label>
+                <input id="password"
+                       name="password"
+                       wire:model="form.password"
+                       type="password"
+                       required
+                       autofocus
+                       class="w-full h-10 px-4 border-1 border-[#ccc] focus:border-1 focus:border-[#ccc] focus:ring-0"
+                       autocomplete="current-password"
+                >
+                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+            <div class="flex flex-col items-center">
+                <!-- Remember Me -->
+                <div class="block mt-4">
+                    <label for="remember" class="inline-flex items-center">
+                        <input wire:model="form.remember" id="remember" type="checkbox"
+                               class="border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                        <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                    </label>
+                </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember" class="inline-flex items-center">
-                <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+                <div class="flex items-center justify-end mt-4">
+                    <button class="ms-3 text-white px-14 py-2 bg-gray-800 hover:bg-[#a90a0a]" type="submit">
+                        {{ __('Log in') }}
+                    </button>
+                </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+                @if (Route::has('password.request'))
+                    <div class="flex items-center justify-end mt-4">
+                        <a class="underline text-sm text-gray-800 hover:text-[#a90a0a] rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                           href="{{ route('password.request') }}" wire:navigate>
+                            {{ __('Forgot your password?') }}
+                        </a>
+                    </div>
+                @endif
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
+
+            </div>
+
+        </form>
+    </div>
+
 </div>
