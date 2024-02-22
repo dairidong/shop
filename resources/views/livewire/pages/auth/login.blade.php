@@ -25,45 +25,46 @@ $login = function () {
 
 <div class="mt-14 container mx-auto lg:max-w-[1440px] flex flex-col items-center">
     <!-- Session Status -->
+    {{-- todo check styles --}}
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <h2 class="text-center text-xl font-medium my-4">登录</h2>
+    <h2 class="text-center text-xl font-medium my-4">{{ __('Login') }}</h2>
 
     <div class="w-1/2 border-4 p-6 border-dashed text-sm">
         <form wire:submit="login">
             <!-- Email Address -->
-            <div class="flex flex-col mb-4">
-                <label for="username" class="text-[#222] mb-2">
+            <x-auth.form-row>
+                <x-auth.input-label for="username">
                     {{ __('Username Or Email') }} <span class="text-red-600">*</span>
-                </label>
-                <input id="username"
-                       name="username"
-                       wire:model="form.username"
-                       type="text"
-                       required
-                       autofocus
-                       class="w-full h-10 px-4 border-1 border-[#ccc] focus:border-1 focus:border-[#ccc] focus:ring-0"
-                       autocomplete="username"
-                >
+                </x-auth.input-label>
+                <x-auth.text-input id="username"
+                                   name="username"
+                                   wire:model="form.username"
+                                   type="text"
+                                   required
+                                   autofocus
+                                   autocomplete="username"
+                />
                 <x-input-error :messages="$errors->get('username')" class="mt-2" />
-            </div>
+            </x-auth.form-row>
 
             <!-- Password -->
-            <div class="flex flex-col mb-4">
-                <label for="password" class="text-[#222] mb-2">{{ __('Password') }} <span class="text-red-600">*</span></label>
-                <input id="password"
-                       name="password"
-                       wire:model="form.password"
-                       type="password"
-                       required
-                       autofocus
-                       class="w-full h-10 px-4 border-1 border-[#ccc] focus:border-1 focus:border-[#ccc] focus:ring-0"
-                       autocomplete="current-password"
-                >
+            <x-auth.form-row>
+                <x-auth.input-label for="password" class="text-[#222] mb-2">{{ __('Password') }} <span
+                        class="text-red-600">*</span></x-auth.input-label>
+                <x-auth.text-input id="password"
+                                   name="password"
+                                   wire:model="form.password"
+                                   type="password"
+                                   required
+                                   autofocus
+                                   class="w-full h-10 px-4 border-1 border-[#ccc] focus:border-1 focus:border-[#ccc] focus:ring-0"
+                                   autocomplete="current-password"
+                />
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
+            </x-auth.form-row>
 
-            <div class="flex flex-col items-center">
+            <x-auth.form-row class="items-center">
                 <!-- Remember Me -->
                 <div class="block mt-4">
                     <label for="remember" class="inline-flex items-center">
@@ -72,25 +73,30 @@ $login = function () {
                         <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
                     </label>
                 </div>
+            </x-auth.form-row>
 
-                <div class="flex items-center justify-end mt-4">
-                    <button class="ms-3 text-white px-14 py-2 bg-gray-800 hover:bg-[#a90a0a]" type="submit">
-                        {{ __('Log in') }}
-                    </button>
-                </div>
+            <x-auth.form-row class="items-center">
+                <x-auth.button type="submit">
+                    {{ __('Log in') }}
+                </x-auth.button>
+            </x-auth.form-row>
 
-                @if (Route::has('password.request'))
-                    <div class="flex items-center justify-end mt-4">
+            <x-auth.form-row class="items-center">
+                <div class="ms-3 flex justify-between gap-6">
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="underline text-gray-800 font-bold hover:text-[#a90a0a]"
+                           wire:navigate>{{ __('Register') }}</a>
+                    @endif
+
+                    @if (Route::has('password.request'))
+
                         <a class="underline text-sm text-gray-800 hover:text-[#a90a0a] rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                            href="{{ route('password.request') }}" wire:navigate>
                             {{ __('Forgot your password?') }}
                         </a>
-                    </div>
-                @endif
-
-
-            </div>
-
+                    @endif
+                </div>
+            </x-auth.form-row>
         </form>
     </div>
 
