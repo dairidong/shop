@@ -11,13 +11,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Spatie\Permission\Traits\HasRoles;
 
 class Administrator extends Model implements
     AuthenticatableContract,
     AuthorizableContract,
     FilamentUser
 {
-    use HasFactory, Authenticatable, Authorizable, SoftDeletes;
+    use HasFactory, Authenticatable, Authorizable, SoftDeletes, HasRoles;
 
     protected $fillable = [
         'username',
@@ -29,7 +30,6 @@ class Administrator extends Model implements
     protected $hidden = [
         'password',
         'remember_token',
-        ''
     ];
 
     public function canAccessPanel(Panel $panel): bool

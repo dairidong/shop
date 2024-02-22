@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,7 +21,10 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            AdministratorSeeder::class
+            AdministratorSeeder::class,
+            ShieldSeeder::class,
         ]);
+
+        Artisan::call('shield:super-admin');
     }
 }
