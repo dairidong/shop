@@ -23,7 +23,7 @@ state([
 rules([
     'name' => ['required', 'alpha_dash:ascii', 'max:255', 'unique:' . User::class],
     'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-    'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+    'password' => ['required', 'string', 'confirmed', Rules\Password::min(8)->numbers()->letters()],
 ]);
 
 $register = function () {
