@@ -19,6 +19,7 @@
     "Are you sure you want to delete your account?": "您确定要删除您的帐户吗？",
     "Assign": "分配",
     "Attach": "附加",
+    "Avatar": "头像",
     "Bad Gateway": "网关错误",
     "Bad Request": "请求错误",
     "Bandwidth Limit Exceeded": "超出带宽限制",
@@ -56,6 +57,7 @@
     "Discard": "丢弃",
     "Done": "完毕",
     "Down": "向下",
+    "Drag or click to upload": "拖放或点击上传:attribute",
     "Duplicate": "复制",
     "Duplicate :name": "重复：名称",
     "Edit": "编辑",
@@ -241,7 +243,5 @@
     "Yes": "是的",
     "You are receiving this email because we received a password reset request for your account.": "您收到此电子邮件是因为我们收到了您帐户的密码重设请求。",
     "You're logged in!": "您已登录!",
-    "Your email address is unverified.": "您的电子邮箱未经验证。",
-    "Drag or click to upload": "拖放或点击上传:attribute",
-    "Avatar": "头像"
+    "Your email address is unverified.": "您的电子邮箱未经验证。"
 }

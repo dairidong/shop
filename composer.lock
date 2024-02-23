@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6534071b098b2d463f05185614a20de6",
+    "content-hash": "561ab91f7f91e6aa4b93e101473c8cf4",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -8052,6 +8052,49 @@
                 "unit"
             ],
             "time": "2024-02-17T10:04:08+00:00"
+        },
+        {
+            "name": "pestphp/pest-plugin-livewire",
+            "version": "v2.1.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/pestphp/pest-plugin-livewire/v2.1.0/pestphp-pest-plugin-livewire-v2.1.0.zip",
+                "reference": "e72a2f850f727dfdb6bfa6e2ee6ff478ccc93f97",
+                "shasum": ""
+            },
+            "require": {
+                "livewire/livewire": "^2.12.3|^3.0",
+                "pestphp/pest": "^2.9.1",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.5.10",
+                "pestphp/pest-dev-tools": "^2.12.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Autoload.php"
+                ],
+                "psr-4": {
+                    "Pest\\Livewire\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "The Pest Livewire Plugin",
+            "keywords": [
+                "framework",
+                "livewire",
+                "pest",
+                "php",
+                "plugin",
+                "test",
+                "testing",
+                "unit"
+            ],
+            "time": "2023-07-20T16:28:21+00:00"
         },
         {
             "name": "phar-io/manifest",

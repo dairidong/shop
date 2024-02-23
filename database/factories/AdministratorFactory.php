@@ -21,6 +21,7 @@ class AdministratorFactory extends Factory
         return [
             'username' => fake()->unique()->name,
             'name' => fake()->name,
+            'avatar' => null,
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
