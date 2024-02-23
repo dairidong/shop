@@ -42,9 +42,10 @@ class AdministratorResource extends Resource
                 Forms\Components\Section::make([
                     Forms\Components\TextInput::make('username')
                         ->label(__('Username'))
-                        ->alphaDash()
+                        ->maxLength(255)
                         ->required()
-                        ->maxLength(255),
+                        ->rule('alpha_dash:ascii')
+                        ->unique(Administrator::class, 'username', ignoreRecord: true),
                     Forms\Components\TextInput::make('name')
                         ->label(__('Name'))
                         ->required()
