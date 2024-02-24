@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AdministratorResource\Pages;
 use App\Filament\Resources\AdministratorResource\RelationManagers;
 use App\Models\Administrator;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -88,6 +89,7 @@ class AdministratorResource extends Resource
             ->defaultSort('id', 'desc')
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar')
+                    ->state(fn(Administrator $admin): ?string => $admin->avatar ?? Filament::getUserAvatarUrl($admin))
                     ->translateLabel()
                     ->circular(),
                 Tables\Columns\TextColumn::make('username')
