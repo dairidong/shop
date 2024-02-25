@@ -12,7 +12,7 @@ class ShieldSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $rolesWithPermissions = '[{"name":"super_admin","guard_name":"admin","permissions":["view_role","view_any_role","create_role","update_role","delete_role","delete_any_role","view_administrator","view_any_administrator","create_administrator","update_administrator","restore_administrator","restore_any_administrator","replicate_administrator","reorder_administrator","delete_administrator","delete_any_administrator","force_delete_administrator","force_delete_any_administrator"]},{"name":"roles_manager","guard_name":"admin","permissions":["view_role","view_any_role","create_role","update_role","delete_role","delete_any_role"]}]';
+        $rolesWithPermissions = '[{"name":"super_admin","guard_name":"admin","permissions":["view_role","view_any_role","create_role","update_role","delete_role","delete_any_role","view_administrator","view_any_administrator","create_administrator","update_administrator","restore_administrator","restore_any_administrator","replicate_administrator","reorder_administrator","delete_administrator","delete_any_administrator","force_delete_administrator","force_delete_any_administrator","view_user","view_any_user","create_user","update_user","restore_user","restore_any_user","replicate_user","reorder_user","delete_user","delete_any_user","force_delete_user","force_delete_any_user"]},{"name":"roles_manager","guard_name":"admin","permissions":["view_role","view_any_role","create_role","update_role","delete_role","delete_any_role"]}]';
         $directPermissions = '[]';
 
         static::makeRolesWithPermissions($rolesWithPermissions);

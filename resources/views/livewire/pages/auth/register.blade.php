@@ -14,6 +14,7 @@ use function Livewire\Volt\state;
 layout('layouts.app');
 
 state([
+    'username' => '',
     'name' => '',
     'email' => '',
     'password' => '',
@@ -21,7 +22,8 @@ state([
 ]);
 
 rules([
-    'name' => ['required', 'alpha_dash:ascii', 'max:255', 'unique:' . User::class],
+    'username' => ['required', 'alpha_dash:ascii', 'max:255', 'unique:' . User::class],
+    'name' => ['string', 'max:255'],
     'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
     'password' => ['required', 'string', 'confirmed', Rules\Password::min(8)->numbers()->letters()],
 ]);
@@ -47,15 +49,29 @@ $register = function () {
         <form wire:submit="register">
             <!-- Name -->
             <x-auth.form-row>
-                <x-auth.input-label for="name">
+                <x-auth.input-label for="username">
                     {{ __('Username') }} <span class="text-red-600">*</span>
                 </x-auth.input-label>
+                <x-auth.text-input
+                    id="username"
+                    name="username"
+                    wire:model="username"
+                    type="text"
+                    required
+                    autofocus
+                    autocomplete="username"
+                />
+                <x-input-error :messages="$errors->get('username')" class="mt-2" />
+
+            </x-auth.form-row>
+
+            <x-auth.form-row>
+                <x-auth.input-label for="name" :value="__('Name')" />
                 <x-auth.text-input
                     id="name"
                     name="name"
                     wire:model="name"
                     type="text"
-                    required
                     autofocus
                     autocomplete="name"
                 />

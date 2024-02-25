@@ -28,11 +28,11 @@ test('users can authenticate by email using the login screen', function () {
     $this->assertAuthenticated();
 });
 
-test('users can authenticate by name using the login screen', function () {
+test('users can authenticate by username using the login screen', function () {
     $user = User::factory()->create();
 
     $component = Volt::test('pages.auth.login')
-        ->set('form.username', $user->name)
+        ->set('form.username', $user->username)
         ->set('form.password', 'password');
 
     $component->call('login');

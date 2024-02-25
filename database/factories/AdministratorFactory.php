@@ -19,7 +19,7 @@ class AdministratorFactory extends Factory
     public function definition(): array
     {
         return [
-            'username' => fake()->unique()->name,
+            'username' => fake('en')->unique()->firstName,
             'name' => fake()->name,
             'avatar' => null,
             'password' => Hash::make('password'),

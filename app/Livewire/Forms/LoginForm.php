@@ -30,7 +30,7 @@ class LoginForm extends Form
     {
         $this->ensureIsNotRateLimited();
 
-        $credential_col = filter_var($this->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $credential_col = filter_var($this->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         $credentials = [
             $credential_col => $this->username,
             'password' => $this->password,
@@ -40,7 +40,7 @@ class LoginForm extends Form
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'name' => trans('auth.failed'),
+                'username' => trans('auth.failed'),
             ]);
         }
 
@@ -61,7 +61,7 @@ class LoginForm extends Form
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'name' => trans('auth.throttle', [
+            'username' => trans('auth.throttle', [
                 'seconds' => $seconds,
                 'minutes' => ceil($seconds / 60),
             ]),

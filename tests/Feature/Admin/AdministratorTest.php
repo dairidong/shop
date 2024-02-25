@@ -43,7 +43,7 @@ describe("admin administrator", function () {
 
     test("can update administrator", function () {
         $administrator = Administrator::factory()->create();
-        $new_username = fake()->unique()->userName;
+        $new_username = fake('en')->unique()->firstName;
         $new_name = fake()->unique()->name;
         echo $new_name . PHP_EOL;
 
