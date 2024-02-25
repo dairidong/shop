@@ -11,7 +11,7 @@ class UserProfileForm extends Form
 {
     use WithFileUploads;
 
-    #[Validate('image|max:512')]
+    #[Validate('nullable|image|max:512')]
     public $avatar;
 
     #[Validate('string|max:255')]

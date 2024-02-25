@@ -36,6 +36,8 @@ $updateProfileInformation = function () {
     if ($this->form->avatar) {
         $avatar_path = $this->form->avatar->store('avatars', 'public');
         $validated['avatar'] = $avatar_path;
+    } else {
+        unset($validated['avatar']);
     }
 
     $user->fill($validated);
