@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -26,18 +27,25 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\Section::make([
                     Forms\Components\FileUpload::make('avatar')
+                        ->directory('avatars')
                         ->translateLabel()
                         ->image()
                         ->imageEditor()
                         ->avatar()
                         ->columnSpanFull(),
-                    Forms\Components\TextInput::make('name')
+                    Forms\Components\TextInput::make('username')
                         ->required()
                         ->string()
                         ->maxLength(255)
                         ->rule("alpha_dash:ascii")
-                        ->unique()
+                        ->unique(ignoreRecord: true)
                         ->label(__('Username'))
+                        ->columnSpan(1),
+                    Forms\Components\TextInput::make('name')
+                        ->string()
+                        ->maxLength(255)
+                        ->dehydrateStateUsing(fn(?string $state) => is_null($state) ? '' : $state)
+                        ->label(__('Name'))
                         ->columnSpan(1),
                     Forms\Components\TextInput::make('email')
                         ->required()
@@ -45,7 +53,7 @@ class UserResource extends Resource
                         ->rule('lowercase')
                         ->email()
                         ->maxLength(255)
-                        ->unique()
+                        ->unique(ignoreRecord: true)
                         ->translateLabel()
                         ->columnSpan(1),
                 ])->columnSpan(8)->columns(),
@@ -80,10 +88,13 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('avatar')
+                Tables\Columns\ImageColumn::make('avatar')
                     ->translateLabel(),
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('username')
                     ->label(__('Username'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->translateLabel()

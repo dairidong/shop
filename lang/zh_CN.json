@@ -244,5 +244,6 @@
     "You are receiving this email because we received a password reset request for your account.": "您收到此电子邮件是因为我们收到了您帐户的密码重设请求。",
     "You're logged in!": "您已登录!",
     "Your email address is unverified.": "您的电子邮箱未经验证。",
-    "Email verified at": "邮箱验证于"
+    "Email verified at": "邮箱验证于",
+    "NickName": "昵称"
 }

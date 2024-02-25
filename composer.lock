@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "561ab91f7f91e6aa4b93e101473c8cf4",
+    "content-hash": "f73eef766836342c9d5951bfb3b5d419",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2419,7 +2419,7 @@
             "version": "3.24.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/league/flysystem/3.24.0/league-flysystem-3.24.0.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/league/flysystem/3.24.0/league-flysystem-3.24.0.zip",
                 "reference": "b25a361508c407563b34fac6f64a8a17a8819675",
                 "shasum": ""
             },
@@ -3959,7 +3959,7 @@
             "version": "4.7.5",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/ramsey/uuid/4.7.5/ramsey-uuid-4.7.5.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/ramsey/uuid/4.7.5/ramsey-uuid-4.7.5.zip",
                 "reference": "5f0df49ae5ad6efb7afa69e6bfab4e5b1e080d8e",
                 "shasum": ""
             },
@@ -4750,7 +4750,7 @@
             "version": "v6.4.3",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/http-kernel/v6.4.3/symfony-http-kernel-v6.4.3.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/symfony/http-kernel/v6.4.3/symfony-http-kernel-v6.4.3.zip",
                 "reference": "9c6ec4e543044f7568a53a76ab1484ecd30637a2",
                 "shasum": ""
             },
@@ -4840,7 +4840,7 @@
             "version": "v6.4.3",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/mailer/v6.4.3/symfony-mailer-v6.4.3.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/symfony/mailer/v6.4.3/symfony-mailer-v6.4.3.zip",
                 "reference": "74412c62f88a85a41b61f0b71ab0afcaad6f03ee",
                 "shasum": ""
             },
@@ -5188,7 +5188,7 @@
             "version": "v1.29.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/symfony/polyfill-mbstring/v1.29.0/symfony-polyfill-mbstring-v1.29.0.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/polyfill-mbstring/v1.29.0/symfony-polyfill-mbstring-v1.29.0.zip",
                 "reference": "9773676c8a1bb1f8d4340a62efe641cf76eda7ec",
                 "shasum": ""
             },

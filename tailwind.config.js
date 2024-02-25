@@ -11,13 +11,17 @@ export default {
     ],
 
     theme: {
+        container: {
+            center: true,
+        },
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 dark: '#1F2937',
-                light: '#F9FAFB'
+                light: '#F9FAFB',
+                primary: '#a90a0a'
             }
         },
     },

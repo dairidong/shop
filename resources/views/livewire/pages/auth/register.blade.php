@@ -48,11 +48,11 @@ $register = function () {
     <div class="w-1/2 border-4 p-6 border-dashed text-sm">
         <form wire:submit="register">
             <!-- Name -->
-            <x-auth.form-row>
-                <x-auth.input-label for="username">
+            <x-form-row>
+                <x-input-label for="username">
                     {{ __('Username') }} <span class="text-red-600">*</span>
-                </x-auth.input-label>
-                <x-auth.text-input
+                </x-input-label>
+                <x-text-input
                     id="username"
                     name="username"
                     wire:model="username"
@@ -63,11 +63,11 @@ $register = function () {
                 />
                 <x-input-error :messages="$errors->get('username')" class="mt-2" />
 
-            </x-auth.form-row>
+            </x-form-row>
 
-            <x-auth.form-row>
-                <x-auth.input-label for="name" :value="__('Name')" />
-                <x-auth.text-input
+            <x-form-row>
+                <x-input-label for="name" :value="__('Name')" />
+                <x-text-input
                     id="name"
                     name="name"
                     wire:model="name"
@@ -77,55 +77,55 @@ $register = function () {
                 />
                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
 
-            </x-auth.form-row>
+            </x-form-row>
 
             <!-- Email Address -->
-            <x-auth.form-row>
-                <x-auth.input-label for="email">
+            <x-form-row>
+                <x-input-label for="email">
                     {{ __('Email') }} <span class="text-red-600">*</span>
-                </x-auth.input-label>
-                <x-auth.text-input wire:model="email" id="email" type="email" name="email" required
+                </x-input-label>
+                <x-text-input wire:model="email" id="email" type="email" name="email" required
                                    autocomplete="username" />
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </x-auth.form-row>
+            </x-form-row>
 
             <!-- Password -->
-            <x-auth.form-row>
-                <x-auth.input-label for="password">
+            <x-form-row>
+                <x-input-label for="password">
                     {{ __('Password') }} <span class="text-red-600">*</span>
-                </x-auth.input-label>
-                <x-auth.text-input wire:model="password" id="password"
+                </x-input-label>
+                <x-text-input wire:model="password" id="password"
                                    type="password"
                                    name="password"
                                    required autocomplete="new-password" />
 
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </x-auth.form-row>
+            </x-form-row>
 
             <!-- Confirm Password -->
-            <x-auth.form-row>
-                <x-auth.input-label for="password_confirmation">
+            <x-form-row>
+                <x-input-label for="password_confirmation">
                     {{ __('Confirm Password') }} <span class="text-red-600">*</span>
-                </x-auth.input-label>
+                </x-input-label>
 
-                <x-auth.text-input wire:model="password_confirmation" id="password_confirmation"
+                <x-text-input wire:model="password_confirmation" id="password_confirmation"
                                    class="block mt-1 w-full"
                                    type="password"
                                    name="password_confirmation" required autocomplete="new-password" />
 
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-            </x-auth.form-row>
+            </x-form-row>
 
-            <x-auth.form-row class="items-center mt-6">
+            <x-form-row class="items-center mt-6">
                 <div class="w-full flex justify-between items-center flex-col md:flex-row gap-y-6">
                     <div class="hidden md:block"></div>
-                    <x-auth.button :value="__('Register')" class="block w-full md:w-max" />
+                    <x-primary-button :value="__('Register')" class="ms-3 block w-full md:w-max" />
                     <a class="underline text-sm text-gray-600 justify-self-end hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                        href="{{ route('login') }}" wire:navigate>
                         {{ __('Already registered?') }}
                     </a>
                 </div>
-            </x-auth.form-row>
+            </x-form-row>
         </form>
     </div>
 </div>
