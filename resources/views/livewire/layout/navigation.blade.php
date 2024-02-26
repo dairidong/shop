@@ -110,16 +110,25 @@ $logout = function (Logout $logout) {
                          class="z-50 absolute bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-44 -translate-x-1/2 left-1/2 top-full"
                     >
                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="tool-user">
-                            <li>
-                                <a href="{{ route('profile') }}" wire:navigate
-                                   class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">个人中心</a>
-                            </li>
-                            <li>
-                                <button wire:click="logout"
-                                        class="block w-full text-start px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                    退出登录
-                                </button>
-                            </li>
+                            @auth()
+                                <li>
+                                    <a href="{{ route('profile') }}" wire:navigate
+                                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">个人中心</a>
+                                </li>
+                                <li>
+                                    <button wire:click="logout"
+                                            class="block w-full text-start px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        退出登录
+                                    </button>
+                                </li>
+                            @endauth
+
+                            @guest()
+                                <li>
+                                    <a href="{{ route('login') }}" wire:navigate
+                                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ __('Login') }}</a>
+                                </li>
+                            @endguest
                         </ul>
                     </div>
                 </div>
