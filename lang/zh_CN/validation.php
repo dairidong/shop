@@ -154,6 +154,7 @@ return [
         'amount'                   => '数额',
         'area'                     => '区域',
         'available'                => '可用的',
+        'avatar'                   => '头像',
         'birthday'                 => '生日',
         'body'                     => '身体',
         'city'                     => '城市',

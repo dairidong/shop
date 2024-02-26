@@ -1,15 +1,12 @@
 <?php
 
-use App\Livewire\Forms\UserProfileForm;
-use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\Rule;
 
-use function Livewire\Volt\form;
-use function Livewire\Volt\mount;
+use Livewire\Attributes\Validate;
+use function Livewire\Volt\computed;
 use function Livewire\Volt\rules;
 use function Livewire\Volt\state;
 use function Livewire\Volt\usesFileUploads;
@@ -21,20 +18,31 @@ state([
     'user_avatar' => fn() => auth()->user()->avatar_url,
 ]);
 
-form(UserProfileForm::class);
+state([
+    'avatar',
+    'name' => auth()->user()->name,
+])->attribute(Validate::class);
 
-mount(function () {
-    $this->form->name = auth()->user()->name;
+$avatar_url = computed(function () {
+    $user_avatar = auth()->user()->avatar_url;
+    $avatar_url = $this->avatar?->temporaryUrl();
+
+    return $avatar_url ?? $user_avatar;
 });
+
+rules([
+    'avatar' => 'nullable|image|max:1024',
+    'name' => 'string|max:255'
+]);
 
 
 $updateProfileInformation = function () {
     $user = Auth::user();
 
-    $validated = $this->form->validate();
+    $validated = $this->validate();
 
-    if ($this->form->avatar) {
-        $avatar_path = $this->form->avatar->store('avatars', 'public');
+    if ($this->avatar) {
+        $avatar_path = $this->avatar->store('avatars', 'public');
         $validated['avatar'] = $avatar_path;
     } else {
         unset($validated['avatar']);
@@ -74,29 +82,36 @@ $sendVerification = function () {
         </p>
     </header>
 
-    <form wire:submit="updateProfileInformation" class="flex flex-col gap-y-6 mt-6">
+    <form wire:submit="updateProfileInformation"
+          class="flex flex-col gap-y-6 mt-6"
+          x-data="{uploading: false}"
+          x-on:livewire-upload-start="uploading = true"
+          x-on:livewire-upload-finish="uploading = false"
+          x-on:livewire-upload-cancel="uploading = false"
+          x-on:livewire-upload-error="uploading = false"
+    >
 
         <x-form-row>
             <div class="flex items-center gap-6">
                 <x-input-label class="block text-base mb-0" :value="__('Avatar')" />
                 <label for="avatar" class="relative block size-20 cursor-pointer rounded-full group">
                     <img class="absolute size-full z-10 block rounded-full object-center object-cover"
-                         src="{{ $form->avatar ? $form->avatar->temporaryUrl() : $user_avatar }}" alt="Preview avatar">
+                         src="{{ $this->avatar_url }}" alt="Preview avatar">
                     <span wire:loading.class="!hidden"
-                          wire:target="form.avatar"
-                          class="absolute items-center justify-center size-full z-20 rounded-full bg-black/30 hidden group-hover:flex">
+                          wire:target="avatar"
+                          class="absolute items-center justify-center size-full z-20 rounded-full bg-black/30 hidden">
                         <x-heroicon-s-arrow-up-tray class="size-8 text-white" />
                     </span>
                     <span wire:loading.flex
-                          wire:target="form.avatar"
+                          wire:target="avatar"
                           class="absolute items-center justify-center size-full z-20 rounded-full bg-black/30">
                         <x-icons.spinner />
                     </span>
                 </label>
             </div>
 
-            <input wire:model="form.avatar" id="avatar" name="avatar" type="file" class="hidden">
-            <x-input-error class="mt-2" :messages="$errors->get('form.avatar')" />
+            <input wire:model="avatar" id="avatar" name="avatar" type="file" class="hidden" wire:target="avatar" wire:loading.attr="disabled">
+            <x-input-error class="mt-2" :messages="$errors->get('avatar')" />
         </x-form-row>
 
         <x-form-row>
@@ -106,9 +121,9 @@ $sendVerification = function () {
 
         <x-form-row>
             <x-input-label for="name" class="text-base" :value="__('NickName')" />
-            <x-text-input wire:model="form.name" id="name" name="name" type="text" class="mt-1 block w-full"
+            <x-text-input wire:model="name" id="name" name="name" type="text" class="mt-1 block w-full"
                           autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('form.name')" />
+            <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </x-form-row>
 
         {{--<div>--}}
@@ -136,11 +151,12 @@ $sendVerification = function () {
         {{--</div>--}}
 
         <div class="flex items-center gap-4 mt-4">
-            <x-primary-button wire:loading.attr="disabled"
-                              wire:loading.class="cursor-not-allowed !bg-gray-500"
+            <x-primary-button ::disabled="uploading"
+                              ::class="uploading ? 'cursor-not-allowed !bg-gray-500' :''"
                               class="px-6"
                               type="submit">
-                {{ __('Save') }}
+                <span x-show="!uploading" :class="{'hidden': uploading}">{{ __('Save') }}</span>
+                <span x-show="uploading">{{ __('Uploading') }}</span>
             </x-primary-button>
 
             <x-action-message class="me-3" on="profile-updated">
