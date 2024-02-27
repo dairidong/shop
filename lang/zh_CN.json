@@ -246,5 +246,6 @@
     "Your email address is unverified.": "您的电子邮箱未经验证。",
     "Email verified at": "邮箱验证于",
     "NickName": "昵称",
-    "Uploading": "上传中"
+    "Uploading": "上传中",
+    "You have been logged out!": "您已退出登录!"
 }
