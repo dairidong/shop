@@ -84,13 +84,13 @@ $login = function () {
             <x-form-row class="items-center">
                 <div class="ms-3 flex justify-between gap-6">
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="underline text-gray-800 font-bold hover:text-primary"
+                        <a href="{{ route('register') }}" class="underline text-gray-800 font-bold hover:text-active"
                            wire:navigate>{{ __('Register') }}</a>
                     @endif
 
                     @if (Route::has('password.request'))
 
-                        <a class="underline text-sm text-gray-800 hover:text-primary rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        <a class="underline text-sm text-gray-800 hover:text-active rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                            href="{{ route('password.request') }}" wire:navigate>
                             {{ __('Forgot your password?') }}
                         </a>

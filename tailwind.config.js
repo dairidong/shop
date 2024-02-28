@@ -21,7 +21,7 @@ export default {
             colors: {
                 dark: '#1F2937',
                 light: '#F9FAFB',
-                primary: '#a90a0a'
+                active: '#a90a0a'
             }
         },
     },

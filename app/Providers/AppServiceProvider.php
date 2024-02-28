@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\EnsureEmailIsNotVerified;
+use App\Http\Middleware\EnsureEmailIsVerified;
+use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Livewire::addPersistentMiddleware([
+            RequirePassword::class,
+            EnsureEmailIsNotVerified::class,
+            EnsureEmailIsVerified::class,
+        ]);
     }
 }

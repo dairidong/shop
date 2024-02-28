@@ -1,8 +1,8 @@
-@props(['size' => 6])
+@props(['size' => 6, 'color' => 'white'])
 
 <svg xmlns="http://www.w3.org/2000/svg"
      {{ $attributes->merge([
-            'class' => "animate-spin text-white w-{$size} h-{$size}",
+            'class' => "animate-spin text-{$color} w-{$size} h-{$size}",
             'fill' => 'none',
             'viewBox' =>'0 0 24 24'
      ]) }}>

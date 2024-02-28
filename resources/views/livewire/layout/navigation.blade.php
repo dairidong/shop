@@ -42,33 +42,33 @@ $logout = function (Logout $logout) {
                             </div>
 
                             <ul class="font-bold text-lg mb-2">
-                                <li class="hover:bg-gray-100 hover:text-primary">
-                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-primary before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
+                                <li class="hover:bg-gray-100 hover:text-active">
+                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
                                        href="#">
                                         首页
                                     </a>
                                 </li>
-                                <li class="hover:bg-gray-100 hover:text-primary">
-                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-primary before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
+                                <li class="hover:bg-gray-100 hover:text-active">
+                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
                                        href="#">
                                         商城
                                     </a>
                                 </li>
-                                <li class="hover:bg-gray-100 hover:text-primary">
-                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-primary before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
+                                <li class="hover:bg-gray-100 hover:text-active">
+                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
                                        href="#">
                                         关于
                                     </a>
                                 </li>
-                                <li class="hover:bg-gray-100 hover:text-primary">
-                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-primary before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
+                                <li class="hover:bg-gray-100 hover:text-active">
+                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
                                        href="#">
                                         联系我们
                                     </a>
                                 </li>
                             </ul>
 
-                            <div class="p-4 text-base font-bold text-neutral-600 hover:text-primary">
+                            <div class="p-4 text-base font-bold text-neutral-600 hover:text-active">
                                 <a href="#">登录 / 注册</a>
                             </div>
                         </div>
@@ -87,16 +87,16 @@ $logout = function (Logout $logout) {
             <!-- Tools -->
             <div class="flex flex-1 items-center gap-3 justify-end">
                 <button class="tool-search hidden sm:flex cursor-pointer p-1 rounded-full group">
-                    <x-heroicon-m-magnifying-glass class="w-7 h-7 group-hover:text-primary" />
+                    <x-heroicon-m-magnifying-glass class="w-7 h-7 group-hover:text-active" />
                 </button>
 
                 <a href="#" @click.prevent="" class="tool-wish cursor-pointer p-1 rounded-full group">
-                    <x-heroicon-o-heart class="w-7 h-7 group-hover:text-primary" />
+                    <x-heroicon-o-heart class="w-7 h-7 group-hover:text-active" />
                 </a>
 
                 <div id="tool-user" x-data="{open: false}" @mouseenter="open = true" @mouseleave="open = false"
                      class="tool-user hidden sm:flex cursor-pointer p-1 rounded-full relative group">
-                    <x-heroicon-o-user class="w-7 h-7 group-hover:text-primary" />
+                    <x-heroicon-o-user class="w-7 h-7 group-hover:text-active" />
 
                     <!-- Dropdown menu -->
                     <div x-show="open"
@@ -134,7 +134,7 @@ $logout = function (Logout $logout) {
                 </div>
 
                 <button class="tool-cart cursor-pointer p-1 rounded-full group">
-                    <x-heroicon-o-shopping-cart class="w-7 h-7 group-hover:text-primary" />
+                    <x-heroicon-o-shopping-cart class="w-7 h-7 group-hover:text-active" />
                 </button>
             </div>
         </div>

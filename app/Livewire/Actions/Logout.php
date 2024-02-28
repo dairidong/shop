@@ -16,5 +16,10 @@ class Logout
 
         Session::invalidate();
         Session::regenerateToken();
+
+        Session::flash('message', [
+            'type' => 'success',
+            'content' => __('You have been logged out!')
+        ]);
     }
 }

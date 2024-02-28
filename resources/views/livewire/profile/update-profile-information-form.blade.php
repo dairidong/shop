@@ -55,20 +55,6 @@ $updateProfileInformation = function () {
     $this->dispatch('profile-updated', name: $user->name);
 };
 
-$sendVerification = function () {
-    $user = Auth::user();
-
-    if ($user->hasVerifiedEmail()) {
-        $this->redirectIntended(default: RouteServiceProvider::HOME);
-
-        return;
-    }
-
-    $user->sendEmailVerificationNotification();
-
-    Session::flash('status', 'verification-link-sent');
-};
-
 ?>
 
 <section>
@@ -78,7 +64,7 @@ $sendVerification = function () {
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __("Update your account's profile information.") }}
         </p>
     </header>
 
@@ -126,35 +112,13 @@ $sendVerification = function () {
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </x-form-row>
 
-        {{--<div>--}}
-        {{--    <x-input-label for="email" :value="__('Email')" />--}}
-        {{--    <x-text-input wire:model="email" id="email" name="email" type="email" class="mt-1 block w-full" required autocomplete="username" />--}}
-        {{--    <x-input-error class="mt-2" :messages="$errors->get('email')" />--}}
-
-        {{--    @if (auth()->user() instanceof MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())--}}
-        {{--        <div>--}}
-        {{--            <p class="text-sm mt-2 text-gray-800">--}}
-        {{--                {{ __('Your email address is unverified.') }}--}}
-
-        {{--                <button wire:click.prevent="sendVerification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">--}}
-        {{--                    {{ __('Click here to re-send the verification email.') }}--}}
-        {{--                </button>--}}
-        {{--            </p>--}}
-
-        {{--            @if (session('status') === 'verification-link-sent')--}}
-        {{--                <p class="mt-2 font-medium text-sm text-green-600">--}}
-        {{--                    {{ __('A new verification link has been sent to your email address.') }}--}}
-        {{--                </p>--}}
-        {{--            @endif--}}
-        {{--        </div>--}}
-        {{--    @endif--}}
-        {{--</div>--}}
-
         <div class="flex items-center gap-4 mt-4">
             <x-primary-button ::disabled="uploading"
                               ::class="uploading ? 'cursor-not-allowed !bg-gray-500' :''"
+                              wire:loading.class="cursor-not-allowed !bg-gray-500"
                               class="px-6"
                               type="submit">
+                <x-icons.spinner wire:loading :size="5" class="me-1" />
                 <span x-show="!uploading" :class="{'hidden': uploading}">{{ __('Save') }}</span>
                 <span x-show="uploading">{{ __('Uploading') }}</span>
             </x-primary-button>

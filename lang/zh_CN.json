@@ -247,5 +247,8 @@
     "Email verified at": "邮箱验证于",
     "NickName": "昵称",
     "Uploading": "上传中",
-    "You have been logged out!": "您已退出登录!"
+    "You have been logged out!": "您已退出登录!",
+    "Security": "安全",
+    "Update your account's profile information.": "更新您的账户资料",
+    "Update your account's security information.": "更新您的账户安全信息"
 }
