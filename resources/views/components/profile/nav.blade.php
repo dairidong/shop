@@ -1,9 +1,9 @@
 @php
     use Illuminate\Support\Facades\Route;
     $routes = [
-        ['route_name' => 'profile', 'label' => __('Profile Information')],
-        ['route_name' => 'user.update-password', 'label' => __('Update Password')],
-        ['route_name' => 'user.destroy', 'label' => __('Delete Account')],
+        ['route_name' => 'profile', 'label' => __('Profile Information'), 'icon' => 'heroicon-s-user'],
+        ['route_name' => 'user.update-password', 'label' => __('Update Password'), 'icon' => 'heroicon-c-shield-exclamation'],
+        ['route_name' => 'user.destroy', 'label' => __('Delete Account'), 'icon' => 'heroicon-s-trash'],
     ];
 @endphp
 
@@ -17,6 +17,9 @@
                class="relative inline-flex items-center w-full px-4 py-2 font-medium border-b border-gray-200 hover:bg-gray-100 hover:text-active focus:z-10 focus:text-active"
             @endif
         >
+            @if(!empty($route['icon']))
+                @svg($route['icon'], 'size-5 me-2')
+            @endif
             {{ $route['label'] }}
         </a>
     @endforeach

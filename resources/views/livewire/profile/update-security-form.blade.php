@@ -57,7 +57,7 @@ $updateEmail = function () {
             <x-text-input wire:model="email" id="email" name="email" type="email" class="mt-1 block w-full" required
                           autocomplete="username" />
             <p class="text-xs text-gray-400 mt-2 flex gap-1">
-                <x-heroicon-o-information-circle class="size-4" />
+                <x-eos-info-o class="size-4" />
                 修改邮箱需要重新验证
             </p>
             <x-input-error class="mt-2" :messages="$errors->get('email')" />

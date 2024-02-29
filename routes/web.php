@@ -24,7 +24,6 @@ Route::middleware('auth')->group(function () {
         ->name('user.update-password');
 
     Route::view('delete-user', 'user.delete-user')
-        ->middleware('password.confirm')
         ->name('user.destroy');
 });
 
