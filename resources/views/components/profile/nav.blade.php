@@ -2,6 +2,8 @@
     use Illuminate\Support\Facades\Route;
     $routes = [
         ['route_name' => 'profile', 'label' => __('Profile Information')],
+        ['route_name' => 'user.update-password', 'label' => __('Update Password')],
+        ['route_name' => 'user.destroy', 'label' => __('Delete Account')],
     ];
 @endphp
 

@@ -1,9 +1,6 @@
 <?php
 
-use App\Providers\RouteServiceProvider;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
 use Livewire\Attributes\Validate;
 use function Livewire\Volt\computed;

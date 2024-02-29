@@ -3,7 +3,6 @@
     'name' => 'drawer-' . Str::random(6),
     'defaultShow' => false,
     'trigger',
-
 ])
 
 <div

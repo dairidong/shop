@@ -15,8 +15,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'dashboard')->name('home');
 
-Route::view('profile', 'profile')
-    ->middleware(['auth', 'verified'])
-    ->name('profile');
+Route::middleware('auth')->group(function () {
+    Route::view('profile', 'user.profile')
+        ->middleware('verified')
+        ->name('profile');
+
+    Route::view('update-password', 'user.update-password')
+        ->name('user.update-password');
+
+    Route::view('delete-user', 'user.delete-user')
+        ->middleware('password.confirm')
+        ->name('user.destroy');
+});
+
 
 require __DIR__ . '/auth.php';
