@@ -22,6 +22,7 @@
         "livewire/volt": "^1.0"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.15",
         "fakerphp/faker": "^1.9.1",
         "laravel-lang/common": "^6.1",
         "laravel/breeze": "^1.28",
@@ -65,7 +66,8 @@
     "extra": {
         "laravel": {
             "dont-discover": [
-                "laravel/telescope"
+                "laravel/telescope",
+                "barryvdh/laravel-ide-helper"
             ]
         }
     },
