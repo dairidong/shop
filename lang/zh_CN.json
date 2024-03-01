@@ -251,5 +251,9 @@
     "Security": "安全",
     "Update your account's profile information.": "更新您的账户资料",
     "Update your account's security information.": "更新您的账户安全信息",
-    "Your password has been updated, please log in again.": "你的密码已经更新，请重新登录。"
+    "Your password has been updated, please log in again.": "你的密码已经更新，请重新登录。",
+    "Category Name": "分类名称",
+    "Category Image": "分类图片",
+    "Category": "分类",
+    "Products": "商品"
 }

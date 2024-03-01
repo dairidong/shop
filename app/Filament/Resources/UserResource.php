@@ -159,7 +159,7 @@ class UserResource extends Resource
             ]);
     }
 
-    public static function getNavigationLabel(): string
+    public static function getModelLabel(): string
     {
         return __('User');
     }

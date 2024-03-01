@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name')->comment('分类名称');
             $table->string('image')->comment('分类图片');
-            $table->unsignedBigInteger('sort')->comment('排序');
+            $table->boolean('is_enabled')->default(false)->comment('是否启用');
+            $table->unsignedBigInteger('sort')->default(0)->comment('排序');
             $table->timestamps();
             $table->softDeletes();
         });
