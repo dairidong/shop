@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->json('attributes')->comment('商品属性');
             $table->unsignedInteger('stock')->default(0)->comment('库存');
             $table->decimal('price')->comment('价格');
+            $table->decimal('compare_at_price')->comment('商品比较原价');
+            $table->decimal('cost')->comment('成本价');
             $table->boolean('on_sale')->default(false)->comment('是否上架');
             $table->unsignedInteger('sold_count')->default(0)->comment('销量');
             $table->foreignIdFor(Product::class)->comment('商品 ID');
