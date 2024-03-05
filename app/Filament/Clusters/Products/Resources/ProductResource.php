@@ -4,15 +4,12 @@ namespace App\Filament\Clusters\Products\Resources;
 
 use App\Filament\Clusters\Products;
 use App\Filament\Clusters\Products\Resources\ProductResource\Pages;
-use App\Filament\Clusters\Products\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductResource extends Resource
 {
@@ -25,43 +22,80 @@ class ProductResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+            ->columns(3)
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('long_title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('product_no')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('images')
-                    ->required(),
-                Forms\Components\Toggle::make('on_sale')
-                    ->required(),
-                Forms\Components\TextInput::make('rating')
-                    ->required()
-                    ->numeric()
-                    ->default(0.00),
-                Forms\Components\TextInput::make('sold_count')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                Forms\Components\TextInput::make('review_count')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                Forms\Components\TextInput::make('price')
-                    ->required()
-                    ->numeric()
-                    ->default(0.00)
-                    ->prefix('$'),
-                Forms\Components\TextInput::make('compare_at_price')
-                    ->required()
-                    ->numeric()
-                    ->default(0.00),
-                Forms\Components\TextInput::make('extra')
-                    ->required(),
+                Forms\Components\Group::make([
+                    Forms\Components\Section::make([
+                        Forms\Components\TextInput::make('title')
+                            ->label(__('product.title'))
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('product_no')
+                            ->label(__('product.product_no'))
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('long_title')
+                            ->label(__('product.long_title'))
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+
+                        Forms\Components\KeyValue::make('extra')
+                            ->label(__('product.extra'))
+                            ->reorderable()
+                            ->columnSpanFull(),
+
+                        Forms\Components\RichEditor::make('description')
+                            ->label(__('product.description'))
+                            ->dehydrateStateUsing(fn ($state) => $state ?? '')
+                            ->fileAttachmentsDirectory('product_description_images')
+                            ->columnSpanFull(),
+                    ])->columns(),
+
+                    Forms\Components\Section::make([
+                        Forms\Components\SpatieMediaLibraryFileUpload::make('images')
+                            ->multiple()
+                            ->reorderable()
+                            ->responsiveImages()
+                            ->collection('product-images')
+                            ->hiddenLabel(),
+                    ])->heading(__('Image')),
+
+                ])->columns()->columnSpan(2),
+
+                Forms\Components\Group::make([
+                    Forms\Components\Section::make([
+                        Forms\Components\Toggle::make('on_sale')
+                            ->label(__('product.on_sale'))
+                            ->required(),
+                    ])->heading(__('Status')),
+
+                    Forms\Components\Section::make([
+                        Forms\Components\TextInput::make('price')
+                            ->label(__('product.price'))
+                            ->required()
+                            ->numeric()
+                            ->default(0.00)
+                            ->prefix('￥'),
+                        Forms\Components\TextInput::make('compare_at_price')
+                            ->label(__('product.compare_at_price'))
+                            ->required()
+                            ->numeric()
+                            ->default(0.00)
+                            ->prefix('￥'),
+                    ]),
+
+                    Forms\Components\Section::make([
+                        Forms\Components\Placeholder::make('rating')
+                            ->default(0),
+                        Forms\Components\Placeholder::make('sold_count')
+                            ->default(0),
+                        Forms\Components\Placeholder::make('review_count')
+                            ->default(0),
+                    ])->hidden(fn ($operation) => $operation === 'create'),
+                ]
+                )->columnSpan(1),
             ]);
     }
 

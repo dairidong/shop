@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title')->comment('商品名称');
             $table->string('long_title')->comment('商品长标题');
             $table->string('product_no')->unique()->comment('商品编号');
-            $table->json('images')->comment('商品图片');
+            $table->text('description')->comment('商品详情');
             $table->boolean('on_sale')->comment('是否上架');
             $table->float('rating')->default(0)->comment('商品价格');
             $table->unsignedInteger('sold_count')->default(0)->comment('销量');
