@@ -15,7 +15,6 @@ return new class extends Migration {
         Schema::create('category_product', function (Blueprint $table) {
             $table->foreignIdFor(Category::class)->comment('分类 ID');
             $table->foreignIdFor(Product::class)->index()->comment('商品 ID');
-            $table->timestamps();
 
             $table->unique(['category_id', 'product_id']);
         });

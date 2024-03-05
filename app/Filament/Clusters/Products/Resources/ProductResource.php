@@ -8,6 +8,7 @@ use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -40,6 +41,11 @@ class ProductResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->columnSpanFull(),
+                        Forms\Components\Select::make('categories')
+                            ->searchable()
+                            ->multiple()
+                            ->relationship('categories', 'name')
+                            ->preload(),
 
                         Forms\Components\KeyValue::make('extra')
                             ->label(__('product.extra'))
@@ -75,14 +81,18 @@ class ProductResource extends Resource
                         Forms\Components\TextInput::make('price')
                             ->label(__('product.price'))
                             ->required()
+                            ->mask(RawJs::make('$money($input)'))
                             ->numeric()
                             ->default(0.00)
+                            ->stripCharacters(',')
                             ->prefix('￥'),
                         Forms\Components\TextInput::make('compare_at_price')
                             ->label(__('product.compare_at_price'))
+                            ->mask(RawJs::make('$money($input)'))
                             ->required()
                             ->numeric()
                             ->default(0.00)
+                            ->stripCharacters(',')
                             ->prefix('￥'),
                     ]),
 
