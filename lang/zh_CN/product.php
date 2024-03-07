@@ -10,4 +10,14 @@ return [
     'on_sale' => '是否上架',
     'price' => '价格',
     'compare_at_price' => '原价',
+    'rating' => '评分',
+    'sold_count' => '销量',
+    'review_count' => '评论数',
+
+    'attributes' => [
+        'attributes' => '商品属性',
+        'group' => '属性组',
+        'name' => '属性名',
+        'value' => '属性值',
+    ]
 ];

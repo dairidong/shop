@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('product_attributes', function (Blueprint $table) {
             $table->id();
             $table->string('value')->comment('商品属性值');
-            $table->foreignIdFor(Product::class)->index()->comment('商品ID');
             $table->foreignIdFor(ProductAttributeGroup::class)->index()->comment('商品属性组ID');
             $table->unsignedBigInteger('sort')->default(0)->comment('排序');
             $table->timestamps();
