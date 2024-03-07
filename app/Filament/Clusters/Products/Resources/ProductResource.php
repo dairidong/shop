@@ -68,6 +68,39 @@ class ProductResource extends Resource
                             ->hiddenLabel(),
                     ])->heading(__('Image')),
 
+                    Forms\Components\Section::make([
+                        Forms\Components\Repeater::make('attribute_groups')
+                            ->hiddenLabel()
+                            ->label(__('product.attributes.group')) // For Add Action Button
+                            ->relationship()
+                            ->reorderable()
+                            ->orderColumn('sort')
+                            ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
+                            ->collapsible()
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label(__('product.attributes.name'))
+                                    ->required()
+                                    ->distinct()
+                                    ->maxLength(20)
+                                    ->columnSpan(1),
+
+                                Forms\Components\Repeater::make('attributes')
+                                    ->label(__('product.attributes.value'))
+                                    ->relationship('attributes')
+                                    ->reorderable()
+                                    ->orderColumn('sort')
+                                    ->simple(
+                                        Forms\Components\TextInput::make('value')
+                                            ->required()
+                                            ->distinct()
+                                            ->maxLength(20)
+                                    )->view('forms.components.repeater.simple')
+                                    ->columnSpanFull()
+                                    ->grid(3),
+                            ])->columns(),
+                    ])->heading(__('product.attributes.attributes')),
+
                 ])->columns()->columnSpan(2),
 
                 Forms\Components\Group::make([
@@ -98,12 +131,15 @@ class ProductResource extends Resource
 
                     Forms\Components\Section::make([
                         Forms\Components\Placeholder::make('rating')
+                            ->label(__('product.rating'))
                             ->default(0),
                         Forms\Components\Placeholder::make('sold_count')
+                            ->label(__('product.sold_count'))
                             ->default(0),
                         Forms\Components\Placeholder::make('review_count')
+                            ->label(__('product.review_count'))
                             ->default(0),
-                    ])->hidden(fn ($operation) => $operation === 'create'),
+                    ])->hiddenOn('create'),
                 ]
                 )->columnSpan(1),
             ]);
