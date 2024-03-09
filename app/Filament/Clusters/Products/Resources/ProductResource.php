@@ -90,6 +90,7 @@ class ProductResource extends Resource
                                     ->relationship('attributes')
                                     ->reorderable()
                                     ->orderColumn('sort')
+                                    ->required()
                                     ->simple(
                                         Forms\Components\TextInput::make('value')
                                             ->required()
@@ -150,38 +151,39 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('long_title')
+                    ->label(__('product.title'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('product_no')
+                    ->label(__('product.product_no'))
                     ->searchable(),
                 Tables\Columns\IconColumn::make('on_sale')
+                    ->label(__('product.on_sale'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('rating')
+                    ->label(__('product.rating'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('sold_count')
+                    ->label(__('product.sold_count'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('review_count')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('price')
-                    ->money()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('compare_at_price')
+                    ->label(__('product.review_count'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label(__('validation.attributes.created_at'))
+                    ->dateTime('Y-m-d H:i:s')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label(__('validation.attributes.updated_at'))
+                    ->dateTime('Y-m-d H:i:s')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
+                    ->label(__('validation.attributes.deleted_at'))
+                    ->dateTime('Y-m-d H:i:s')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -212,5 +214,10 @@ class ProductResource extends Resource
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Product');
     }
 }

@@ -12,7 +12,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Arr;
 use Illuminate\Validation\Rules\Unique;
 
 class SkusRelationManager extends RelationManager
@@ -24,6 +23,7 @@ class SkusRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('product.sku.name'))
                     ->disabled()
                     ->unique(ignoreRecord: true, modifyRuleUsing: function (Unique $rule) {
                         $rule->where('product_id', $this->getOwnerRecord()->id);
@@ -32,19 +32,25 @@ class SkusRelationManager extends RelationManager
                     ->required()
                     ->maxLength(255)->live(),
                 Forms\Components\TextInput::make('bar_no')
+                    ->label(__('product.sku.bar_no'))
                     ->required()
                     ->unique(ignoreRecord: true),
-                Forms\Components\Toggle::make('on_sale'),
+
+                Forms\Components\Toggle::make('on_sale')
+                    ->label(__('product.on_sale'))
+                    ->required(),
 
                 Forms\Components\Fieldset::make('attributes')
-                    ->schema(function (RelationManager $livewire, ?ProductSku $record, $operation) {
+                    ->label(__('product.sku.attributes'))
+                    ->schema(function (RelationManager $livewire) {
                         $product = $livewire->getOwnerRecord()->load('attribute_groups.attributes');
 
-                        return $product->attribute_groups->map(function (ProductAttributeGroup $group) use ($livewire, $record, $operation) {
+                        return $product->attribute_groups->map(function (ProductAttributeGroup $group) use ($livewire) {
                             return Forms\Components\Select::make($group->name)
                                 ->required()
                                 ->options($group->attributes->pluck('value', 'id'))
                                 ->live()
+                                ->native(false)
                                 ->dehydrated(false)
                                 ->afterStateUpdated(function (RelationManager $livewire, Forms\Get $get, Forms\Set $set) {
                                     $groups = $livewire->getOwnerRecord()->load('attribute_groups.attributes')->attribute_groups;
@@ -62,13 +68,16 @@ class SkusRelationManager extends RelationManager
                     ->dehydrated(),
 
                 Forms\Components\TextInput::make('stock')
+                    ->label(__('product.sku.stock'))
                     ->numeric()
                     ->integer()
                     ->minValue(0)
                     ->default(0)
                     ->required(),
 
-                Forms\Components\Fieldset::make('price')
+                Forms\Components\Fieldset::make('prices')
+                    ->label(__('product.prices'))
+                    ->hiddenLabel()
                     ->schema([
                         Forms\Components\TextInput::make('price')
                             ->label(__('product.price'))
@@ -87,7 +96,7 @@ class SkusRelationManager extends RelationManager
                             ->stripCharacters(',')
                             ->prefix('￥'),
                         Forms\Components\TextInput::make('cost')
-                            ->label(__('product.cost'))
+                            ->label(__('product.sku.cost'))
                             ->mask(RawJs::make('$money($input)'))
                             ->required()
                             ->numeric()
@@ -104,8 +113,12 @@ class SkusRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('stock'),
+                Tables\Columns\TextColumn::make('name')->label(__('product.sku.name')),
+                Tables\Columns\TextColumn::make('stock')->label(__('product.sku.stock')),
+                Tables\Columns\IconColumn::make('on_sale')->label(__('product.on_sale')),
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->dateTime('Y-m-d H:i:s')
+                    ->label(__('validation.attributes.deleted_at')),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

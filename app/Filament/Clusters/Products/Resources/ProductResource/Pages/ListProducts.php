@@ -5,6 +5,7 @@ namespace App\Filament\Clusters\Products\Resources\ProductResource\Pages;
 use App\Filament\Clusters\Products\Resources\ProductResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Enums\MaxWidth;
 
 class ListProducts extends ListRecords
 {
@@ -15,5 +16,10 @@ class ListProducts extends ListRecords
         return [
             Actions\CreateAction::make(),
         ];
+    }
+
+    public function getMaxContentWidth(): MaxWidth | string | null
+    {
+        return MaxWidth::ScreenTwoExtraLarge;
     }
 }

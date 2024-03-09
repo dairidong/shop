@@ -95,6 +95,12 @@
                     @endif
                 </x-filament::grid>
             </ul>
+        @else
+            @if($isAddable)
+                <div>
+                    {{ $addAction }}
+                </div>
+            @endif
         @endif
     </div>
 </x-dynamic-component>

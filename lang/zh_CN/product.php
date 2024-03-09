@@ -19,5 +19,13 @@ return [
         'group' => '属性组',
         'name' => '属性名',
         'value' => '属性值',
+    ],
+
+    'sku' => [
+        'name' => 'sku 名称',
+        'bar_no' => 'sku 编号',
+        'attributes' => 'sku 属性',
+        'stock' => '库存',
+        'cost' => '成本价'
     ]
 ];

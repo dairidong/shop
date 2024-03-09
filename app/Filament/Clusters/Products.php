@@ -15,21 +15,21 @@ class Products extends Cluster
      */
     public static function getNavigationLabel(): string
     {
-        return __('Products');
+        return __('Product');
     }
 
     public function getHeading(): string | Htmlable
     {
-        return __('Products');
+        return __('Product');
     }
 
     public function getTitle(): string | Htmlable
     {
-        return  __('Products');
+        return  __('Product');
     }
 
     public static function getClusterBreadcrumb(): ?string
     {
-        return  __('Products');
+        return  __('Product');
     }
 }
