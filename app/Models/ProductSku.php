@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -23,6 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ *
  * @method static \Database\Factories\ProductSkuFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku newQuery()
@@ -44,6 +46,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku withoutTrashed()
+ *
+ * @property-read \App\Models\Product|null $product
+ *
  * @mixin \Eloquent
  */
 class ProductSku extends Model
@@ -66,4 +71,23 @@ class ProductSku extends Model
         'attributes' => 'array',
         'on_sale' => 'boolean',
     ];
+
+    protected static function booted(): void
+    {
+        static::saved(function (ProductSku $sku) {
+            $product = $sku->product->load('skus');
+            $minPrice = $product->skus->where('price', '>', 0)->min('price');
+            $minComparePrice = $product->skus->where('compare_at_price', '>', 0)->min('compare_at_price');
+
+            $product->update([
+                'price' => $minPrice,
+                'compare_at_price' => $minComparePrice,
+            ]);
+        });
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
