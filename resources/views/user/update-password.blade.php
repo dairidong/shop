@@ -1,4 +1,9 @@
 <x-app-layout>
+    <x-slot name="title">
+        {{ __('Update Password') }}
+    </x-slot>
+
+
     <div class="container py-12 flex">
         <x-profile.nav></x-profile.nav>
 

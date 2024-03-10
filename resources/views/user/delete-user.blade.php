@@ -1,4 +1,8 @@
 <x-app-layout>
+    <x-slot name="title">
+        {{ __('Delete Account') }}
+    </x-slot>
+
     <div class="container py-12 flex">
         <x-profile.nav></x-profile.nav>
 
