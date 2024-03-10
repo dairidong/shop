@@ -108,9 +108,9 @@
     "Localize": "本地化",
     "Locked": "锁定",
     "Log in": "登录",
-    "Log Out": "登出",
+    "Log Out": "退出登录",
     "Login": "登录",
-    "Logout": "登出",
+    "Logout": "退出登录",
     "Loop Detected": "检测到环路",
     "Maintenance Mode": "服务不可用",
     "Method Not Allowed": "方法不允许",
@@ -256,5 +256,6 @@
     "Category Image": "分类图片",
     "Category": "分类",
     "Product": "商品",
-    "Status": "状态"
+    "Status": "状态",
+    "Personal Center": "个人中心"
 }

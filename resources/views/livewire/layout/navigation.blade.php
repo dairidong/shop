@@ -20,7 +20,7 @@ $logout = function (Logout $logout) {
                 <div class="flex items-center">
                     <x-drawer class="px-0 py-6">
                         <x-slot name="trigger" class="cursor-pointer">
-                            <x-hamburger ::data-open="open ? 'true' : 'false'" />
+                            <x-hamburger ::data-open="open ? 'true' : 'false'"/>
                         </x-slot>
 
                         {{--  Drawer Content  --}}
@@ -35,7 +35,7 @@ $logout = function (Logout $logout) {
                                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                          fill="none" viewBox="0 0 20 20">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                              stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                              stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                     </svg>
                                     <span class="sr-only">Search</span>
                                 </button>
@@ -44,7 +44,7 @@ $logout = function (Logout $logout) {
                             <ul class="font-bold text-lg mb-2">
                                 <li class="hover:bg-gray-100 hover:text-active">
                                     <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
-                                       href="#">
+                                       href="{{ route('home') }}" wire:navigate>
                                         首页
                                     </a>
                                 </li>
@@ -68,9 +68,29 @@ $logout = function (Logout $logout) {
                                 </li>
                             </ul>
 
-                            <div class="p-4 text-base font-bold text-neutral-600 hover:text-active">
-                                <a href="#">登录 / 注册</a>
-                            </div>
+                            @guest
+                                <div class="p-4 text-base font-bold text-neutral-600 hover:text-active">
+                                    <a href="{{ route('login') }}" wire:navigate>{{ __('Login') }}
+                                        / {{ __('Register') }}</a>
+                                </div>
+                            @endguest
+
+                            @auth
+                                <div class="flex justify-between items-center p-4 text-sm font-bold text-neutral-600">
+                                    <a class="flex items-center gap-2 hover:text-active" href="{{ route('profile') }}"
+                                       wire:navigate>
+                                        <div class="size-8 overflow-hidden">
+                                            <img class="size-full rounded-full align-middle object-center object-cover"
+                                                 src="{{ auth()->user()->avatar_url }}">
+                                        </div>
+
+                                        <div>{{ auth()->user()->name ?: auth()->user()->username }}</div>
+                                    </a>
+
+                                    <button class="hover:text-active" wire:click="logout">{{ __('Log Out') }}</button>
+                                </div>
+                            @endauth
+
                         </div>
                     </x-drawer>
 
@@ -80,23 +100,32 @@ $logout = function (Logout $logout) {
             <!-- Logo -->
             <div class="flex grow-0 flex-auto items-center text-center">
                 <a href="{{ route('home') }}" wire:navigate>
-                    <x-application-logo class="block h-9 w-auto fill-current" />
+                    <x-application-logo class="block h-9 w-auto fill-current"/>
                 </a>
             </div>
 
             <!-- Tools -->
             <div class="flex flex-1 items-center gap-3 justify-end">
                 <button class="tool-search hidden sm:flex cursor-pointer p-1 rounded-full group">
-                    <x-heroicon-m-magnifying-glass class="w-7 h-7 group-hover:text-active" />
+                    <x-heroicon-m-magnifying-glass class="w-7 h-7 group-hover:text-active"/>
                 </button>
 
                 <a href="#" @click.prevent="" class="tool-wish cursor-pointer p-1 rounded-full group">
-                    <x-heroicon-o-heart class="w-7 h-7 group-hover:text-active" />
+                    <x-heroicon-o-heart class="w-7 h-7 group-hover:text-active"/>
                 </a>
 
                 <div id="tool-user" x-data="{open: false}" @mouseenter="open = true" @mouseleave="open = false"
                      class="tool-user hidden sm:flex cursor-pointer p-1 rounded-full relative group">
-                    <x-heroicon-o-user class="w-7 h-7 group-hover:text-active" />
+
+                    @if(auth()->user()?->avatar_url)
+                        <div class="size-7 overflow-hidden">
+                            <img class="size-full rounded-full align-middle object-center object-cover"
+                                 src="{{ auth()->user()->avatar_url }}">
+                        </div>
+
+                    @else
+                        <x-heroicon-o-user class="w-7 h-7 group-hover:text-active"/>
+                    @endif
 
                     <!-- Dropdown menu -->
                     <div x-show="open"
@@ -113,12 +142,12 @@ $logout = function (Logout $logout) {
                             @auth()
                                 <li>
                                     <a href="{{ route('profile') }}" wire:navigate
-                                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">个人中心</a>
+                                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ __('Personal Center') }}</a>
                                 </li>
                                 <li>
                                     <button wire:click="logout"
                                             class="block w-full text-start px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        退出登录
+                                        {{ __('Log Out') }}
                                     </button>
                                 </li>
                             @endauth
@@ -134,7 +163,7 @@ $logout = function (Logout $logout) {
                 </div>
 
                 <button class="tool-cart cursor-pointer p-1 rounded-full group">
-                    <x-heroicon-o-shopping-cart class="w-7 h-7 group-hover:text-active" />
+                    <x-heroicon-o-shopping-cart class="w-7 h-7 group-hover:text-active"/>
                 </button>
             </div>
         </div>
