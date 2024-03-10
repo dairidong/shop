@@ -2,12 +2,14 @@
 
 namespace App\Filament\Clusters;
 
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Clusters\Cluster;
-use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\Support\Htmlable;
 
 class Products extends Cluster
 {
+    use HasPageShield;
+
     protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
     /**
