@@ -45,25 +45,25 @@ $logout = function (Logout $logout) {
                                 <li class="hover:bg-gray-100 hover:text-active">
                                     <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
                                        href="{{ route('home') }}" wire:navigate>
-                                        首页
+                                        {{ __('Home') }}
+                                    </a>
+                                </li>
+                                <li class="hover:bg-gray-100 hover:text-active">
+                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
+                                       href="{{ route('products.index') }}" wire:navigate>
+                                        {{ __('Shop') }}
                                     </a>
                                 </li>
                                 <li class="hover:bg-gray-100 hover:text-active">
                                     <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
                                        href="#">
-                                        商城
+                                        {{ __('About Us') }}
                                     </a>
                                 </li>
                                 <li class="hover:bg-gray-100 hover:text-active">
                                     <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
                                        href="#">
-                                        关于
-                                    </a>
-                                </li>
-                                <li class="hover:bg-gray-100 hover:text-active">
-                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
-                                       href="#">
-                                        联系我们
+                                        {{ __('Contact Us') }}
                                     </a>
                                 </li>
                             </ul>

@@ -5,7 +5,6 @@ namespace App\Livewire\Products;
 use App\Models\Product;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
-use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -25,7 +24,8 @@ class ProductList extends Component
                     ->orWhere('long_title', 'like', "%$this->search%");
             }))
             ->orderByDesc('created_at')
-            ->paginate(12);
+            ->paginate(12)
+            ->withQueryString();
 
         return view('livewire.products.product-list', [
             'products' => $products,
