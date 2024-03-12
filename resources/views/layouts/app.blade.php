@@ -17,7 +17,7 @@
             <livewire:layout.navigation />
 
             <!-- Page Content -->
-            <main class="mt-14">
+            <main>
                 {{ $slot }}
             </main>
         </div>

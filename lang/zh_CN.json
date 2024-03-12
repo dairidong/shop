@@ -85,7 +85,7 @@
     "Hello!": "您好！",
     "Hide": "隐藏",
     "Hide :name": "隐藏 :name",
-    "Home": "家",
+    "Home": "首页",
     "HTTP Version Not Supported": "HTTP版本不支持",
     "I'm a teapot": "我是一个茶壶",
     "If you did not create an account, no further action is required.": "如果您未注册帐号，请忽略此邮件。",
@@ -258,5 +258,8 @@
     "Product": "商品",
     "Status": "状态",
     "Personal Center": "个人中心",
-    "Showing Results": "显示 :start 到 :end 项，总计 :total 项"
+    "Showing Results": "显示 :start 到 :end 项，总计 :total 项",
+    "Shop": "商城",
+    "About Us": "关于我们",
+    "Contact Us": "联系我们"
 }

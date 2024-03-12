@@ -1,4 +1,4 @@
-<div class="container flex mt-6">
+<div class="container flex mt-14">
     <aside class="hidden lg:block lg:w-1/4">
         <div>
             <div>{{ __('Search') }}</div>

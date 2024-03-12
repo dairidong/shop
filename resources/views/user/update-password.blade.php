@@ -4,7 +4,7 @@
     </x-slot>
 
 
-    <div class="container flex">
+    <div class="container flex mt-14">
         <x-profile.nav></x-profile.nav>
 
         <div class="flex-1 sm:px-6 lg:px-8 space-y-6">
