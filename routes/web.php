@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Products\ProductList;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,5 +28,6 @@ Route::middleware('auth')->group(function () {
         ->name('user.destroy');
 });
 
+Route::get('products', ProductList::class)->name('products.index');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

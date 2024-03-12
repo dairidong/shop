@@ -257,5 +257,6 @@
     "Category": "分类",
     "Product": "商品",
     "Status": "状态",
-    "Personal Center": "个人中心"
+    "Personal Center": "个人中心",
+    "Showing Results": "显示 :start 到 :end 项，总计 :total 项"
 }
