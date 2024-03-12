@@ -13,11 +13,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen">
             <livewire:layout.navigation />
 
             <!-- Page Content -->
-            <main>
+            <main class="mt-14">
                 {{ $slot }}
             </main>
         </div>
