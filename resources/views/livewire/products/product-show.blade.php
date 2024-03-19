@@ -1,7 +1,7 @@
 <div>
     <div class="bg-[#f3f3f3]">
         <div class="flex flex-col lg:flex-row gap-x-2 gap-y-12 container pt-14 pb-14 px-6">
-            <x-product.carousel :images="$this->images" />
+            <x-product.carousel :images="$this->images" wire:ignore />
 
             <section class="flex flex-col gap-20 w-full lg:w-1/2 l lg:px-8">
                 <div>
@@ -24,6 +24,7 @@
                         x-data="{
                             attributeGroups: @js($this->attributeGroups),
                             skus: @js($this->skus),
+                            currentSku: null,
                         }"
                         x-ref="productForm"
                         class="flex flex-col gap-12"
@@ -69,7 +70,6 @@
                             x-init="
                                 selected = Object.fromEntries(attributeGroups.map((group) => [group.id, null]));
                                 enabledAttributes = getAvailableAttributes(selectedToArray(selected));
-                                console.log(enabledAttributes)
                                 $watch('selected', (value) => {
                                     const selectedAttributes = selectedToArray(value);
 
@@ -84,7 +84,10 @@
                                            });
                                         });
 
-                                        $wire.set('skuId',selectedSku.id);
+                                        $wire.skuId = selectedSku.id
+                                        currentSku = selectedSku;
+                                    } else {
+                                        currentSku = null;
                                     }
                                 });
                             "
@@ -130,7 +133,7 @@
 
                         <div>
                             <div class="flex gap-2">
-                                <x-number-input />
+                                <x-number-input :max="0" x-init="$watch('currentSku', (value) => max = value ? value.stock : 0)" />
 
                                 <x-primary-button
                                     :value="__('ADD TO CART')"

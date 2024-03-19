@@ -15,7 +15,6 @@
                 el,
             }));
 
-
             carousel = new Carousel($el, items);
 
             carousel.updateOnChange(function (){
@@ -23,6 +22,7 @@
             })
         });
     "
+    {{ $attributes }}
 >
     <ul class="flex flex-row md:flex-col gap-2">
         <template x-for="(image, index) in images">
