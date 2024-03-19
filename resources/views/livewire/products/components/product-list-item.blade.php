@@ -17,7 +17,7 @@ mount(function (Product $product) {
          x-on:mouseenter="actionsShown = true"
          x-on:mouseleave="actionsShown = false"
     >
-        <a href="#" class="block w-full h-[533px]" wire:navigate>
+        <a href="{{ route('product.show', $product) }}" class="block w-full h-[533px]" wire:navigate>
             <div x-data="{shown: false}"
                  x-intersect.once="shown = true"
                  class="flex items-center justify-center relative size-full bg-gray-200"
@@ -52,7 +52,9 @@ mount(function (Product $product) {
 
     <div class="flex flex-col justify-center items-center gap-1 px-4 py-6">
         <div>
-            <a href="#" class="font-bold hover:text-active" wire:navigate>{{ $product->title }}</a>
+            <a href="{{ route('product.show', $product) }}" class="font-bold hover:text-active" wire:navigate>
+                {{ $product->title }}
+            </a>
         </div>
         <div>￥{{ $product->price }}</div>
     </div>

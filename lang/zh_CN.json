@@ -261,5 +261,8 @@
     "Showing Results": "显示 :start 到 :end 项，总计 :total 项",
     "Shop": "商城",
     "About Us": "关于我们",
-    "Contact Us": "联系我们"
+    "Contact Us": "联系我们",
+    "ADD TO CART": "添加到购物车",
+    "BUY NOW": "立即购买",
+    "Out of stock": "已售罄"
 }

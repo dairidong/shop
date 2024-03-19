@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Products\ProductList;
+use App\Livewire\Products\ProductShow;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,5 +30,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('products', ProductList::class)->name('products.index');
+Route::get('products/{product}', ProductShow::class)->name('product.show');
 
 require __DIR__.'/auth.php';

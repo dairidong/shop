@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -72,6 +73,12 @@ class ProductSku extends Model
         'on_sale' => 'boolean',
     ];
 
+    protected $hidden = [
+        'product',
+        'product_id',
+        'deleted_at'
+    ];
+
     protected static function booted(): void
     {
         static::saved(function (ProductSku $sku) {
@@ -89,5 +96,21 @@ class ProductSku extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function valid(bool $valid = true): bool
+    {
+        $groupIds = $this->product->loadMissing([
+            'attribute_groups' => function (Builder $query) {
+                $query->whereHas('attributes');
+            },
+        ])->attribute_groups->pluck('id')
+            ->sort()->values()->all();
+
+        $attributes = collect($this->getAttribute('attributes'))
+            ->pluck('product_attribute_group_id')
+            ->sort()->values()->all();
+
+        return $valid ? $groupIds === $attributes : $groupIds !== $attributes;
     }
 }

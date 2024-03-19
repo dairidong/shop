@@ -3,7 +3,6 @@
 namespace App\Filament\Clusters\Products\Resources\ProductResource\RelationManagers;
 
 use App\Models\ProductAttributeGroup;
-use App\Models\ProductSku;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -58,7 +57,7 @@ class SkusRelationManager extends RelationManager
                                         ->map(fn (ProductAttributeGroup $group) => $group->attributes->firstWhere('id', $get($group->name)))
                                         ->filter();
                                     $set('name', $selectedAttributes->pluck('value')->join('+'));
-                                    $set('attributes', $selectedAttributes->each->only('id', 'value', 'product_attribute_group_id')->all());
+                                    $set('attributes', $selectedAttributes->map->only('id', 'value', 'product_attribute_group_id')->all());
                                 });
                         })->all();
                     })->columns(3),
