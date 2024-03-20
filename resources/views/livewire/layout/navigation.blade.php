@@ -121,6 +121,7 @@ $logout = function (Logout $logout) {
                         <div class="size-7 overflow-hidden">
                             <img class="size-full rounded-full align-middle object-center object-cover"
                                  src="{{ auth()->user()->avatar_url }}">
+                            <x-lazy-image :src="auth()->user()->avatar_url" class="size-full rounded-full align-middle object-center object-cover" />
                         </div>
 
                     @else

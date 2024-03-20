@@ -7,7 +7,13 @@
 
 <div
     x-data="{open: false, drawer: null}"
-    x-init="drawer = new Drawer($refs['{{ $name }}'],{onShow: () => open = true, onHide: () => open = false});"
+    x-init="
+        drawer = new Drawer($refs['{{ $name }}'], {
+            onShow: () => open = true,
+            onHide: () => open = false,
+            backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-[999]'
+        });
+    "
 >
     {{-- Trigger --}}
     <div @click="drawer.toggle();" {{ $trigger->attributes->class("drawer-trigger-wrapper") }}>
@@ -18,7 +24,7 @@
     <div {{ $attributes->merge([
                 'id' => $name,
                 'x-ref' => $name,
-                'class' => 'drawer-content fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-9/12 md:w-96',
+                'class' => 'drawer-content fixed top-0 left-0 z-[1000] h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-9/12 md:w-96',
                 'tabindex' => '-1',
                 'aria-labelledby' => 'drawer-label',
     ]) }}>
