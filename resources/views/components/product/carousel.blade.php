@@ -45,9 +45,9 @@
             @touchstart.passive="touchStartX = $event.targetTouches[0].clientX"
             @touchend.passive="
                 const moveX = touchStartX - $event.changedTouches[0].clientX;
-                if(moveX > 0) {
+                if(moveX > 30) {
                     carousel.next();
-                } else if (moveX < 0) {
+                } else if (moveX < -30) {
                     carousel.prev();
                 }
                 touchStartX = null
