@@ -50,6 +50,7 @@
         },
     }"
     x-id="['counter-input']"
+    wire:ignore
     {{ $attributes }}
 >
     <button type="button" class="p-1 md:p-3 h-full" @click="decrement()">

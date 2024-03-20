@@ -22,6 +22,7 @@
             })
         });
     "
+    wire:ignore
     {{ $attributes }}
 >
     <ul class="flex flex-row md:flex-col gap-2">

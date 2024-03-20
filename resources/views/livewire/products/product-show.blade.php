@@ -1,7 +1,7 @@
 <div>
     <div class="bg-[#f3f3f3]">
         <div class="flex flex-col lg:flex-row gap-x-2 gap-y-12 container pt-14 pb-14 px-6">
-            <x-product.carousel :images="$this->images" wire:ignore />
+            <x-product.carousel :images="$this->images" />
 
             <section class="flex flex-col gap-20 w-full lg:w-1/2 l lg:px-8">
                 <div>

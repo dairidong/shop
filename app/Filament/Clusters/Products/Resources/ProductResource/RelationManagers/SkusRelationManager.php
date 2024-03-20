@@ -126,7 +126,17 @@ class SkusRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->mutateRecordDataUsing(function (array $data): array {
+                    $attributeGroups = $this->getOwnerRecord()->load('attribute_groups')->attribute_groups;
+
+                    $selectData = collect($data['attributes'])->map(function ($attribute) use ($attributeGroups) {
+                        $group = $attributeGroups->firstWhere('id', $attribute['product_attribute_group_id']);
+
+                        return ['label' => $group->name, 'value' => $attribute['id']];
+                    })->pluck('value', 'label')->all();
+
+                    return array_merge($selectData, $data);
+                }),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),
@@ -141,21 +151,5 @@ class SkusRelationManager extends RelationManager
             ->modifyQueryUsing(fn (Builder $query) => $query->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]));
-    }
-
-    protected function configureEditAction(Tables\Actions\EditAction $action): void
-    {
-        parent::configureEditAction($action);
-        $action->mutateRecordDataUsing(function (array $data): array {
-            $attributeGroups = $this->getOwnerRecord()->load('attribute_groups')->attribute_groups;
-
-            $selectData = collect($data['attributes'])->map(function ($attribute) use ($attributeGroups) {
-                $group = $attributeGroups->firstWhere('id', $attribute['product_attribute_group_id']);
-
-                return ['label' => $group->name, 'value' => $attribute['id']];
-            })->pluck('value', 'label')->all();
-
-            return array_merge($selectData, $data);
-        });
     }
 }
