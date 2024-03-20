@@ -1,6 +1,6 @@
 <div>
     <div class="bg-[#f3f3f3]">
-        <div class="flex flex-col lg:flex-row gap-x-2 gap-y-12 container pt-14 pb-14 px-6">
+        <div class="flex flex-col lg:flex-row gap-x-2 gap-y-12 container py-14 px-6">
             <x-product.carousel :images="$this->images" />
 
             <section class="flex flex-col gap-20 w-full lg:w-1/2 l lg:px-8">
@@ -133,7 +133,8 @@
 
                         <div>
                             <div class="flex gap-2">
-                                <x-number-input :max="0" x-init="$watch('currentSku', (value) => max = value ? value.stock : 0)" />
+                                <x-number-input :max="0"
+                                                x-init="$watch('currentSku', (value) => max = value ? value.stock : 0)" />
 
                                 <x-primary-button
                                     :value="__('ADD TO CART')"
@@ -158,6 +159,43 @@
                     </form>
                 @endif
             </section>
+        </div>
+    </div>
+
+    <div class="px-6">
+        <div
+            x-data="{
+                currentTab: 'description',
+                tabs: [
+                    { key: 'description', label: @js(__('Description')) },
+                    { key: 'reviews', label: @js(__('Reviews')) },
+                ]
+            }"
+            class="container py-14"
+        >
+            <ul class="flex justify-center gap-16 text-lg *:cursor-pointer">
+                <template x-for="tab in tabs">
+                    <li :class="{'text-active': tab.key === currentTab}" @click.prevent="currentTab = tab.key"
+                        x-text="tab.label"></li>
+                </template>
+            </ul>
+
+            <div class="max-w-[770px] mx-auto py-6">
+                <section x-show="currentTab === 'description'">
+                    @if($product->description === '')
+                        <p class="text-gray-400 mx-auto text-center">
+                            {{ __("The product doesn't have description yet.") }}
+                        </p>
+                    @else
+                        {!! $product->description !!}
+                    @endif
+
+                </section>
+
+                <section x-show="currentTab === 'reviews'">
+
+                </section>
+            </div>
         </div>
     </div>
 </div>

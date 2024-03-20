@@ -23,7 +23,7 @@
         });
     "
     wire:ignore
-    {{ $attributes }}
+    {{ $attributes->except(['x-data', 'class', 'x-init', 'wire:ignore']) }}
 >
     <ul class="flex flex-row md:flex-col gap-2">
         <template x-for="(image, index) in images">
@@ -40,10 +40,22 @@
     </ul>
 
     <div class="relative w-full md:w-11/12 h-[600px] overflow-hidden">
-        <div class="h-full bg-black">
+        <div
+            x-data="{ touchStartX: null }"
+            @touchstart.passive="touchStartX = $event.targetTouches[0].clientX"
+            @touchend.passive="
+                const moveX = touchStartX - $event.changedTouches[0].clientX;
+                if(moveX > 0) {
+                    carousel.next();
+                } else if (moveX < 0) {
+                    carousel.prev();
+                }
+                touchStartX = null
+            "
+        >
             <template x-for="(image, index) in images">
                 <div class="hidden duration-700 ease-in-out" x-carousel-item>
-                    <div class="h-full flex items-center">
+                    <div class="h-full flex items-center bg-black">
                         <img :src="image.origin"/>
                     </div>
                 </div>
@@ -52,14 +64,14 @@
 
         <button
             class="absolute left-2 top-1/2 flex justify-center items-center size-14 rounded-full bg-white z-50 border -translate-y-1/2"
-            @click="carousel.prev()"
+            @click.stop="carousel.prev()"
         >
             <x-heroicon-o-chevron-left class="size-8 text-gray-800"/>
         </button>
 
         <button
             class="absolute right-2 top-1/2 flex justify-center items-center size-14 rounded-full bg-white z-50 border -translate-y-1/2"
-            @click="carousel.next()"
+            @click.stop="carousel.next()"
         >
             <x-heroicon-o-chevron-right class="size-8 text-gray-800"/>
         </button>
