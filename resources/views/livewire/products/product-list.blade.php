@@ -5,7 +5,7 @@
         </div>
     </aside>
 
-    <div class="w-full">
+    <div class="w-full px-3">
         @if($products->isNotEmpty())
             <secion class="flex justify-between text-sm text-gray-600 mb-10">
                 <div>
@@ -18,9 +18,9 @@
             </secion>
 
 
-            <section class="grid grid-cols-3">
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($products as $product)
-                    <livewire:products.components.product-list-item :$product />
+                    <livewire:products.components.product-list-item :$product  :key="$product->id"/>
                 @endforeach
             </section>
 

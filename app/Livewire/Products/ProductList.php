@@ -29,6 +29,6 @@ class ProductList extends Component
 
         return view('livewire.products.product-list', [
             'products' => $products,
-        ])->title(__('Product'));
+        ])->title(__('Shop'));
     }
 }
