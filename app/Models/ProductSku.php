@@ -76,11 +76,17 @@ class ProductSku extends Model
     protected $hidden = [
         'product',
         'product_id',
-        'deleted_at'
+        'deleted_at',
     ];
 
     protected static function booted(): void
     {
+        static::saving(function (ProductSku $sku) {
+            if ($sku->isDirty('attributes') && ! $sku->isDirty('name')) {
+                $sku->name = collect($sku->getAttribute('attributes'))->pluck('value')->join('+');
+            }
+        });
+
         static::saved(function (ProductSku $sku) {
             $product = $sku->product->load('skus');
             $minPrice = $product->skus->where('price', '>', 0)->min('price');

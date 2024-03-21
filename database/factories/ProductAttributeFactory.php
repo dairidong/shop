@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\ProductAttributeGroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class ProductAttributeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'value' => fake()->word,
+            'product_attribute_group_id' => ProductAttributeGroup::factory(),
+            'sort' => 0,
         ];
     }
 }

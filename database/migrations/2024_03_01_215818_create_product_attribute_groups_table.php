@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name')->comment('商品属性组名称');
             $table->foreignIdFor(Product::class)->index()->comment('商品ID');
-            $table->unsignedBigInteger('sort')->comment('排序');
+            $table->unsignedBigInteger('sort')->default(0)->comment('排序');
             $table->timestamps();
             $table->softDeletes();
 
