@@ -20,7 +20,7 @@ $logout = function (Logout $logout) {
                 <div class="flex items-center">
                     <x-drawer class="px-0 py-6">
                         <x-slot name="trigger" class="cursor-pointer">
-                            <x-hamburger ::data-open="open ? 'true' : 'false'"/>
+                            <x-hamburger ::data-open="open ? 'true' : 'false'" />
                         </x-slot>
 
                         {{--  Drawer Content  --}}
@@ -35,7 +35,7 @@ $logout = function (Logout $logout) {
                                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                          fill="none" viewBox="0 0 20 20">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                              stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                              stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                     </svg>
                                     <span class="sr-only">Search</span>
                                 </button>
@@ -100,33 +100,33 @@ $logout = function (Logout $logout) {
             <!-- Logo -->
             <div class="flex grow-0 flex-auto items-center text-center">
                 <a href="{{ route('home') }}" wire:navigate>
-                    <x-application-logo class="block h-9 w-auto fill-current"/>
+                    <x-application-logo class="block h-9 w-auto fill-current" />
                 </a>
             </div>
 
             <!-- Tools -->
             <div class="flex flex-1 items-center gap-3 justify-end">
                 <button class="tool-search hidden sm:flex cursor-pointer p-1 rounded-full group">
-                    <x-heroicon-m-magnifying-glass class="w-7 h-7 group-hover:text-active"/>
+                    <x-heroicon-m-magnifying-glass class="w-7 h-7 group-hover:text-active" />
                 </button>
 
                 <a href="#" @click.prevent="" class="tool-wish cursor-pointer p-1 rounded-full group">
-                    <x-heroicon-o-heart class="w-7 h-7 group-hover:text-active"/>
+                    <x-heroicon-o-heart class="w-7 h-7 group-hover:text-active" />
                 </a>
 
                 <div id="tool-user" x-data="{open: false}" @mouseenter="open = true" @mouseleave="open = false"
                      class="tool-user hidden sm:flex cursor-pointer p-1 rounded-full relative group">
 
-                    @if(auth()->user()?->avatar_url)
+                    @auth
                         <div class="size-7 overflow-hidden">
                             <img class="size-full rounded-full align-middle object-center object-cover"
                                  src="{{ auth()->user()->avatar_url }}">
-                            <x-lazy-image :src="auth()->user()->avatar_url" class="size-full rounded-full align-middle object-center object-cover" />
                         </div>
+                    @endauth
 
-                    @else
-                        <x-heroicon-o-user class="w-7 h-7 group-hover:text-active"/>
-                    @endif
+                    @guest
+                        <x-heroicon-o-user class="size-7 group-hover:text-active" />
+                    @endguest
 
                     <!-- Dropdown menu -->
                     <div x-show="open"
@@ -164,7 +164,7 @@ $logout = function (Logout $logout) {
                 </div>
 
                 <button class="tool-cart cursor-pointer p-1 rounded-full group">
-                    <x-heroicon-o-shopping-cart class="w-7 h-7 group-hover:text-active"/>
+                    <x-heroicon-o-shopping-cart class="w-7 h-7 group-hover:text-active" />
                 </button>
             </div>
         </div>

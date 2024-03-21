@@ -10,7 +10,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
-use function Pest\Laravel\get;
 
 /**
  * App\Models\User
@@ -31,6 +30,7 @@ use function Pest\Laravel\get;
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
@@ -49,6 +49,7 @@ use function Pest\Laravel\get;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|User withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail
@@ -65,7 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'avatar'
+        'avatar',
     ];
 
     /**
@@ -91,7 +92,17 @@ class User extends Authenticatable implements MustVerifyEmail
     public function avatarUrl(): Attribute
     {
         return Attribute::make(
-            get: fn($value, $attributes) => $attributes['avatar'] ? Storage::url($attributes['avatar']) : null
+            get: function ($value, $attributes) {
+                if (is_null($attributes['avatar']) || $attributes['avatar'] === '') {
+                    return url('/default_avatar.png');
+                }
+
+                if (str_starts_with($attributes['avatar'], 'http')) {
+                    return $attributes['avatar'];
+                }
+
+                return Storage::url($attributes['avatar']);
+            }
         );
     }
 }
