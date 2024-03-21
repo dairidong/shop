@@ -24,7 +24,7 @@
                 @endforeach
             </section>
 
-            <section>
+            <section class="my-10">
                 {{ $products->links() }}
             </section>
 

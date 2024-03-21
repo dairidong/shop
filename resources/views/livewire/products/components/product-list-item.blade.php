@@ -20,7 +20,10 @@ $image = computed(fn() => $this->product->getFirstMediaUrl('product-images'));
          x-on:mouseenter="actionsShown = true"
          x-on:mouseleave="actionsShown = false"
     >
-        <a href="{{ route('product.show', $product) }}" class="block w-full h-[533px] sm:h-[266px] md:h-[360px] lg:h-[420px] xl:h-[533px] relative" wire:navigate>
+        <a href="{{ route('product.show', $product) }}"
+           wire:navigate
+           class="block w-full h-[533px] sm:h-[266px] md:h-[360px] lg:h-[420px] xl:h-[533px] relative"
+        >
             <div class="flex items-center justify-center size-full bg-gray-200">
                 <x-heroicon-o-photo class="size-16" />
             </div>
@@ -53,8 +56,10 @@ $image = computed(fn() => $this->product->getFirstMediaUrl('product-images'));
     </div>
 
     <div class="flex flex-col justify-center items-center gap-1 px-4 py-6">
-        <a href="{{ route('product.show', $product) }}" class="block font-bold text-center hover:text-active"
-           wire:navigate>
+        <a href="{{ route('product.show', $product) }}"
+           class="block font-bold text-center hover:text-active"
+           wire:navigate
+        >
             {{ $product->title }}
         </a>
         <div class="text-sm lg:text-base">￥{{ $product->price }}</div>
