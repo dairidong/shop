@@ -165,23 +165,35 @@
     <div class="px-6">
         <div
             x-data="{
-                currentTab: 'description',
+                currentTab: null,
                 tabs: [
                     { key: 'description', label: @js(__('Description')) },
                     { key: 'reviews', label: @js(__('Reviews')) },
-                ]
+                ],
+                setTab(key) {
+                    this.currentTab = key;
+                    window.location.hash = key;
+                },
             }"
+            x-init="
+                let tab = tabs[0]
+                if(window.location.hash){
+                    const hash = window.location.hash.slice(1);
+                    tab = tabs.find((tab) => tab.key === hash) ?? tab;
+                }
+                currentTab = tab.key;
+            "
             class="container py-14"
         >
             <ul class="flex justify-center gap-16 text-lg *:cursor-pointer">
                 <template x-for="tab in tabs">
-                    <li :class="{'text-active': tab.key === currentTab}" @click.prevent="currentTab = tab.key"
+                    <li :class="{'text-active': tab.key === currentTab}" @click.prevent="setTab(tab.key)"
                         x-text="tab.label"></li>
                 </template>
             </ul>
 
             <div class="max-w-[770px] mx-auto py-6">
-                <section x-show="currentTab === 'description'">
+                <section x-show="currentTab === 'description'" x-cloak>
                     @if($product->description === '')
                         <p class="text-gray-400 mx-auto text-center">
                             {{ __("The product doesn't have description yet.") }}
@@ -192,8 +204,30 @@
 
                 </section>
 
-                <section x-show="currentTab === 'reviews'">
-
+                <section x-show="currentTab === 'reviews'" x-cloak>
+                    <ul>
+                        <li class="flex gap-8">
+                            {{--<x-lazy-image />--}}
+                            <x-lazy-image :src="url('default_avatar.png')" class="block size-16 rounded-full" />
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex *:-m-0.5">
+                                        <template x-for="i in 5">
+                                            <x-heroicon-s-star class="size-6 text-yellow-500" />
+                                        </template>
+                                    </div>
+                                    <div>
+                                        <strong>nambui</strong> - <span class="text-gray-400">2024-04-12</span>
+                                    </div>
+                                </div>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                    exercitation ullamco laboris nisi ut aliquip ex ea
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
                 </section>
             </div>
         </div>
