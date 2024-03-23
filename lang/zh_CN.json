@@ -264,5 +264,10 @@
     "Contact Us": "联系我们",
     "ADD TO CART": "添加到购物车",
     "BUY NOW": "立即购买",
-    "Out of stock": "已售罄"
+    "Out of stock": "已售罄",
+    "Default sorting": "默认排序",
+    "Sort by average rating: low to high": "按评分排序：从低到高",
+    "Sort by average rating: high to low": "按评分排序：从高到低",
+    "Sort by price: low to high": "按价格排序：从低到高",
+    "Sort by price: high to low": "按价格排序：从高到低"
 }
