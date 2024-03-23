@@ -26,9 +26,11 @@ $logout = function (Logout $logout) {
                         {{--  Drawer Content  --}}
                         <div class="text-neutral-700">
                             <div class="relative w-full px-6 mb-8">
-                                <input type="search" id="search-dropdown"
+                                <input type="search"
+                                       id="search-dropdown"
+                                       placeholder="{{ __('Search Product...') }}"
+                                       required
                                        class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-md border-2 border-gray-300 focus:border-gray-600 focus:ring-0 focus:shadow-none"
-                                       placeholder="Search Product..." required
                                 />
                                 <button type="submit"
                                         class="absolute top-0 end-6 p-2.5 text-sm font-medium h-full text-neutral-600">
