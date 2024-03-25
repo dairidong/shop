@@ -26,15 +26,26 @@
     {{ $attributes->except(['x-data', 'class', 'x-init', 'wire:ignore']) }}
 >
     <ul class="flex flex-row md:flex-col gap-2">
-        <template x-for="(image, index) in images">
-            <li class="size-12 bg-[#f3f3f3] flex items-center cursor-pointer"
-                :class="selected === index ? 'border border-gray-800' : ''"
-                :aria-current="selected === index"
-                :aria-label="`Slide ${index + 1}`"
-                :x-carousel-slide-to="index"
-                @click="carousel.slideTo(index)"
+        <template x-if="images.length > 0">
+            <template x-for="(image, index) in images">
+                <li class="size-12 bg-[#f3f3f3] flex items-center cursor-pointer"
+                    :class="selected === index ? 'border border-gray-800' : ''"
+                    :aria-current="selected === index"
+                    :aria-label="`Slide ${index + 1}`"
+                    :x-carousel-slide-to="index"
+                    @click="carousel.slideTo(index)"
+                >
+                    <img :src="image.thumb"/>
+                </li>
+            </template>
+        </template>
+
+        <template x-if="images.length <= 0">
+            <li class="size-12 flex justify-center items-center cursor-pointer border border-gray-800 bg-gray-200"
+                aria-current="true"
+                aria-label="1"
             >
-                <img :src="image.thumb"/>
+                    <x-heroicon-o-photo class="size-3" />
             </li>
         </template>
     </ul>
@@ -53,10 +64,20 @@
                 touchStartX = null
             "
         >
-            <template x-for="(image, index) in images">
+            <template x-if="images.length > 0">
+                <template x-for="(image, index) in images">
+                    <div class="hidden duration-700 ease-in-out" x-carousel-item>
+                        <div class="h-full flex items-center bg-black">
+                            <img :src="image.origin"/>
+                        </div>
+                    </div>
+                </template>
+            </template>
+
+            <template x-if="images.length <= 0">
                 <div class="hidden duration-700 ease-in-out" x-carousel-item>
-                    <div class="h-full flex items-center bg-black">
-                        <img :src="image.origin"/>
+                    <div class="h-full flex items-center justify-center bg-gray-200">
+                        <x-heroicon-o-photo class="size-16" />
                     </div>
                 </div>
             </template>
