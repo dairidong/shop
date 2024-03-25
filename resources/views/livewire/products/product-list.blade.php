@@ -74,6 +74,11 @@
                             return {
                                 to: (value) => parseInt(value)
                             }
+                        },
+                        destroy() {
+                            if($el.noUiSlider) {
+                                $el.noUiSlider.destroy();
+                            }
                         }
                     }"
                     x-init="
