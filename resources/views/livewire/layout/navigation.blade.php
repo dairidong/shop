@@ -18,89 +18,90 @@ $logout = function (Logout $logout) {
             <!-- Hamburger -->
             <div class="flex flex-1">
                 <div class="flex items-center">
-                    <x-drawer class="px-0 py-6">
+                    <x-drawer>
                         <x-slot name="trigger" class="cursor-pointer">
-                            <x-hamburger ::data-open="open ? 'true' : 'false'" />
+                            <x-hamburger x-model="show" />
                         </x-slot>
 
-                        {{--  Drawer Content  --}}
-                        <div class="text-neutral-700">
-                            <div class="relative w-full px-6 mb-8">
-                                <form method="GET"
-                                      x-data="{ search: '' }"
-                                      @submit.prevent="Livewire.navigate(`{{ route('products.index') }}?s=${search}`)"
-                                >
-                                    <input type="text"
-                                           id="search-dropdown"
-                                           placeholder="{{ __('Search Product...') }}"
-                                           required
-                                           x-model="search"
-                                           autocomplete="off"
-                                           class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-md border-2 border-gray-300 focus:border-gray-600 focus:ring-0 focus:shadow-none"
-                                    />
-                                    <button type="submit"
-                                            class="absolute top-0 end-6 p-2.5 text-sm font-medium h-full text-neutral-600">
-                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                             fill="none" viewBox="0 0 20 20">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                  stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                                        </svg>
-                                        <span class="sr-only">Search</span>
-                                    </button>
-                                </form>
+                        <x-slot name="body" class="px-0 py-6">
+                            {{--  Drawer Content  --}}
+                            <div class="text-neutral-700">
+                                <div class="relative w-full px-6 mb-8">
+                                    <form method="GET"
+                                          x-data="{ search: '' }"
+                                          @submit.prevent="Livewire.navigate(`{{ route('products.index') }}?s=${search}`)"
+                                    >
+                                        <input type="text"
+                                               id="search-dropdown"
+                                               placeholder="{{ __('Search Product...') }}"
+                                               required
+                                               x-model="search"
+                                               autocomplete="off"
+                                               class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-md border-2 border-gray-300 focus:border-gray-600 focus:ring-0 focus:shadow-none"
+                                        />
+                                        <button type="submit"
+                                                class="absolute top-0 end-6 p-2.5 text-sm font-medium h-full text-neutral-600">
+                                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                 fill="none" viewBox="0 0 20 20">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                      stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                            </svg>
+                                            <span class="sr-only">Search</span>
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <ul class="font-bold text-lg mb-2">
+                                    <li class="hover:bg-gray-100 hover:text-active">
+                                        <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
+                                           href="{{ route('home') }}" wire:navigate>
+                                            {{ __('Home') }}
+                                        </a>
+                                    </li>
+                                    <li class="hover:bg-gray-100 hover:text-active">
+                                        <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
+                                           href="{{ route('products.index') }}" wire:navigate>
+                                            {{ __('Shop') }}
+                                        </a>
+                                    </li>
+                                    <li class="hover:bg-gray-100 hover:text-active">
+                                        <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
+                                           href="#">
+                                            {{ __('About Us') }}
+                                        </a>
+                                    </li>
+                                    <li class="hover:bg-gray-100 hover:text-active">
+                                        <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
+                                           href="#">
+                                            {{ __('Contact Us') }}
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                @guest
+                                    <div class="p-4 text-base font-bold text-neutral-600 hover:text-active">
+                                        <a href="{{ route('login') }}" wire:navigate>{{ __('Login') }}
+                                            / {{ __('Register') }}</a>
+                                    </div>
+                                @endguest
+
+                                @auth
+                                    <div class="flex justify-between items-center p-4 text-sm font-bold text-neutral-600">
+                                        <a class="flex items-center gap-2 hover:text-active" href="{{ route('profile') }}"
+                                           wire:navigate>
+                                            <div class="size-8 overflow-hidden">
+                                                <img class="size-full rounded-full align-middle object-center object-cover"
+                                                     src="{{ auth()->user()->avatar_url }}">
+                                            </div>
+
+                                            <div>{{ auth()->user()->name ?: auth()->user()->username }}</div>
+                                        </a>
+
+                                        <button class="hover:text-active" wire:click="logout">{{ __('Log Out') }}</button>
+                                    </div>
+                                @endauth
                             </div>
-
-                            <ul class="font-bold text-lg mb-2">
-                                <li class="hover:bg-gray-100 hover:text-active">
-                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
-                                       href="{{ route('home') }}" wire:navigate>
-                                        {{ __('Home') }}
-                                    </a>
-                                </li>
-                                <li class="hover:bg-gray-100 hover:text-active">
-                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
-                                       href="{{ route('products.index') }}" wire:navigate>
-                                        {{ __('Shop') }}
-                                    </a>
-                                </li>
-                                <li class="hover:bg-gray-100 hover:text-active">
-                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
-                                       href="#">
-                                        {{ __('About Us') }}
-                                    </a>
-                                </li>
-                                <li class="hover:bg-gray-100 hover:text-active">
-                                    <a class="border-y relative inline-flex w-full h-full p-4 before:block before:content-[''] before:absolute before:bottom-2 before:h-0.5 before:w-0 before:bg-active before:transition-all before:duration-300 before:ease-in-out hover:before:w-12"
-                                       href="#">
-                                        {{ __('Contact Us') }}
-                                    </a>
-                                </li>
-                            </ul>
-
-                            @guest
-                                <div class="p-4 text-base font-bold text-neutral-600 hover:text-active">
-                                    <a href="{{ route('login') }}" wire:navigate>{{ __('Login') }}
-                                        / {{ __('Register') }}</a>
-                                </div>
-                            @endguest
-
-                            @auth
-                                <div class="flex justify-between items-center p-4 text-sm font-bold text-neutral-600">
-                                    <a class="flex items-center gap-2 hover:text-active" href="{{ route('profile') }}"
-                                       wire:navigate>
-                                        <div class="size-8 overflow-hidden">
-                                            <img class="size-full rounded-full align-middle object-center object-cover"
-                                                 src="{{ auth()->user()->avatar_url }}">
-                                        </div>
-
-                                        <div>{{ auth()->user()->name ?: auth()->user()->username }}</div>
-                                    </a>
-
-                                    <button class="hover:text-active" wire:click="logout">{{ __('Log Out') }}</button>
-                                </div>
-                            @endauth
-
-                        </div>
+                        </x-slot>
                     </x-drawer>
 
                 </div>

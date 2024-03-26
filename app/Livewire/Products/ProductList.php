@@ -85,9 +85,12 @@ class ProductList extends Component
         }
 
         if (count($this->checkedCategories) > 0) {
-            $categories = Arr::where($this->checkedCategories, function ($value) {
-                return is_int($value) && $value > 0;
-            });
+            $categories = Arr::where(
+                Arr::map($this->checkedCategories, function ($value) {
+                    return filter_var($value, FILTER_VALIDATE_INT);
+                }),
+                fn ($value) => ($value !== false && $value > 0)
+            );
             $query->whereHas('categories', function (Builder $query) use ($categories) {
                 $query->whereIn('id', $categories);
             });
@@ -104,5 +107,15 @@ class ProductList extends Component
         }
 
         return $query->paginate(12);
+    }
+
+    /**
+     * Properties updated hook
+     * Rest pagination after filter changed
+     */
+    public function updated(): void
+    {
+        $this->resetPage();
+        $this->dispatch('close-filter-drawer');
     }
 }
