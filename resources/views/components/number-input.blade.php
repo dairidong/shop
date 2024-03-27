@@ -1,9 +1,7 @@
 @php use Illuminate\Support\Str; @endphp
 @props([
-    'ref' => 'quantity-' . Str::random(6),
     'min' => 0,
     'max',
-    'default' => 0
 ])
 
 <div
@@ -11,7 +9,7 @@
     x-data="{
         min: @js($min),
         max: @js($max ?? null),
-        ref: @js($ref),
+        inputValue: 0,
         counter: null,
         createCounter(min, max) {
             if(this.counter) {
@@ -19,50 +17,60 @@
                 this.counter = null;
             }
 
-            this.counter = new InputCounter($refs[this.ref], null, null, {
-                minValue: min,
-                maxValue: max,
-            })
-        },
-        decrement() {
-            if(this.counter) this.counter.decrement();
-        },
-        increment() {
-            if(this.counter) this.counter.increment();
+            this.counter = new InputCounter(
+                $el.querySelector('input'),
+                $el.lastElementChild,
+                $el.firstElementChild,
+                {
+                    minValue: min,
+                    maxValue: max,
+                }
+            );
+            this.counter.updateOnIncrement(() =>  {
+                this.inputValue = this.counter.getCurrentValue();
+            });
+            this.counter.updateOnDecrement(() => {
+                this.inputValue = this.counter.getCurrentValue();
+            });
         },
         init() {
-            $nextTick(() => {
-                this.createCounter(this.min, this.max);
-            });
+            this.createCounter(this.min, this.max);
 
             $watch('min', (value) => {
                 this.createCounter(value,this.max);
                 if(this.counter.getCurrentValue() < value) {
-                    $refs[this.ref].value = value;
+                    this.inputValue = value;
                 }
             });
             $watch('max', (value) => {
                 this.createCounter(this.min, value);
                 if(this.counter.getCurrentValue() > value) {
-                    $refs[this.ref].value = value;
+                    this.inputValue = value
                 }
             });
+            $watch('inputValue', (value) => {
+                if(value > this.max) {
+                    this.inputValue = this.max
+                }
+            })
+        },
+        destroy() {
+            if (this.counter) this.counter.destroy();
         },
     }"
     x-id="['counter-input']"
-    wire:ignore
+    x-modelable="inputValue"
     {{ $attributes }}
 >
-    <button type="button" class="p-1 md:p-3 h-full" @click="decrement()">
+    <button type="button" class="p-1 md:p-3 h-full">
         <x-heroicon-o-minus class="size-4 md:size-6"/>
     </button>
     <input
-        x-ref="{{ $ref }}"
         type="text"
         class="h-11 text-center block w-8 md:w-10 p-0 border-none ring-0 focus:ring-0"
-        value="{{ $default }}"
+        x-model.number="inputValue"
     />
-    <button type="button" class="p-1 md:p-3 h-full" @click="increment()">
+    <button type="button" class="p-1 md:p-3 h-full">
         <x-heroicon-o-plus class="size-4 md:size-6"/>
     </button>
 </div>
