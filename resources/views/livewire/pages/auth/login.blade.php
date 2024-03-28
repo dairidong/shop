@@ -25,8 +25,7 @@ $login = function () {
 
 <div class="mt-14 container mx-auto lg:max-w-[1440px] flex flex-col items-center">
     <!-- Session Status -->
-    {{-- todo check styles --}}
-    <x-auth-session-status class="mb-4" :status="session('status')" class="w-1/2 text-center" :type="'success'" />
+    <x-auth-session-status class="mb-4" :status="session('status')" class="w-1/2 text-center" type="danger" />
 
     <h2 class="text-center text-xl font-medium my-4">{{ __('Login') }}</h2>
 
