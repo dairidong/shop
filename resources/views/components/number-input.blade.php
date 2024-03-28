@@ -34,6 +34,7 @@
             });
         },
         init() {
+            this.inputValue = this.min;
             this.createCounter(this.min, this.max);
 
             $watch('min', (value) => {
