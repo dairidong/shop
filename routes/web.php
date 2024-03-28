@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Cart\CartPage;
 use App\Livewire\Products\ProductList;
 use App\Livewire\Products\ProductShow;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('products', ProductList::class)->name('products.index');
-Route::get('products/{product}', ProductShow::class)->name('product.show');
+Route::get('products/{product}', ProductShow::class)->name('products.show');
+Route::get('cart', CartPage::class)->name('cart');
 
 require __DIR__.'/auth.php';
