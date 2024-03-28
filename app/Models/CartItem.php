@@ -12,11 +12,16 @@ class CartItem extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['amount'];
+    protected $fillable = ['quantity', 'checked'];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
     }
 
     public function productSku(): BelongsTo

@@ -10,7 +10,7 @@
         $class = $base_class . 'text-blue-800 bg-blue-100';
         break;
     case 'danger':
-        $class = $base_class . 'text-red-800 bg-red-100';
+        $class = $base_class . 'text-white bg-active';
         break;
     case 'success':
         $class = $base_class . 'text-green-800 bg-green-200';

@@ -2,13 +2,17 @@
 
 namespace App\Livewire\Products;
 
+use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\ProductAttributeGroup;
 use App\Models\ProductSku;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Renderless;
 use Livewire\Component;
 
 class ProductShow extends Component
@@ -17,6 +21,8 @@ class ProductShow extends Component
     public Product $product;
 
     public int $skuId;
+
+    public int $quantity = 1;
 
     public function mount(Product $product): void
     {
@@ -63,9 +69,42 @@ class ProductShow extends Component
         });
     }
 
+    #[Renderless]
+    public function addToCart(Redirector $redirector): void
+    {
+        if (!Auth::check()) {
+            session()->flash('status', __('You need to login!'));
+            $redirector->setIntendedUrl(route('products.show', ['product' => $this->product]));
+            $this->redirectRoute('login');
+
+            return;
+        }
+
+        $sku = $this->product->skus()->find($this->skuId);
+        if (!$sku || !$sku->valid()) {
+            return;
+        }
+
+        $user = Auth::user();
+        if ($cart = $user->cartItems()->where('product_sku_id', $sku->id)->first()) {
+            $cart->increment('quantity', $this->quantity);
+        } else {
+            $cart = new CartItem([
+                'quantity' => $this->quantity,
+                'checked' => true
+            ]);
+            $cart->productSku()->associate($sku);
+            $cart->user()->associate($user);
+            $cart->product()->associate($sku->product_id);
+            $cart->save();
+        }
+
+        $this->dispatch('add-to-cart');
+    }
+
     public function createOrder()
     {
-        dd($this->skuId);
+
     }
 
     public function render(): View

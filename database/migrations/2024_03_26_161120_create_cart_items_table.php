@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->index();
             $table->foreignIdFor(Product::class);
             $table->foreignIdFor(ProductSku::class);
-            $table->unsignedInteger('amount')->comment('数量');
+            $table->unsignedInteger('quantity')->comment('数量');
             $table->boolean('checked')->comment('是否选中');
         });
     }
