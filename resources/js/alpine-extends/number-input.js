@@ -60,8 +60,6 @@ export default function numberInput({ state = 0, min = 0, max = min }) {
                 } else if (value < this.min) {
                     this.state = this.min;
                 }
-
-                console.log(value)
             });
         },
         destroy() {

@@ -76,7 +76,6 @@ $throttleKey = protect(fn() => 'resend-email-user:' . auth()->user()->id);
                                                     this.locked = false;
                                                     clearInterval(this.interval)
                                                 }
-                                                console.log(locked, seconds)
                                             }, 1000)
                                         }
                                   }"

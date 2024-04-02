@@ -28,7 +28,21 @@ updated([
 
 ?>
 
-<tr class="h-full grid grid-cols-[4rem_1fr] grid-rows-4 gap-x-4 lg:table-row relative text-xs lg:text-base border-b mb-2 lg:mb-0">
+<tr x-data="{
+    price: {{ $cartItem->product_sku->price }},
+    quantity: $wire.$entangle('quantity').live,
+    subtotal: '0.00',
+}"
+    x-init="
+        subtotal = Big(price).mul(quantity).toFixed(2);
+        $watch('quantity', (value) => {
+            subtotal = Big(price).mul(value).toFixed(2);
+            $dispatch('cart-item-updated');
+        });
+    "
+    :data-subtotal="subtotal"
+    class="h-full grid grid-cols-[4rem_1fr] grid-rows-4 gap-x-4 lg:table-row relative text-xs lg:text-base border-b mb-2 lg:mb-0"
+>
     <td class="lg:w-10 absolute lg:static right-0 top-1 lg:pt-8 lg:pb-12">
         <x-heroicon-o-x-mark
             class="size-4 hover:text-active cursor-pointer"
@@ -54,7 +68,7 @@ updated([
     </td>
     <td class="py-1 px-0 lg:px-5 lg:pt-8 lg:pb-12 flex items-center justify-between lg:table-cell border-b border-dashed">
         <span class="block lg:hidden">{{ __('Price') }}</span>
-        <span class="text-xs">￥{{ $cartItem->product_sku->price }}</span>
+        <span class="text-xs" x-text="`￥${price}`"></span>
     </td>
     <td class="py-1 px-0 lg:px-5 lg:pt-8 lg:pb-12 flex items-center justify-between lg:table-cell border-b border-dashed">
         <span class="block lg:hidden">{{ __('Quantity') }}</span>
@@ -63,13 +77,12 @@ updated([
             <x-cart.number-input
                 min="1"
                 :max="$cartItem->product_sku->stock"
-                wire:model.live.debounce.500ms="quantity"
+                x-model.debounce.500ms="quantity"
             />
         </div>
     </td>
     <td class="py-1 lg:pt-8 lg:pb-12 flex items-center justify-between lg:table-cell text-right">
         <span class="block lg:hidden">{{ __('Subtotal') }}</span>
-        <strong class="text-active text-xs font-sans font-bold"
-                x-text="`￥${Big('{{ $cartItem->product_sku->price }}').mul($wire.quantity).toFixed(2)}`"></strong>
+        <strong class="text-active text-xs font-sans font-bold"x-text="`￥${subtotal}`"></strong>
     </td>
 </tr>
