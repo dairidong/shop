@@ -58,7 +58,7 @@ class ProductShow extends Component
     #[Computed]
     public function skus()
     {
-        return $this->product->skus->filter(fn(ProductSku $sku) => $sku->valid());
+        return $this->product->skus->filter(fn (ProductSku $sku) => $sku->valid());
     }
 
     #[Computed]
@@ -72,16 +72,26 @@ class ProductShow extends Component
     #[Renderless]
     public function addToCart(Redirector $redirector): void
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             session()->flash('status', __('You need to login!'));
             $redirector->setIntendedUrl(route('products.show', ['product' => $this->product]));
-            $this->redirectRoute('login');
+            $this->redirectRoute('login', navigate: true);
 
             return;
         }
 
+        if (! $this->product->on_sale) {
+            return;
+        }
+
+        $this->validate();
+
         $sku = $this->product->skus()->find($this->skuId);
-        if (!$sku || !$sku->valid()) {
+        if (! $sku || ! $sku->valid()) {
+            return;
+        }
+
+        if ($this->quantity > 0 && $sku->stock < $this->quantity) {
             return;
         }
 
@@ -91,20 +101,30 @@ class ProductShow extends Component
         } else {
             $cart = new CartItem([
                 'quantity' => $this->quantity,
-                'checked' => true
+                'checked' => true,
             ]);
-            $cart->productSku()->associate($sku);
+            $cart->product_sku()->associate($sku);
             $cart->user()->associate($user);
             $cart->product()->associate($sku->product_id);
             $cart->save();
         }
 
         $this->dispatch('add-to-cart');
+        $this->dispatch('cart-update');
     }
 
     public function createOrder()
     {
 
+    }
+
+    public function rules(): array
+    {
+        return [
+            'skuId' => 'required',
+            'quantity' => 'required|integer|min:1',
+
+        ];
     }
 
     public function render(): View

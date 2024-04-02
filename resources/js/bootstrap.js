@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Big from "big.js";
 import noUiSlider from "nouislider";
 import '../css/nouislider.css'
 /**
@@ -10,7 +11,9 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-window.noUiSlider = noUiSlider
+window.Big = Big;
+
+window.noUiSlider = noUiSlider;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

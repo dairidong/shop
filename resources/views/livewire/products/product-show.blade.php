@@ -149,7 +149,7 @@
                                 <span class="text-gray-800 text-xs" x-text="currentSku ? `{{ __('Left stock') }} ${currentSku.stock}` : ''"></span>
                             </div>
                             <div class="flex gap-2">
-                                <x-number-input :min="1" :max="0"
+                                <x-product.number-input :min="1" :max="0"
                                                 x-init="$watch('currentSku', (value) => {
                                                     max = value ? value.stock : 1;
                                                 })"

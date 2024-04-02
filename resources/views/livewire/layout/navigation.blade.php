@@ -1,6 +1,8 @@
 <?php
 
 use App\Livewire\Actions\Logout;
+use function Livewire\Volt\on;
+use function Livewire\Volt\state;
 
 $logout = function (Logout $logout) {
     $logout();
@@ -8,9 +10,15 @@ $logout = function (Logout $logout) {
     $this->redirect('/', navigate: true);
 };
 
+state('cartCount', fn() => auth()->user()?->cartItems()->count());
+
+on(['cart-update' => function () {
+        $this->cartCount = auth()->user()?->cartItems()->count();
+}]);
+
 ?>
 
-<nav class="bg-dark text-white">
+<nav class="bg-dark text-white w-screen">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-center items-center h-20">
@@ -43,8 +51,10 @@ $logout = function (Logout $logout) {
                                                 class="absolute top-0 end-6 p-2.5 text-sm font-medium h-full text-neutral-600">
                                             <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                                  fill="none" viewBox="0 0 20 20">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                      stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="2"
+                                                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                             </svg>
                                             <span class="sr-only">Search</span>
                                         </button>
@@ -86,18 +96,22 @@ $logout = function (Logout $logout) {
                                 @endguest
 
                                 @auth
-                                    <div class="flex justify-between items-center p-4 text-sm font-bold text-neutral-600">
-                                        <a class="flex items-center gap-2 hover:text-active" href="{{ route('profile') }}"
+                                    <div
+                                        class="flex justify-between items-center p-4 text-sm font-bold text-neutral-600">
+                                        <a class="flex items-center gap-2 hover:text-active"
+                                           href="{{ route('profile') }}"
                                            wire:navigate>
                                             <div class="size-8 overflow-hidden">
-                                                <img class="size-full rounded-full align-middle object-center object-cover"
-                                                     src="{{ auth()->user()->avatar_url }}">
+                                                <img
+                                                    class="size-full rounded-full align-middle object-center object-cover"
+                                                    src="{{ auth()->user()->avatar_url }}">
                                             </div>
 
                                             <div>{{ auth()->user()->name ?: auth()->user()->username }}</div>
                                         </a>
 
-                                        <button class="hover:text-active" wire:click="logout">{{ __('Log Out') }}</button>
+                                        <button class="hover:text-active"
+                                                wire:click="logout">{{ __('Log Out') }}</button>
                                     </div>
                                 @endauth
                             </div>
@@ -173,9 +187,27 @@ $logout = function (Logout $logout) {
                     </div>
                 </div>
 
-                <button class="tool-cart cursor-pointer p-1 rounded-full group">
+
+                <a href="{{ route('cart') }}" wire:navigate
+                   class="tool-cart relative cursor-pointer p-1 rounded-full group">
                     <x-heroicon-o-shopping-cart class="w-7 h-7 group-hover:text-active" />
-                </button>
+                    <div
+                        class="absolute size-4 font-bold font-mono text-center top-0 -right-1 text-xs bg-white text-active rounded-full">
+                        {{ $cartCount ?: 0 }}
+                    </div>
+                </a>
+
+                {{--<x-drawer placement="right">--}}
+                {{--    <x-slot name="trigger">--}}
+                {{--        <button class="tool-cart cursor-pointer p-1 rounded-full group">--}}
+                {{--            <x-heroicon-o-shopping-cart class="w-7 h-7 group-hover:text-active" />--}}
+                {{--        </button>--}}
+                {{--    </x-slot>--}}
+
+                {{--    <x-slot name="body"  class="px-8">--}}
+                {{--        <livewire:cart />--}}
+                {{--    </x-slot>--}}
+                {{--</x-drawer>--}}
             </div>
         </div>
     </div>

@@ -28,10 +28,11 @@ Route::middleware('auth')->group(function () {
 
     Route::view('delete-user', 'user.delete-user')
         ->name('user.destroy');
+
+    Route::get('cart', CartPage::class)->name('cart');
 });
 
 Route::get('products', ProductList::class)->name('products.index');
 Route::get('products/{product}', ProductShow::class)->name('products.show');
-Route::get('cart', CartPage::class)->name('cart');
 
 require __DIR__.'/auth.php';

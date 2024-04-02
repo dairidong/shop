@@ -266,7 +266,7 @@
     "Contact Us": "联系我们",
     "ADD TO CART": "添加到购物车",
     "Has been added to your cart!": "已加入您的购物车！",
-    "CART": "购物车",
+    "Cart": "购物车",
     "SHOPPING CART": "购物车",
     "BUY NOW": "立即购买",
     "Left stock": "剩余库存",
@@ -275,5 +275,9 @@
     "Sort by average rating: low to high": "按评分排序：从低到高",
     "Sort by average rating: high to low": "按评分排序：从高到低",
     "Sort by price: low to high": "按价格排序：从低到高",
-    "Sort by price: high to low": "按价格排序：从高到低"
+    "Sort by price: high to low": "按价格排序：从高到低",
+    "Quantity": "数量",
+    "Subtotal": "小计",
+    "Cart Totals": "购物车总计",
+    "Total": "总计"
 }
