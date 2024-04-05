@@ -279,5 +279,9 @@
     "Quantity": "数量",
     "Subtotal": "小计",
     "Cart Totals": "购物车总计",
-    "Total": "总计"
+    "Total": "总计",
+    "User Address": "收货地址",
+    "User Addresses": "收货地址",
+    "Manage your account's addresses.": "管理您的收货地址",
+    "Are you sure you want to delete the address?": "您确定要删除该地址吗？"
 }
