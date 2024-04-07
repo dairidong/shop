@@ -147,6 +147,8 @@ return [
     'uppercase'            => ':Attribute 必须大写',
     'url'                  => ':Attribute 格式不正确。',
     'uuid'                 => ':Attribute 必须是有效的 UUID。',
+    'postalcode'           => ':Attribute 必须是一个有效的邮编号码',
+    'phone'                => ':Attribute 格式错误',
     'attributes'           => [
         'address'                  => '地址',
         'affiliate_url'            => '附属网址',

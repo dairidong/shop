@@ -3,6 +3,7 @@
 use App\Livewire\Cart\CartPage;
 use App\Livewire\Products\ProductList;
 use App\Livewire\Products\ProductShow;
+use App\Livewire\UserAddress\CreateUserAddress;
 use App\Livewire\UserAddress\UserAddressList;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('cart', CartPage::class)->name('cart');
 
     Route::get('user_addresses', UserAddressList::class)->name('user_addresses.index');
+    Route::get('user_addresses/create', CreateUserAddress::class)->name('user_addresses.create');
 });
 
 Route::get('products', ProductList::class)->name('products.index');

@@ -98,8 +98,9 @@ $updateProfileInformation = function () {
         </x-form-row>
 
         <x-form-row>
-            <x-input-label for="name" class="text-base" :value="__('Username')" />
+            <x-input-label for="username" class="text-base" :value="__('Username')" />
             <x-text-input disabled id="username" type="text" class="mt-1 block w-full bg-gray-100" :value="$username" />
+            <x-input-error class="mt-2" :messages="$errors->get('username')" />
         </x-form-row>
 
         <x-form-row>

@@ -283,5 +283,6 @@
     "User Address": "收货地址",
     "User Addresses": "收货地址",
     "Manage your account's addresses.": "管理您的收货地址",
-    "Are you sure you want to delete the address?": "您确定要删除该地址吗？"
+    "Are you sure you want to delete the address?": "您确定要删除该地址吗？",
+    "Add User Address": "添加收货地址"
 }

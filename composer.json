@@ -18,11 +18,13 @@
         "filament/spatie-laravel-media-library-plugin": "^3.2",
         "gehrisandro/tailwind-merge-laravel": "^1.2",
         "guzzlehttp/guzzle": "^7.2",
+        "intervention/validation": "^4.1",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.4",
-        "livewire/volt": "^1.0"
+        "livewire/volt": "^1.0",
+        "propaganistas/laravel-phone": "^5.2"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.15",
