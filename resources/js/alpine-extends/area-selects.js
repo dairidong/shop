@@ -39,6 +39,7 @@ export default function areaSelects() {
                 const selectedProvince = pcaC.find((province) => this.province === province.name);
                 const selectedCity = selectedProvince.children.find((city) => value === city.name);
 
+                // For edit init
                 const district = selectedCity.children.find((district) => district.name === this.district);
                 if (!district) {
                     this.district = null;

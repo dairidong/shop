@@ -47,7 +47,7 @@
             </section>
 
             <div class="mt-5">
-                <x-primary-button :value="__('Checkout Order')" class="w-full text-sm font-bold h-14" @click="checkoutOrder" />
+                <x-primary-button value="确认订单" class="w-full text-sm font-bold h-14" wire:click.prevent="checkoutOrder" />
             </div>
         </div>
     </div>
