@@ -6,12 +6,13 @@ use function Livewire\Volt\form;
 use function Livewire\Volt\mount;
 use function Livewire\Volt\state;
 
-state('submitType');
+state(['submitType', 'userAddress']);
 
 form(UserAddressForm::class);
 
 mount(function (UserAddress $userAddress, $submitType = 'create') {
     $this->submitType = $submitType;
+    $this->userAddress = $userAddress;
 
     if ($submitType === 'edit') {
         $this->form->setAddress($userAddress);
@@ -21,9 +22,12 @@ mount(function (UserAddress $userAddress, $submitType = 'create') {
 $save = function () {
     if ($this->submitType === 'create') {
         $this->form->store();
-    } elseif ($this->submitType === 'delete') {
+    } elseif ($this->submitType === 'edit') {
+        $this->authorize('update', $this->userAddress);
         $this->form->update();
     }
+
+    $this->redirectIntended(route('user_addresses.index'), true);
 };
 
 ?>
@@ -32,13 +36,9 @@ $save = function () {
     <x-form-row>
         <div
             class="flex flex-row gap-3"
-            x-data="areaSelects({
-                province: $wire.entangle('form.province'),
-                city: $wire.entangle('form.city'),
-                district: $wire.entangle('form.district'),
-            })"
+            x-data="areaSelects()"
         >
-            <div class="flex flex-col w-1/3">
+            <div class="flex flex-col w-1/3" x-bind="provinceSelect" wire:model="form.province">
                 <x-input-label for="province" class="text-base" :value="__('user_address.province')" />
                 <select required x-model="province" id="province"
                         class="block mt-1 w-full border-[#ccc] focus:ring-0 focus:border-[#ccc]">
@@ -48,23 +48,23 @@ $save = function () {
                     </template>
                 </select>
             </div>
-            <div class="flex flex-col w-1/3">
+            <div class="flex flex-col w-1/3" x-bind="citySelect" wire:model="form.city">
                 <x-input-label for="city" class="text-base" :value="__('user_address.city')" />
                 <select required x-model="city" id="city"
                         class="block mt-1 w-full border-[#ccc] focus:ring-0 focus:border-[#ccc]">
                     <option>请选择市</option>
                     <template x-for="c in availableCities" :key="c.code">
-                        <option x-text="c.name"></option>
+                        <option x-text="c.name" :selected="city === c.name"></option>
                     </template>
                 </select>
             </div>
-            <div class="flex flex-col w-1/3">
+            <div class="flex flex-col w-1/3" x-bind="districtSelect" wire:model="form.district">
                 <x-input-label for="district" class="text-base" :value="__('user_address.district')" />
                 <select required x-model="district" id="district"
                         class="block mt-1 w-full border-[#ccc] focus:ring-0 focus:border-[#ccc]">
                     <option>请选择区域</option>
                     <template x-for="d in availableDistricts" :key="d.code">
-                        <option x-text="d.name"></option>
+                        <option x-text="d.name" :selected="district === d.name"></option>
                     </template>
                 </select>
             </div>
