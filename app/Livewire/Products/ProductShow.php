@@ -58,7 +58,7 @@ class ProductShow extends Component
     #[Computed]
     public function skus()
     {
-        return $this->product->skus->filter(fn (ProductSku $sku) => $sku->valid());
+        return $this->product->skus->filter(fn (ProductSku $sku) => $sku->valid);
     }
 
     #[Computed]
@@ -87,7 +87,7 @@ class ProductShow extends Component
         $this->validate();
 
         $sku = $this->product->skus()->find($this->skuId);
-        if (! $sku || ! $sku->valid()) {
+        if (! $sku || ! $sku->valid) {
             return;
         }
 

@@ -51,4 +51,12 @@ class CartItem extends Model
     {
         return $this->belongsTo(ProductSku::class);
     }
+
+    public function checkValid(): bool
+    {
+        return $this->product_sku()->exists() &&
+            $this->product_sku->product()->exists() &&
+            $this->product_sku->valid &&
+            $this->product_sku->stock > 0;
+    }
 }

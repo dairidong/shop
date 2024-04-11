@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -47,6 +48,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku withoutTrashed()
  * @property-read \App\Models\Product|null $product
+ * @property-read mixed $valid
  * @mixin \Eloquent
  */
 class ProductSku extends Model
@@ -101,19 +103,23 @@ class ProductSku extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function valid(bool $valid = true): bool
+    public function valid(): Attribute
     {
-        $groupIds = $this->product->loadMissing([
-            'attribute_groups' => function (Builder $query) {
-                $query->whereHas('attributes');
-            },
-        ])->attribute_groups->pluck('id')
-            ->sort()->values()->all();
+        return Attribute::make(
+            get: function () {
+                $groupIds = $this->product->loadMissing([
+                    'attribute_groups' => function (Builder $query) {
+                        $query->whereHas('attributes');
+                    },
+                ])->attribute_groups->pluck('id')
+                    ->sort()->values()->all();
 
-        $attributes = collect($this->getAttribute('attributes'))
-            ->pluck('product_attribute_group_id')
-            ->sort()->values()->all();
+                $attributes = collect($this->getAttribute('attributes'))
+                    ->pluck('product_attribute_group_id')
+                    ->sort()->values()->all();
 
-        return $valid ? $groupIds === $attributes : $groupIds !== $attributes;
+                return $groupIds === $attributes;
+            }
+        );
     }
 }

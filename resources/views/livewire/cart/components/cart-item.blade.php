@@ -50,7 +50,7 @@ updated([
         />
     </td>
     <td class="w-16 min-w-16 py-2 row-span-full lg:pt-8 lg:pb-12">
-        <a href="{{ route('products.show', [$cartItem->product_sku->product]) }}" wire:navigate>
+        <a href="{{ route('products.show', [$cartItem->product]) }}" wire:navigate>
             @if($imageUrl = $cartItem->product?->getFirstMediaUrl('product-images', 'thumb'))
                 <div class="size-full">
                     <img src="{{ $imageUrl }}" loading="lazy" width="400" />
@@ -65,7 +65,7 @@ updated([
     <td class="py-1 px-0 lg:px-5 lg:pt-8 lg:pb-12 flex items-center justify-between lg:table-cell text-left border-b border-dashed">
         <div class="flex items-center lg:flex-col lg:items-start gap-x-2 lg:gap-y-6">
             <p class="font-bold text-sm lg:text-base w-[20ch] xl:w-max overflow-hidden text-ellipsis text-nowrap hover:text-active">
-                <a href="{{ route('products.show', [$cartItem->product_sku->product]) }}" wire:navigate>{{ $cartItem->product_sku->product->title }}</a>
+                <a href="{{ route('products.show', [$cartItem->product]) }}" wire:navigate>{{ $cartItem->product->title }}</a>
             </p>
             <p class="text-xs lg:text-sm text-gray-400">{{ $cartItem->product_sku->name }}</p>
         </div>

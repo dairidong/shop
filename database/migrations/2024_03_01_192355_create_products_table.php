@@ -21,8 +21,8 @@ return new class extends Migration
             $table->float('rating')->default(0)->comment('商品价格');
             $table->unsignedInteger('sold_count')->default(0)->comment('销量');
             $table->unsignedInteger('review_count')->default(0)->comment('评论数量');
-            $table->decimal('price')->default(0)->comment('sku 最低价格');
-            $table->decimal('compare_at_price')->default(0)->comment('商品比较原价');
+            $table->unsignedDecimal('price', 10, 2)->default(0)->comment('sku 最低价格');
+            $table->decimal('compare_at_price', 10, 2)->default(0)->comment('商品比较原价');
             $table->json('extra')->nullable()->comment('额外信息');
             $table->timestamps();
             $table->softDeletes();
