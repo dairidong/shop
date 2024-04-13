@@ -5,6 +5,7 @@ namespace App\Livewire\Cart;
 use App\Models\CartItem;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -54,6 +55,8 @@ class CartPage extends Component
         $this->authorize('delete', $cartItem);
 
         $cartItem->delete();
+
+        $this->dispatch('cart-item-updated')->self();
     }
 
     public function clearInvalidItems(): void
@@ -61,17 +64,38 @@ class CartPage extends Component
         $this->invalidItems->each(fn(CartItem $item) => $item->delete());
 
         // For reload all items
-        unset($this->cartItems, $this->validItems, $this->invalidItems);
+        $this->resetItems();
     }
 
-    public function checkoutOrder()
+    public function checkoutOrder(): void
     {
+        if ($this->validItems->isEmpty()) {
+            $this->resetItems();
+            throw ValidationException::withMessages([
+                'items' => '购物车为空',
+            ]);
+        }
 
+        $this->validItems->each(function (CartItem $item) {
+            if (!$item->checkValid()) {
+                $this->addError("items.{$item->id}", '无效商品，请刷新页面');
+            }
+
+            if ($item->quantity > $item->product_sku->stock) {
+                $this->addError("items.{$item->id}", '库存不足,请修改购买数量');
+            }
+        });
     }
 
     public function render()
     {
         return view('livewire.cart.cart-page')
             ->title(__('Cart'));
+    }
+
+    protected function resetItems():void
+    {
+        unset($this->cartItems, $this->validItems, $this->invalidItems);
+        $this->dispatch('cart-item-updated')->self();
     }
 }

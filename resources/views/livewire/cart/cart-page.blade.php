@@ -3,13 +3,13 @@
     x-data="{
         cartTotal: '0.00',
         calculateTotal() {
-            const elements = $el.querySelectorAll('[data-subtotal]');
+            const elements = this.$el.querySelectorAll('[data-subtotal]');
             this.cartTotal = Array.prototype.reduce.call(elements, (prev, el) => {
                 return Big(prev).add(el.dataset['subtotal']).toFixed(2);
             }, '0.00');
         }
     }"
-    @cart-item-updated="calculateTotal()"
+    @cart-item-updated="$nextTick(() => calculateTotal())"
     x-init="$nextTick(() => calculateTotal())"
 >
     <div class="w-full lg:w-8/12 px-4 lg:px-0">
@@ -26,7 +26,11 @@
             </thead>
             <tbody>
                 @foreach($this->validItems as $cartItem)
-                    <livewire:cart.components.cart-item :$cartItem :key="$cartItem->id" />
+                    <livewire:cart.components.cart-item
+                        :$cartItem
+                        :messages="$errors->get('items.' . $cartItem->id)"
+                        :key="$cartItem->id"
+                    />
                 @endforeach
             </tbody>
         </table>
@@ -94,9 +98,13 @@
                 <span class="font-bold text-active" x-text="`￥${cartTotal}`"></span>
             </section>
 
+            <x-input-error :messages="$errors->get('items')" />
+
             <div class="mt-5">
                 <x-primary-button value="确认订单" class="w-full text-sm font-bold h-14"
-                                  wire:click.prevent="checkoutOrder" />
+                                  wire:click.prevent="checkoutOrder"
+                                  :disabled="$this->validItems()->isEmpty()"
+                />
             </div>
         </div>
     </div>

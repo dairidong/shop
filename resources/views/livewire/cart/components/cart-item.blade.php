@@ -8,19 +8,23 @@ use function Livewire\Volt\updated;
 
 state('cartItem');
 state('quantity');
+state('messages')->reactive();
 
 rules([
     'quantity' => 'required|integer|min:1'
 ]);
 
-mount(function (CartItem $cartItem) {
+mount(function (CartItem $cartItem, $messages = []) {
     $this->cartItem = $cartItem;
     $this->quantity = $cartItem->quantity;
+    $this->messages = $messages;
 });
 
 updated([
     'quantity' => function () {
-        $this->validate();
+        $this->validate([
+            'quantity' => 'max:' . $this->cartItem->product_sku->stock,
+        ]);
         $this->cartItem->update(['quantity' => $this->quantity]);
         $this->dispatch('cart-item-updated');
     }
@@ -37,7 +41,6 @@ updated([
         subtotal = Big(price).mul(quantity).toFixed(2);
         $watch('quantity', (value) => {
             subtotal = Big(price).mul(value).toFixed(2);
-            $dispatch('cart-item-updated');
         });
     "
     :data-subtotal="subtotal"
@@ -65,9 +68,13 @@ updated([
     <td class="py-1 px-0 lg:px-5 lg:pt-8 lg:pb-12 flex items-center justify-between lg:table-cell text-left border-b border-dashed">
         <div class="flex items-center lg:flex-col lg:items-start gap-x-2 lg:gap-y-6">
             <p class="font-bold text-sm lg:text-base w-[20ch] xl:w-max overflow-hidden text-ellipsis text-nowrap hover:text-active">
-                <a href="{{ route('products.show', [$cartItem->product]) }}" wire:navigate>{{ $cartItem->product->title }}</a>
+                <a href="{{ route('products.show', [$cartItem->product]) }}"
+                   wire:navigate>{{ $cartItem->product->title }}</a>
             </p>
             <p class="text-xs lg:text-sm text-gray-400">{{ $cartItem->product_sku->name }}</p>
+        </div>
+        <div class="mt-6 hidden lg:block">
+            <x-input-error :messages="$messages" />
         </div>
     </td>
     <td class="py-1 px-0 lg:px-5 lg:pt-8 lg:pb-12 flex items-center justify-between lg:table-cell border-b border-dashed">
@@ -88,5 +95,9 @@ updated([
     <td class="py-1 lg:pt-8 lg:pb-12 flex items-center justify-between lg:table-cell text-right">
         <span class="block lg:hidden">{{ __('Subtotal') }}</span>
         <strong class="text-active text-xs font-sans font-bold"x-text="`￥${subtotal}`"></strong>
+    </td>
+
+    <td class="lg:hidden col-span-full flex justify-center">
+        <x-input-error :messages="$messages" />
     </td>
 </tr>
