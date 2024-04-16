@@ -26,6 +26,7 @@ class SkusRelationManager extends RelationManager
                     ->disabled()
                     ->unique(ignoreRecord: true, modifyRuleUsing: function (Unique $rule) {
                         $rule->where('product_id', $this->getOwnerRecord()->id);
+                        $rule->withoutTrashed();
                     })
                     ->dehydrated()
                     ->required()
@@ -54,7 +55,7 @@ class SkusRelationManager extends RelationManager
                                 ->afterStateUpdated(function (RelationManager $livewire, Forms\Get $get, Forms\Set $set) {
                                     $groups = $livewire->getOwnerRecord()->load('attribute_groups.attributes')->attribute_groups;
                                     $selectedAttributes = $groups
-                                        ->map(fn (ProductAttributeGroup $group) => $group->attributes->firstWhere('id', $get($group->name)))
+                                        ->map(fn(ProductAttributeGroup $group) => $group->attributes->firstWhere('id', $get($group->name)))
                                         ->filter();
                                     $set('name', $selectedAttributes->pluck('value')->join('+'));
                                     $set('attributes', $selectedAttributes->map->only('id', 'value', 'product_attribute_group_id')->all());
@@ -148,8 +149,20 @@ class SkusRelationManager extends RelationManager
                     Tables\Actions\ForceDeleteBulkAction::make(),
                 ]),
             ])
-            ->modifyQueryUsing(fn (Builder $query) => $query->withoutGlobalScopes([
+            ->modifyQueryUsing(fn(Builder $query) => $query->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]));
+    }
+
+    public function configureEditAction(Tables\Actions\EditAction $action): void
+    {
+        parent::configureEditAction($action);
+        $action->closeModalByClickingAway(false);
+    }
+
+    public function configureCreateAction(Tables\Actions\CreateAction $action): void
+    {
+        parent::configureCreateAction($action);
+        $action->closeModalByClickingAway(false);
     }
 }
