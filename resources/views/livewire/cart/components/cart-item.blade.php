@@ -8,16 +8,14 @@ use function Livewire\Volt\updated;
 
 state('cartItem');
 state('quantity');
-state('messages')->reactive();
 
 rules([
     'quantity' => 'required|integer|min:1'
 ]);
 
-mount(function (CartItem $cartItem, $messages = []) {
+mount(function (CartItem $cartItem) {
     $this->cartItem = $cartItem;
-    $this->quantity = $cartItem->quantity;
-    $this->messages = $messages;
+    $this->quantity = $this->cartItem->quantity;
 });
 
 updated([
@@ -49,7 +47,7 @@ updated([
     <td class="lg:w-10 absolute lg:static right-0 top-1 lg:pt-8 lg:pb-12">
         <x-heroicon-o-x-mark
             class="size-4 hover:text-active cursor-pointer"
-            wire:click="$parent.remove({{ $cartItem->id }})"
+            wire:click.prevent="$parent.remove({{ $cartItem->id }})"
         />
     </td>
     <td class="w-16 min-w-16 py-2 row-span-full lg:pt-8 lg:pb-12">
@@ -68,13 +66,18 @@ updated([
     <td class="py-1 px-0 lg:px-5 lg:pt-8 lg:pb-12 flex items-center justify-between lg:table-cell text-left border-b border-dashed">
         <div class="flex items-center lg:flex-col lg:items-start gap-x-2 lg:gap-y-6">
             <p class="font-bold text-sm lg:text-base w-[20ch] xl:w-max overflow-hidden text-ellipsis text-nowrap hover:text-active">
-                <a href="{{ route('products.show', [$cartItem->product]) }}"
-                   wire:navigate>{{ $cartItem->product->title }}</a>
+                <a href="{{ route('products.show', [$cartItem->product]) }}" wire:navigate>
+                    {{ $cartItem->product->title }}
+                </a>
             </p>
             <p class="text-xs lg:text-sm text-gray-400">{{ $cartItem->product_sku->name }}</p>
         </div>
         <div class="mt-6 hidden lg:block">
-            <x-input-error :messages="$messages" />
+            <ul x-show="$wire.$parent.errors[`items.{{ $cartItem->id }}`].length" class="text-sm text-active space-y-1">
+                <template x-for="error in $wire.$parent.errors[`items.{{ $cartItem->id }}`]">
+                    <li x-text="error"></li>
+                </template>
+            </ul>
         </div>
     </td>
     <td class="py-1 px-0 lg:px-5 lg:pt-8 lg:pb-12 flex items-center justify-between lg:table-cell border-b border-dashed">
@@ -94,10 +97,14 @@ updated([
     </td>
     <td class="py-1 lg:pt-8 lg:pb-12 flex items-center justify-between lg:table-cell text-right">
         <span class="block lg:hidden">{{ __('Subtotal') }}</span>
-        <strong class="text-active text-xs font-sans font-bold"x-text="`￥${subtotal}`"></strong>
+        <strong class="text-active text-xs font-sans font-bold" x-text="`￥${subtotal}`"></strong>
     </td>
 
     <td class="lg:hidden col-span-full flex justify-center">
-        <x-input-error :messages="$messages" />
+        <ul x-show="$wire.$parent.errors[`items.{{ $cartItem->id }}`].length" class="text-sm text-active space-y-1">
+            <template x-for="error in $wire.$parent.errors[`items.{{ $cartItem->id }}`]">
+                <li x-text="error"></li>
+            </template>
+        </ul>
     </td>
 </tr>

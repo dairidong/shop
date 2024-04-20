@@ -4,37 +4,40 @@ namespace App\Livewire\Cart;
 
 use App\Models\CartItem;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Validator;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 /**
- * @property Collection<CartItem> $cartItems
- * @property Collection<CartItem> $validItems
- * @property Collection<CartItem> $invalidItems
+ * @property EloquentCollection<CartItem> $cartItems
+ * @property EloquentCollection<CartItem> $validItems
+ * @property EloquentCollection<CartItem> $invalidItems
  */
 class CartPage extends Component
 {
-    /**
-     * @return Collection<CartItem>
-     */
-    #[Computed]
-    public function cartItems(): Collection
-    {
-        /** @var User $user */
-        $user = auth()->user();
+    public Collection $errors;
 
-        return $user->cartItems()->with(['product_sku', 'product'])->get();
+    /**
+     * @var EloquentCollection<int,CartItem>
+     */
+    public EloquentCollection $items;
+
+    public function mount(): void
+    {
+        $this->resetUserCartItems();
+        $this->errors = collect([]);
     }
 
     /**
-     * @return Collection<CartItem>
+     * @return EloquentCollection<CartItem>
      */
     #[Computed]
-    public function validItems(): Collection
+    public function validItems():EloquentCollection
     {
-        return $this->cartItems->filter(fn(CartItem $item) => $item->checkValid());
+        return $this->items->filter(fn(CartItem $item) => $item->checkValid());
     }
 
     /**
@@ -43,20 +46,18 @@ class CartPage extends Component
     #[Computed]
     public function invalidItems(): Collection
     {
-        return $this->cartItems->filter(fn(CartItem $item) => !$item->checkValid());
+        return $this->items->filter(fn(CartItem $item) => !$item->checkValid());
     }
 
     public function remove(CartItem $cartItem): void
     {
-        if (!$cartItem) {
-            return;
-        }
-
         $this->authorize('delete', $cartItem);
 
         $cartItem->delete();
 
         $this->dispatch('cart-item-updated')->self();
+
+        $this->resetUserCartItems();
     }
 
     public function clearInvalidItems(): void
@@ -71,9 +72,7 @@ class CartPage extends Component
     {
         if ($this->validItems->isEmpty()) {
             $this->resetItems();
-            throw ValidationException::withMessages([
-                'items' => '购物车为空',
-            ]);
+            $this->addError('items', '购物车为空');
         }
 
         $this->validItems->each(function (CartItem $item) {
@@ -81,10 +80,17 @@ class CartPage extends Component
                 $this->addError("items.{$item->id}", '无效商品，请刷新页面');
             }
 
-            if ($item->quantity > $item->product_sku->stock) {
+            if ($item->quantity > $item->product_sku?->stock) {
                 $this->addError("items.{$item->id}", '库存不足,请修改购买数量');
             }
         });
+
+        if ($this->getErrorBag()->isNotEmpty()) {
+            $this->errors = collect($this->getErrorBag());
+            return;
+        }
+
+        $this->redirectRoute('orders.create', navigate: true);
     }
 
     public function render()
@@ -93,9 +99,18 @@ class CartPage extends Component
             ->title(__('Cart'));
     }
 
-    protected function resetItems():void
+    protected function resetUserCartItems(): void
     {
-        unset($this->cartItems, $this->validItems, $this->invalidItems);
+        /** @var User $user */
+        $user = auth()->user();
+
+        $this->items = $user->cartItems()->with(['product_sku', 'product'])->get();
+    }
+
+    protected function resetItems(): void
+    {
+        $this->resetUserCartItems();
+        unset($this->validItems, $this->invalidItems);
         $this->dispatch('cart-item-updated')->self();
     }
 }

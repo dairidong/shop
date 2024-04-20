@@ -28,7 +28,6 @@
                 @foreach($this->validItems as $cartItem)
                     <livewire:cart.components.cart-item
                         :$cartItem
-                        :messages="$errors->get('items.' . $cartItem->id)"
                         :key="$cartItem->id"
                     />
                 @endforeach
