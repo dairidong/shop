@@ -3,10 +3,9 @@
 namespace App\Livewire\Orders;
 
 use App\Models\CartItem;
-use App\Models\Order;
-use App\Models\OrderItem;
 use App\Models\User;
 use App\Models\UserAddress;
+use App\Services\OrderService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -72,46 +71,27 @@ class CheckoutOrderFromCart extends Component
             : $this->addresses?->first();
     }
 
-    public function createOrder(): void
+    public function createOrder(OrderService $service): void
     {
         $this->validate();
 
-        DB::transaction(function () {
-            $order = new Order([
-                'address' => [
-                    'address' => $this->currentAddress->full_address,
-                    'zip' => $this->currentAddress->zip,
-                    'contact_name' => $this->currentAddress->contact_name,
-                    'contact_phone' => $this->currentAddress->contact_phone,
-                ],
-            ]);
-
-            $order->user()->associate(auth()->user());
-
-            $order->save();
-
-            $amount = '0.00';
-
-            $this->items->each(function (CartItem $item) use ($order, &$amount) {
-                $orderItem = new OrderItem([
+        DB::transaction(function () use ($service) {
+            $items = $this->items->map(function (CartItem $item) {
+                return [
+                    'sku' => $item->product_sku,
                     'quantity' => $item->quantity,
-                    'price' => $item->product_sku->price,
-                ]);
+                ];
+            })->toArray();
 
-                $orderItem->product()->associate($item->product);
-                $orderItem->productSku()->associate($item->product_sku);
-                $orderItem->order()->associate($order);
+            /** @var User $user */
+            $user = auth()->user();
 
-                $orderItem->save();
+            $order = $service->createOrder($items, $this->currentAddress, $user);
 
-                $item->product_sku->decreaseStock($item->quantity);
-
-                $amount = bcadd($amount, bcmul($orderItem->quantity, $orderItem->price));
-            });
-
-            $order->update(['amount' => $amount]);
-
-            CartItem::query()->whereIn('id', $this->items->pluck('id'))->delete();
+            CartItem::query()
+                ->whereIn('id', $this->items->pluck('id'))
+                ->where('user_id', $user->id)
+                ->delete();
 
             return $order;
         });
