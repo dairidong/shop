@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ *
  * @method static \Database\Factories\ProductSkuFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku newQuery()
@@ -47,8 +48,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku withoutTrashed()
+ *
  * @property-read \App\Models\Product|null $product
  * @property-read mixed $valid
+ *
  * @mixin \Eloquent
  */
 class ProductSku extends Model
@@ -121,5 +124,17 @@ class ProductSku extends Model
                 return $groupIds === $attributes;
             }
         );
+    }
+
+    public function decreaseStock(int $quantity): int
+    {
+        if ($quantity < 0) {
+            throw new \Exception('库存扣减数量异常');
+        }
+
+        return static::query()
+            ->where('id', $this->id)
+            ->where('stock', '>=', $quantity)
+            ->decrement('stock', $quantity);
     }
 }
