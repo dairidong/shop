@@ -7,8 +7,8 @@ use App\Models\Product;
 use App\Models\ProductAttributeGroup;
 use App\Models\ProductSku;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
@@ -70,28 +70,15 @@ class ProductShow extends Component
     }
 
     #[Renderless]
-    public function addToCart(Redirector $redirector): void
+    public function addToCart(): void
     {
-        if (! Auth::check()) {
-            session()->flash('status', __('You need to login!'));
-            $redirector->setIntendedUrl(route('products.show', ['product' => $this->product]));
-            $this->redirectRoute('login', navigate: true);
-
+        if (! $this->checkLogin()) {
             return;
         }
 
-        if (! $this->product->on_sale) {
-            return;
-        }
+        $sku = $this->validateProduct();
 
-        $this->validate();
-
-        $sku = $this->product->skus()->find($this->skuId);
-        if (! $sku || ! $sku->valid) {
-            return;
-        }
-
-        if ($this->quantity > 0 && $sku->stock < $this->quantity) {
+        if (! $sku) {
             return;
         }
 
@@ -115,7 +102,51 @@ class ProductShow extends Component
 
     public function createOrder()
     {
+        if (! $this->checkLogin()) {
+            return;
+        }
 
+        $sku = $this->validateProduct();
+
+        if (! $sku) {
+            return;
+        }
+
+        $this->redirectRoute('orders.buy_now', ['sku' => $sku->id, 'quantity' => $this->quantity], navigate: true);
+    }
+
+    protected function checkLogin(): bool
+    {
+        if (! Auth::check()) {
+            session()->flash('status', __('You need to login!'));
+            Redirect::setIntendedUrl(route('products.show', ['product' => $this->product]));
+            $this->redirectRoute('login', navigate: true);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function validateProduct(): bool|ProductSku
+    {
+        if (! $this->product->on_sale) {
+            return false;
+        }
+
+        $this->validate();
+
+        /** @var ProductSku $sku */
+        $sku = $this->product->skus()->find($this->skuId);
+        if (! $sku || ! $sku->on_sale || ! $sku->valid) {
+            return false;
+        }
+
+        if ($this->quantity > 0 && $sku->stock < $this->quantity) {
+            return false;
+        }
+
+        return $sku;
     }
 
     public function rules(): array

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Orders;
 
+use App\Concerns\Livewire\HasAddresses;
 use App\Models\CartItem;
 use App\Models\User;
 use App\Models\UserAddress;
@@ -12,17 +13,9 @@ use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-/**
- * @property UserAddress $currentAddress
- */
 class CheckoutOrderFromCart extends Component
 {
-    public int $addressId;
-
-    /**
-     * @var Collection<UserAddress;
-     */
-    public Collection $addresses;
+    use HasAddresses;
 
     /**
      * @var Collection<int,CartItem>
@@ -35,8 +28,8 @@ class CheckoutOrderFromCart extends Component
         $user = auth()->user();
 
         $this->items = $user->cartItems()
-            ->with(['product_sku', 'product'])->get()
-            ->filter(fn (CartItem $item) => $item->checkValid() &&
+            ->with('product_sku.product')->get()
+            ->filter(fn(CartItem $item) => $item->checkValid() &&
                 $item->quantity <= $item->product_sku->stock
             );
 
@@ -45,10 +38,6 @@ class CheckoutOrderFromCart extends Component
 
             return;
         }
-
-        $this->addresses = $user->addresses()->latest()->get();
-
-        $this->addressId = $this->addresses->first()->id;
     }
 
     #[Computed]
@@ -63,26 +52,33 @@ class CheckoutOrderFromCart extends Component
         }, '0');
     }
 
-    #[Computed]
-    public function currentAddress()
-    {
-        return $this->addressId
-            ? $this->addresses?->firstWhere('id', $this->addressId)
-            : $this->addresses?->first();
-    }
-
     public function createOrder(OrderService $service): void
     {
         $this->validate();
+        $items = $this->items->loadMissing('product_sku.product')->map(function (CartItem $item, $index) {
+            if (!$item->checkValid()) {
+                $this->addError("items.{$index}", '商品不可用');
+            }
 
-        DB::transaction(function () use ($service) {
-            $items = $this->items->map(function (CartItem $item) {
-                return [
-                    'sku' => $item->product_sku,
-                    'quantity' => $item->quantity,
-                ];
-            })->toArray();
+            if (!$item->product_sku->on_sale || $item->product_sku->product->on_sale) {
+                $this->addError("items.{$index}", '商品未上架');
+            }
 
+            if ($item->product_sku->stock < $item->quantity) {
+                $this->addError("items.{$index}", '商品库存不足');
+            }
+
+            return [
+                'sku' => $item->product_sku,
+                'quantity' => $item->quantity,
+            ];
+        })->toArray();
+
+        if ($this->getErrorBag()->any()) {
+            return;
+        }
+
+        DB::transaction(function () use ($service, $items) {
             /** @var User $user */
             $user = auth()->user();
 
@@ -96,6 +92,7 @@ class CheckoutOrderFromCart extends Component
             return $order;
         });
 
+        // todo
         $this->redirectRoute('profile', navigate: true);
     }
 
@@ -118,6 +115,7 @@ class CheckoutOrderFromCart extends Component
 
     public function render()
     {
-        return view('livewire.orders.checkout-order-from-cart');
+        return view('livewire.orders.checkout-order-from-cart')
+            ->title('确认订单');
     }
 }
