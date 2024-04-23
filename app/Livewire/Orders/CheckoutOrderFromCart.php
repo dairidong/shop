@@ -5,7 +5,6 @@ namespace App\Livewire\Orders;
 use App\Concerns\Livewire\HasAddresses;
 use App\Models\CartItem;
 use App\Models\User;
-use App\Models\UserAddress;
 use App\Services\OrderService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -20,20 +19,20 @@ class CheckoutOrderFromCart extends Component
     /**
      * @var Collection<int,CartItem>
      */
-    public Collection $items;
+    public Collection $cartItems;
 
     public function mount()
     {
         /** @var User $user */
         $user = auth()->user();
 
-        $this->items = $user->cartItems()
-            ->with('product_sku.product')->get()
-            ->filter(fn(CartItem $item) => $item->checkValid() &&
+        $this->cartItems = $user->cartItems
+            ->loadMissing('product_sku.product')
+            ->filter(fn (CartItem $item) => $item->checkValid() &&
                 $item->quantity <= $item->product_sku->stock
             );
 
-        if ($this->items->isEmpty()) {
+        if ($this->cartItems->isEmpty()) {
             $this->redirectRoute('home', navigate: true);
 
             return;
@@ -43,7 +42,7 @@ class CheckoutOrderFromCart extends Component
     #[Computed]
     public function totalAmount()
     {
-        return $this->items->reduce(function ($total, CartItem $item) {
+        return $this->cartItems->reduce(function ($total, CartItem $item) {
             return bcadd(
                 bcmul($item->quantity, $item->product_sku->price, 2),
                 $total,
@@ -55,12 +54,12 @@ class CheckoutOrderFromCart extends Component
     public function createOrder(OrderService $service): void
     {
         $this->validate();
-        $items = $this->items->loadMissing('product_sku.product')->map(function (CartItem $item, $index) {
-            if (!$item->checkValid()) {
+        $items = $this->cartItems->loadMissing('product_sku.product')->map(function (CartItem $item, $index) {
+            if (! $item->checkValid()) {
                 $this->addError("items.{$index}", '商品不可用');
             }
 
-            if (!$item->product_sku->on_sale || $item->product_sku->product->on_sale) {
+            if (! $item->product_sku->on_sale || $item->product_sku->product->on_sale) {
                 $this->addError("items.{$index}", '商品未上架');
             }
 
@@ -85,7 +84,7 @@ class CheckoutOrderFromCart extends Component
             $order = $service->createOrder($items, $this->currentAddress, $user);
 
             CartItem::query()
-                ->whereIn('id', $this->items->pluck('id'))
+                ->whereIn('id', $this->cartItems->pluck('id'))
                 ->where('user_id', $user->id)
                 ->delete();
 
@@ -106,8 +105,8 @@ class CheckoutOrderFromCart extends Component
                 'required',
                 Rule::exists('user_addresses', 'id')->where('user_id', $user->id),
             ],
-            'items' => 'required',
-            'items.*.id' => [
+            'cartItems' => 'required',
+            'cartItems.*.id' => [
                 Rule::exists('cart_items', 'id')->where('user_id', $user->id),
             ],
         ];
@@ -115,7 +114,16 @@ class CheckoutOrderFromCart extends Component
 
     public function render()
     {
-        return view('livewire.orders.checkout-order-from-cart')
-            ->title('确认订单');
+        $items = $this->cartItems->map(function (CartItem $item) {
+            return [
+                'sku' => $item->product_sku,
+                'quantity' => $item->quantity,
+            ];
+        });
+
+        return view('livewire.orders.checkout-order', [
+            'items' => $items,
+            'showBackToCart' => true
+        ])->title('确认订单');
     }
 }

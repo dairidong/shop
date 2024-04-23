@@ -38,8 +38,13 @@ class CheckoutOrder extends Component
 
     public function render()
     {
-        return view('livewire.orders.checkout-order')
-            ->title('确认订单');
+        $items = [
+            ['sku' => $this->sku, 'quantity' => $this->quantity],
+        ];
+
+        return view('livewire.orders.checkout-order', [
+            'items' => $items,
+        ])->title('确认订单');
     }
 
     #[Computed]
@@ -80,7 +85,7 @@ class CheckoutOrder extends Component
                 'required',
                 Rule::exists('product_skus', 'id')->where('on_sale', true),
                 function ($attribute, $value, $fail) {
-                    if (!$this->sku->valid) {
+                    if (! $this->sku->valid) {
                         $fail('商品不可用');
                     }
 
