@@ -21,9 +21,11 @@ return new class extends Migration
             $table->foreignIdFor(ProductSku::class)->index();
             $table->unsignedInteger('quantity')->comment('商品数量');
             $table->unsignedDecimal('price', 10, 2)->comment('商品单价');
+            $table->json('sku_snapshot')->nullable();
             $table->unsignedInteger('rating')->nullable()->comment('评分');
             $table->text('review')->nullable()->comment('评价');
             $table->timestamp('reviewed_at')->nullable()->comment('评价时间');
+            $table->softDeletes();
         });
     }
 

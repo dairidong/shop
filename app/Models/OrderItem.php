@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\OrderItem
@@ -34,11 +35,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|OrderItem whereRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderItem whereReview($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderItem whereReviewedAt($value)
+ * @property mixed|null $sku_snapshot
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderItem onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderItem whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderItem whereSkuSnapshot($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderItem withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderItem withoutTrashed()
  * @mixin \Eloquent
  */
 class OrderItem extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'quantity',
@@ -46,10 +54,12 @@ class OrderItem extends Model
         'rating',
         'review',
         'reviewed_at',
+        'sku_snapshot'
     ];
 
     protected $casts = [
         'reviewed_at' => 'datetime',
+        'sku_snapshot' => 'json'
     ];
 
     public $timestamps = false;

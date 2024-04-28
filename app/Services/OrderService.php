@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\ProductSku;
 use App\Models\User;
 use App\Models\UserAddress;
 
@@ -27,13 +28,26 @@ class OrderService
         $amount = '0.00';
 
         foreach ($items as $item) {
+            /** @var ProductSku $sku */
+            $sku = $item['sku'];
+
             $orderItem = new OrderItem([
                 'quantity' => $item['quantity'],
-                'price' => $item['sku']->price,
+                'price' => $sku->price,
+                'sku_snapshot' => $sku->loadMissing('product')->only([
+                    'id',
+                    'name',
+                    'bar_no',
+                    'attributes',
+                    'product.id',
+                    'product.title',
+                    'product.long_title',
+                    'product.product_no',
+                ]),
             ]);
 
-            $orderItem->productSku()->associate($item['sku']);
-            $orderItem->product()->associate($item['sku']->product);
+            $orderItem->productSku()->associate($sku);
+            $orderItem->product()->associate($sku->product);
             $orderItem->order()->associate($order);
 
             $orderItem->save();

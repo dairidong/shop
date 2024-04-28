@@ -73,7 +73,7 @@ updated([
             <p class="text-xs lg:text-sm text-gray-400">{{ $cartItem->product_sku->name }}</p>
         </div>
         <div class="mt-6 hidden lg:block">
-            <ul x-show="$wire.$parent.errors[`items.{{ $cartItem->id }}`].length" class="text-sm text-active space-y-1">
+            <ul x-show="$wire.$parent.errors[`items.{{ $cartItem->id }}`] && $wire.$parent.errors[`items.{{ $cartItem->id }}`].length" class="text-sm text-active space-y-1">
                 <template x-for="error in $wire.$parent.errors[`items.{{ $cartItem->id }}`]">
                     <li x-text="error"></li>
                 </template>
@@ -101,7 +101,7 @@ updated([
     </td>
 
     <td class="lg:hidden col-span-full flex justify-center">
-        <ul x-show="$wire.$parent.errors[`items.{{ $cartItem->id }}`].length" class="text-sm text-active space-y-1">
+        <ul x-show="$wire.$parent.errors[`items.{{ $cartItem->id }}`] && $wire.$parent.errors[`items.{{ $cartItem->id }}`].length" class="text-sm text-active space-y-1">
             <template x-for="error in $wire.$parent.errors[`items.{{ $cartItem->id }}`]">
                 <li x-text="error"></li>
             </template>

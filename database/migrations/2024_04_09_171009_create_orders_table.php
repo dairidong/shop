@@ -27,6 +27,7 @@ return new class extends Migration
             $table->json('ship_data')->nullable()->comment('物流信息');
             $table->json('extra')->nullable()->comment('额外信息');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

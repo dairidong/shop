@@ -59,7 +59,7 @@ class CheckoutOrderFromCart extends Component
                 $this->addError("items.{$index}", '商品不可用');
             }
 
-            if (! $item->product_sku->on_sale || $item->product_sku->product->on_sale) {
+            if (! $item->product_sku->on_sale || ! $item->product_sku->product->on_sale) {
                 $this->addError("items.{$index}", '商品未上架');
             }
 
@@ -74,6 +74,8 @@ class CheckoutOrderFromCart extends Component
         })->toArray();
 
         if ($this->getErrorBag()->any()) {
+            dump($this->getErrorBag()->all());
+
             return;
         }
 
@@ -123,7 +125,7 @@ class CheckoutOrderFromCart extends Component
 
         return view('livewire.orders.checkout-order', [
             'items' => $items,
-            'showBackToCart' => true
+            'showBackToCart' => true,
         ])->title('确认订单');
     }
 }
