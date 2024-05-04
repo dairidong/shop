@@ -3,6 +3,7 @@
 use App\Livewire\Cart\CartPage;
 use App\Livewire\Orders\CheckoutOrder;
 use App\Livewire\Orders\CheckoutOrderFromCart;
+use App\Livewire\Orders\OrderList;
 use App\Livewire\Products\ProductList;
 use App\Livewire\Products\ProductShow;
 use App\Livewire\UserAddress\CreateUserAddress;
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/orders/create', CheckoutOrderFromCart::class)->name('orders.create');
         Route::get('/orders/buy-now', CheckoutOrder::class)->name('orders.buy_now');
+        Route::get('orders', OrderList::class)->name('orders.index');
     });
 
     Route::view('delete-user', 'user.delete-user')

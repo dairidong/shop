@@ -2,6 +2,7 @@
     use Illuminate\Support\Facades\Route;
     $routes = [
         ['route_name' => 'profile', 'label' => __('Profile Information'), 'icon' => 'heroicon-s-user'],
+        ['route_name' => 'orders.index', 'label' => '我的订单', 'icon' => 'heroicon-o-document-text'],
         ['route_name' => 'user.update-password', 'label' => __('Update Password'), 'icon' => 'heroicon-c-shield-exclamation'],
         ['route_name' => 'user_addresses.index', 'label' => __('User Addresses'), 'icon' => 'heroicon-s-home'],
         ['route_name' => 'user.destroy', 'label' => __('Delete Account'), 'icon' => 'heroicon-s-trash'],

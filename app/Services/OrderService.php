@@ -29,21 +29,18 @@ class OrderService
 
         foreach ($items as $item) {
             /** @var ProductSku $sku */
-            $sku = $item['sku'];
+            $sku = $item['sku']->loadMissing('product');
 
             $orderItem = new OrderItem([
                 'quantity' => $item['quantity'],
                 'price' => $sku->price,
-                'sku_snapshot' => $sku->loadMissing('product')->only([
-                    'id',
-                    'name',
-                    'bar_no',
-                    'attributes',
-                    'product.id',
-                    'product.title',
-                    'product.long_title',
-                    'product.product_no',
-                ]),
+                'sku_snapshot' => [
+                    ...$sku->only(['id', 'name', 'bar_no', 'attributes']),
+                    'product' => [
+                        ...$sku->product->only(['id', 'title', 'long_title', 'product_no']),
+                        'image' => $sku->product->getFirstMediaUrl('product-images')
+                    ],
+                ],
             ]);
 
             $orderItem->productSku()->associate($sku);

@@ -13,7 +13,7 @@ $logout = function (Logout $logout) {
 state('cartCount', fn() => auth()->user()?->cartItems()->count());
 
 on(['cart-update' => function () {
-        $this->cartCount = auth()->user()?->cartItems()->count();
+    $this->cartCount = auth()->user()?->cartItems()->count();
 }]);
 
 ?>
@@ -170,6 +170,10 @@ on(['cart-update' => function () {
                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ __('Personal Center') }}</a>
                                 </li>
                                 <li>
+                                    <a href="{{ route('orders.index') }}" wire:navigate
+                                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">我的订单</a>
+                                </li>
+                                <li>
                                     <button wire:click="logout"
                                             class="block w-full text-start px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                         {{ __('Log Out') }}
@@ -196,18 +200,6 @@ on(['cart-update' => function () {
                         {{ $cartCount ?: 0 }}
                     </div>
                 </a>
-
-                {{--<x-drawer placement="right">--}}
-                {{--    <x-slot name="trigger">--}}
-                {{--        <button class="tool-cart cursor-pointer p-1 rounded-full group">--}}
-                {{--            <x-heroicon-o-shopping-cart class="w-7 h-7 group-hover:text-active" />--}}
-                {{--        </button>--}}
-                {{--    </x-slot>--}}
-
-                {{--    <x-slot name="body"  class="px-8">--}}
-                {{--        <livewire:cart />--}}
-                {{--    </x-slot>--}}
-                {{--</x-drawer>--}}
             </div>
         </div>
     </div>
