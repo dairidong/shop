@@ -85,7 +85,14 @@
                                             @endif
                                         </div>
                                     </td>
-                                    <td>查看订单</td>
+                                    <td>
+                                        <a href="{{ route('orders.show', [$order]) }}"
+                                           wire:navigate
+                                           class="hover:text-active"
+                                        >
+                                            查看订单
+                                        </a>
+                                    </td>
                                 </tr>
                                 <tr class="h-4"></tr>
                             </tbody>

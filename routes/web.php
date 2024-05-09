@@ -1,14 +1,6 @@
 <?php
 
-use App\Livewire\Cart\CartPage;
-use App\Livewire\Orders\CheckoutOrder;
-use App\Livewire\Orders\CheckoutOrderFromCart;
-use App\Livewire\Orders\OrderList;
-use App\Livewire\Products\ProductList;
-use App\Livewire\Products\ProductShow;
-use App\Livewire\UserAddress\CreateUserAddress;
-use App\Livewire\UserAddress\EditUserAddress;
-use App\Livewire\UserAddress\UserAddressList;
+use App\Livewire;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,22 +25,24 @@ Route::middleware('auth')->group(function () {
         Route::view('update-password', 'user.update-password')
             ->name('user.update-password');
 
-        Route::get('user_addresses', UserAddressList::class)->name('user_addresses.index');
-        Route::get('user_addresses/create', CreateUserAddress::class)->name('user_addresses.create');
-        Route::get('user_addresses/{userAddress}/edit', EditUserAddress::class)->name('user_addresses.edit');
+        Route::get('user_addresses', Livewire\UserAddress\UserAddressList::class)->name('user_addresses.index');
+        Route::get('user_addresses/create', Livewire\UserAddress\CreateUserAddress::class)->name('user_addresses.create');
+        Route::get('user_addresses/{userAddress}/edit', Livewire\UserAddress\EditUserAddress::class)->name('user_addresses.edit');
 
-        Route::get('/orders/create', CheckoutOrderFromCart::class)->name('orders.create');
-        Route::get('/orders/buy-now', CheckoutOrder::class)->name('orders.buy_now');
-        Route::get('orders', OrderList::class)->name('orders.index');
+        Route::get('orders/create', Livewire\Orders\CheckoutOrderFromCart::class)->name('orders.create');
+        Route::get('orders/buy-now', Livewire\Orders\CheckoutOrder::class)->name('orders.buy_now');
+        Route::get('orders', Livewire\Orders\OrderList::class)->name('orders.index');
+        Route::get('orders/{order}', Livewire\Orders\OrderShow::class)
+            ->name('orders.show')
+            ->can('view', 'order');
     });
 
-    Route::view('delete-user', 'user.delete-user')
-        ->name('user.destroy');
+    Route::view('delete-user', 'user.delete-user')->name('user.destroy');
 
-    Route::get('cart', CartPage::class)->name('cart');
+    Route::get('cart', Livewire\Cart\CartPage::class)->name('cart');
 });
 
-Route::get('products', ProductList::class)->name('products.index');
-Route::get('products/{product}', ProductShow::class)->name('products.show');
+Route::get('products', Livewire\Products\ProductList::class)->name('products.index');
+Route::get('products/{product}', Livewire\Products\ProductShow::class)->name('products.show');
 
 require __DIR__.'/auth.php';

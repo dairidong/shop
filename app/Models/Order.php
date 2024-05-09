@@ -112,4 +112,9 @@ class Order extends Model
     {
         return $this->ship_status == OrderShipStatus::PENDING;
     }
+
+    public function isFinish(): bool
+    {
+        return $this->ship_status == OrderShipStatus::DELIVERED;
+    }
 }

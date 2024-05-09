@@ -25,12 +25,18 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($this->validItems as $cartItem)
-                    <livewire:cart.components.cart-item
-                        :$cartItem
-                        :key="$cartItem->id"
-                    />
-                @endforeach
+                @if($this->validItems->isNotEmpty())
+                    @foreach($this->validItems as $cartItem)
+                        <livewire:cart.components.cart-item
+                            :$cartItem
+                            :key="$cartItem->id"
+                        />
+                    @endforeach
+                @else
+                    <tr class="block lg:table-row w-full">
+                        <td colspan="6" class="block w-full lg:table-cell text-center p-6 text-gray-400">购物车为空 ~</td>
+                    </tr>
+                @endif
             </tbody>
         </table>
 
@@ -44,7 +50,8 @@
                         <th class="px-5"></th>
                         <th class="px-5 text-center"></th>
                         <th class="text-right">
-                            <a class="hover:text-active cursor-pointer" wire:click.prevent="clearInvalidItems">清除无效商品</a>
+                            <a class="hover:text-active cursor-pointer"
+                               wire:click.prevent="clearInvalidItems">清除无效商品</a>
                         </th>
                     </tr>
                 </thead>
