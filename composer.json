@@ -24,7 +24,9 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
-        "propaganistas/laravel-phone": "^5.2"
+        "propaganistas/laravel-phone": "^5.2",
+        "symfony/psr-http-message-bridge": "^7.0",
+        "yansongda/laravel-pay": "~3.7.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.15",
