@@ -56,7 +56,7 @@ class CheckoutOrder extends Component
     #[Computed]
     public function totalAmount(): string
     {
-        return bcmul($this->sku->price, $this->quantity);
+        return bcmul($this->sku->price, $this->quantity, 2);
     }
 
     public function createOrder(OrderService $service)
@@ -67,15 +67,14 @@ class CheckoutOrder extends Component
             ['sku' => $this->sku, 'quantity' => $this->quantity],
         ];
 
-        DB::transaction(function () use ($items, $service) {
+        $order = DB::transaction(function () use ($items, $service) {
             /** @var User $user */
             $user = auth()->user();
 
             return $service->createOrder($items, $this->currentAddress, $user);
         });
 
-        // todo
-        $this->redirectRoute('profile', navigate: true);
+        $this->redirectRoute('orders.show', [$order], navigate: true);
     }
 
     public function rules(): array

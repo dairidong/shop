@@ -106,4 +106,9 @@ class OrderPolicy
     {
         return $administrator->can('replicate_order');
     }
+
+    public function own(User $user, Order $order): bool
+    {
+        return $user->id === $order->user_id;
+    }
 }

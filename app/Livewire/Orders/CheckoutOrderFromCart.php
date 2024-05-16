@@ -79,7 +79,7 @@ class CheckoutOrderFromCart extends Component
             return;
         }
 
-        DB::transaction(function () use ($service, $items) {
+        $order = DB::transaction(function () use ($service, $items) {
             /** @var User $user */
             $user = auth()->user();
 
@@ -93,8 +93,7 @@ class CheckoutOrderFromCart extends Component
             return $order;
         });
 
-        // todo
-        $this->redirectRoute('profile', navigate: true);
+        $this->redirectRoute('orders.show', [$order], navigate: true);
     }
 
     public function rules(): array

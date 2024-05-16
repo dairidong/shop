@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PaymentController;
 use App\Livewire;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,13 @@ Route::middleware('auth')->group(function () {
         Route::get('orders/{order}', Livewire\Orders\OrderShow::class)
             ->name('orders.show')
             ->can('view', 'order');
+
+        Route::get('payment/{order}/alipay', [PaymentController::class, 'alipay'])
+            ->name('payment.alipay');
+        Route::get('payment/alipay/return', [PaymentController::class, 'alipayReturn'])
+            ->name('payment.alipay.return');
+        Route::post('payment/alipay/notify', [PaymentController::class, 'alipayNotify'])
+            ->name('payment.alipay.notify');
     });
 
     Route::view('delete-user', 'user.delete-user')->name('user.destroy');

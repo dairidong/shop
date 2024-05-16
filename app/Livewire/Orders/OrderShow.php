@@ -12,6 +12,7 @@ class OrderShow extends Component
     public function render()
     {
         $this->order->loadMissing('items.productSku.product');
+
         return view('livewire.orders.order-show')->title('订单详情');
     }
 }

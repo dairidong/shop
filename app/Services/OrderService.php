@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\CloseOrder;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductSku;
@@ -38,7 +39,7 @@ class OrderService
                     ...$sku->only(['id', 'name', 'bar_no', 'attributes']),
                     'product' => [
                         ...$sku->product->only(['id', 'title', 'long_title', 'product_no']),
-                        'image' => $sku->product->getFirstMediaUrl('product-images')
+                        'image' => $sku->product->getFirstMediaUrl('product-images'),
                     ],
                 ],
             ]);
@@ -49,12 +50,14 @@ class OrderService
 
             $orderItem->save();
 
-            $item['sku']->decreaseStock($item['quantity']);
+            $sku->decreaseStock($item['quantity']);
 
             $amount = bcadd($amount, bcmul($orderItem->quantity, $orderItem->price));
         }
 
         $order->update(['amount' => $amount]);
+
+        dispatch(new CloseOrder($order))->delay($order->paid_expired_at)->afterCommit()->onQueue('close-order');
 
         return $order;
     }

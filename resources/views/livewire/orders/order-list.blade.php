@@ -80,7 +80,7 @@
                                             @else
                                                 <span>未支付</span>
                                                 <span>
-                                                    请于 {{ $order->created_at->addMinutes(15)->format('H:i') }} 前完成支付
+                                                    请于 {{ $order->paid_expired_at->format('H:i') }} 前完成支付
                                                 </span>
                                             @endif
                                         </div>

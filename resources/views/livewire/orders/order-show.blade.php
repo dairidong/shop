@@ -64,9 +64,11 @@
                                     <span class="text-xs font-normal text-gray-500">{{ $order->paid_at }}</span>
                                 @else
                                     <span>待付款</span>
-                                    <x-primary-button value="立即付款"
-                                                      class="text-xs bg-active hover:bg-active/75 px-4 py-1" />
-                                    <span class="text-xs font-normal text-gray-500">请于 {{ $order->created_at->addMinutes(15)->format('H:i') }} 前完成支付</span>
+                                    <a href="{{ route('payment.alipay',[$order]) }}">
+                                        <x-primary-button value="立即付款"
+                                                          class="text-xs bg-active hover:bg-active/75 px-4 py-1" />
+                                    </a>
+                                    <span class="text-xs font-normal text-gray-500">请于 {{ $order->paid_expired_at->format('H:i') }} 前完成支付</span>
                                 @endif
                             </div>
                         </li>
@@ -199,8 +201,10 @@
                     <span>应付总额：</span>
                     <strong class="text-xl text-active">￥{{ $order->amount }}</strong>
                 </div>
-                <x-primary-button value="立即付款"
-                                  class="text-lg font-bold bg-active hover:bg-active/75" />
+                <a href="{{ route('payment.alipay',[$order]) }}">
+                    <x-primary-button value="立即付款"
+                                      class="text-lg font-bold bg-active hover:bg-active/75" /> 
+                </a>
             </section>
         </div>
 

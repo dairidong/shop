@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\OrderShipStatus;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -52,6 +54,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Order withoutTrashed()
+ * @property-read Carbon $paid_expired_at
  * @mixin \Eloquent
  */
 class Order extends Model
@@ -96,6 +99,13 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function paidExpiredAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): Carbon => $this->created_at->addSeconds(config('order.expired_ttl'))
+        );
     }
 
     public static function generateAvailableNo(): string

@@ -20,6 +20,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "intervention/validation": "^4.1",
         "laravel/framework": "^10.10",
+        "laravel/horizon": "^5.24",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.4",
