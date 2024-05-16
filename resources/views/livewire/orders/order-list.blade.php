@@ -70,7 +70,7 @@
                                         <div class="flex flex-col">
                                             @if($order->paid_at)
                                                 @switch($order->ship_status)
-                                                    @case(\App\Enums\OrderShipStatus::PENDING) 未支付 @break
+                                                    @case(\App\Enums\OrderShipStatus::PENDING) 已支付 @break
                                                     @case(\App\Enums\OrderShipStatus::DELIVERED) 已发货 @break
                                                     @case(\App\Enums\OrderShipStatus::RECEIVED) 已收货 @break
                                                 @endswitch

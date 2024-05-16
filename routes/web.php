@@ -41,8 +41,6 @@ Route::middleware('auth')->group(function () {
             ->name('payment.alipay');
         Route::get('payment/alipay/return', [PaymentController::class, 'alipayReturn'])
             ->name('payment.alipay.return');
-        Route::post('payment/alipay/notify', [PaymentController::class, 'alipayNotify'])
-            ->name('payment.alipay.notify');
     });
 
     Route::view('delete-user', 'user.delete-user')->name('user.destroy');
@@ -52,5 +50,8 @@ Route::middleware('auth')->group(function () {
 
 Route::get('products', Livewire\Products\ProductList::class)->name('products.index');
 Route::get('products/{product}', Livewire\Products\ProductShow::class)->name('products.show');
+
+Route::post('payment/alipay/notify', [PaymentController::class, 'alipayNotify'])
+    ->name('payment.alipay.notify');
 
 require __DIR__.'/auth.php';

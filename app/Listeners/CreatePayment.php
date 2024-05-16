@@ -2,9 +2,10 @@
 
 namespace App\Listeners;
 
+use App\Enums\PaymentMethod;
 use App\Events\OrderPaid;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Models\Payment;
+use Illuminate\Support\Facades\DB;
 
 class CreatePayment
 {
@@ -21,6 +22,21 @@ class CreatePayment
      */
     public function handle(OrderPaid $event): void
     {
-        //
+
+        DB::transaction(function () use ($event) {
+            $order = $event->getOrder();
+            $order->update(['paid_at' => now()]);
+
+            $payment = new Payment([
+                'method' => PaymentMethod::ALIPAY,
+                'no' => $event->getNotify()->get('trade_no'),
+                'notify_content' => $event->getNotify()->toArray(),
+                'notify_mode' => $event->getNotifyMode(),
+            ]);
+
+            $payment->order()->associate($order);
+
+            $payment->save();
+        });
     }
 }

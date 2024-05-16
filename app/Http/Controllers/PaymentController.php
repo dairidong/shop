@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AlipayNotifyStatus;
+use App\Enums\PaymentNotifyMode;
 use App\Events\OrderPaid;
 use App\Models\Order;
 use Yansongda\LaravelPay\Facades\Pay;
@@ -21,15 +22,16 @@ class PaymentController extends Controller
             'request_from_url' => route('orders.show', [$order]),
             // Yansongda/Pay required an additional '_' for urls
             '_return_url' => route('payment.alipay.return'),
-            '_notify_url' => route('payment.alipay.notify'),
+            '_notify_url' => notify_url('payment.alipay.notify'),
         ]);
     }
 
     public function alipayReturn()
     {
-        Pay::alipay()->callback();
+        $result = Pay::alipay()->callback();
+        $order = Order::query()->where('no', $result->get('out_trade_no'))->first();
 
-        return redirect()->route('orders.show');
+        return redirect()->route('orders.show', [$order]);
     }
 
     public function alipayNotify()
@@ -52,7 +54,7 @@ class PaymentController extends Controller
             return Pay::alipay()->success();
         }
 
-        event(new OrderPaid($order, $request));
+        event(new OrderPaid($order, $request, PaymentNotifyMode::CALLBACK));
 
         return Pay::alipay()->success();
     }

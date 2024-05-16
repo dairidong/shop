@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Enums\AlipayNotifyStatus;
+use App\Enums\PaymentNotifyMode;
 use App\Events\OrderPaid;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -38,7 +39,7 @@ class CloseOrder implements ShouldQueue
         $result = Pay::alipay()->query(['out_trade_no' => $this->order->no]);
 
         if (AlipayNotifyStatus::success($result->get('trade_status'))) {
-            event(new OrderPaid($this->order, $result));
+            event(new OrderPaid($this->order, $result,PaymentNotifyMode::QUERY));
 
             return;
         }
