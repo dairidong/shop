@@ -15,31 +15,37 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Models\Order
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $items
- * @property-read int|null $items_count
- * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Order query()
  * @property int $id
  * @property string $no 订单号
  * @property int $user_id
  * @property array $address 收货地址
  * @property string $amount 订单总计
- * @property string $remark 备注
+ * @property string|null $remark 备注
  * @property \Illuminate\Support\Carbon|null $paid_at 支付时间
  * @property int $closed 是否关闭
  * @property int $reviewed 是否已评论
- * @property string $ship_status 配送状态
+ * @property OrderShipStatus $ship_status 配送状态
  * @property array|null $ship_data 物流信息
  * @property array|null $extra 额外信息
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $items
+ * @property-read int|null $items_count
+ * @property-read Carbon $paid_expired_at
+ * @property-read \App\Models\Payment|null $payment
+ * @property-read \App\Models\User|null $user
+ *
+ * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order query()
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereClosed($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereExtra($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereNo($value)
@@ -50,13 +56,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereShipStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @method static \Illuminate\Database\Eloquent\Builder|Order onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Order withoutTrashed()
- * @property-read Carbon $paid_expired_at
- * @property-read \App\Models\Payment|null $payment
+ *
  * @mixin \Eloquent
  */
 class Order extends Model
@@ -125,13 +127,21 @@ class Order extends Model
         return $no;
     }
 
-    public function isShipPending(): bool
+    public function isAfterShipPending(): bool
     {
-        return $this->ship_status == OrderShipStatus::PENDING;
+        return $this->ship_status === OrderShipStatus::PENDING
+            || $this->ship_status === OrderShipStatus::DELIVERED
+            || $this->ship_status === OrderShipStatus::RECEIVED;
+    }
+
+    public function isAfterShipDelivered(): bool
+    {
+        return $this->ship_status === OrderShipStatus::RECEIVED
+            || $this->ship_status === OrderShipStatus::DELIVERED;
     }
 
     public function isFinish(): bool
     {
-        return $this->ship_status == OrderShipStatus::DELIVERED;
+        return $this->ship_status === OrderShipStatus::RECEIVED;
     }
 }

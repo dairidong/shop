@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\OrderShipStatus;
+use App\Enums\PaymentMethod;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers\ItemsRelationManager;
 use App\Models\Order;
@@ -82,7 +83,7 @@ class OrderResource extends Resource
                                         ->label('发货')
                                         ->size(ActionSize::ExtraSmall)
                                         ->button()
-                                        ->hidden(fn (Order $record) => ! $record->paid_at || ! $record->isShipPending())
+                                        ->hidden(fn (Order $record) => ! $record->paid_at || ! $record->isAfterShipPending())
                                         ->form([
                                             Select::make('express_company')
                                                 ->label('物流公司')
@@ -101,12 +102,12 @@ class OrderResource extends Resource
 
                             Infolists\Components\TextEntry::make('ship_data.express_company')
                                 ->label('物流公司')
-                                ->hidden(fn (Order $record) => $record->isShipPending())
+                                ->hidden(fn (Order $record) => $record->isAfterShipPending())
                                 ->formatStateUsing(fn ($state) => $companies[$state]),
 
                             Infolists\Components\TextEntry::make('ship_data.express_no')
                                 ->label('物流单号')
-                                ->hidden(fn (Order $record) => $record->isShipPending()),
+                                ->hidden(fn (Order $record) => $record->isAfterShipPending()),
 
                         ])->columns(3)->columnSpanFull(),
 
@@ -146,6 +147,15 @@ class OrderResource extends Resource
                             Infolists\Components\TextEntry::make('paid_at')
                                 ->label('支付时间')
                                 ->dateTime()
+                                ->hidden(fn (Order $record) => is_null($record->paid_at)),
+                            Infolists\Components\TextEntry::make('payment.method')
+                                ->label('支付渠道')
+                                ->formatStateUsing(fn (PaymentMethod $state) => match ($state) {
+                                    PaymentMethod::ALIPAY => '支付宝'
+                                })
+                                ->hidden(fn (Order $record) => is_null($record->paid_at)),
+                            Infolists\Components\TextEntry::make('payment.no')
+                                ->label('支付平台单号')
                                 ->hidden(fn (Order $record) => is_null($record->paid_at)),
                         ]),
                 ])->columnSpan(1),

@@ -77,6 +77,8 @@
 
                                             @elseif($order->closed)
                                                 已关闭
+                                            @elseif(now()->isAfter($order->paid_expired_at))
+                                                支付取消
                                             @else
                                                 <span>未支付</span>
                                                 <span>

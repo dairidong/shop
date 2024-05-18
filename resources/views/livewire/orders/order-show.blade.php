@@ -55,11 +55,13 @@
                         </li>
                         <li class="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10">
                             <div
-                                class="flex flex-col items-center gap-2 text-nowrap after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 data-[active]:text-emerald-700 data-[active]:font-bold data-[close]:text-active data-[close]:font-bold"
+                                class="flex flex-col items-center gap-2 text-nowrap after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 data-[state=active]:text-emerald-700 data-[state=active]:font-bold data-[state=closed]:text-active data-[state=warning]:text-[#d97706] data-[state=warning]:font-bold"
                                 @if($order->paid_at)
-                                    data-active
+                                    data-state="active"
                                 @elseif($order->closed)
-                                    data-close
+                                    data-state="closed"
+                                @elseif((now()->isAfter($order->paid_expired_at)))
+                                    data-state="warning"
                                 @endif
                             >
                                 @if($order->paid_at)
@@ -69,23 +71,24 @@
                                 @elseif($order->closed)
                                     <x-heroicon-o-x-mark class="size-6" />
                                     <span>订单关闭</span>
+                                @elseif(is_null($order->paid_at) && now()->isAfter($order->paid_expired_at))
+                                    <x-heroicon-o-clock class="size-6" />
+                                    <span>支付已超时</span>
                                 @else
                                     <x-heroicon-o-credit-card class="size-6" />
                                     <span>待付款</span>
-                                    @if(now()->isBefore($order->paid_expired_at))
-                                        <a href="{{ route('payment.alipay',[$order]) }}">
-                                            <x-primary-button value="立即付款"
-                                                              class="text-xs bg-active hover:bg-active/75 px-4 py-1" />
-                                        </a>
-                                        <span class="text-xs font-normal text-gray-500">请于 {{ $order->paid_expired_at->format('H:i') }} 前完成支付</span>
-                                    @endif
+                                    <a href="{{ route('payment.alipay',[$order]) }}">
+                                        <x-primary-button value="立即付款"
+                                                          class="text-xs bg-active hover:bg-active/75 px-4 py-1" />
+                                    </a>
+                                    <span class="text-xs font-normal text-gray-500">请于 {{ $order->paid_expired_at->format('H:i') }} 前完成支付</span>
                                 @endif
                             </div>
                         </li>
                         <li class="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10">
                             <div
                                 class="flex flex-col items-center gap-2 text-nowrap after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 data-[active]:text-emerald-700 data-[active]:font-bold"
-                                @if(!$order->isShipPending()) data-active @endif
+                                @if($order->paid_at && $order->isAfterShipPending()) data-active @endif
                             >
                                 <x-heroicon-o-cube class="size-6" />
                                 <span>商品发货</span>
@@ -94,7 +97,7 @@
                         <li class="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10">
                             <div
                                 class="flex flex-col items-center gap-2 text-nowrap after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 data-[active]:text-emerald-700 data-[active]:font-bold"
-                                @if(!$order->isShipPending()) data-active @endif
+                                @if($order->isAfterShipDelivered()) data-active @endif
                             >
                                 <x-heroicon-o-truck class="size-6" />
                                 <span>商品配送中</span>
