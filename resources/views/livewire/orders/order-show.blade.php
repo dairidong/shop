@@ -225,6 +225,38 @@
                                           class="text-lg font-bold bg-active hover:bg-active/75" />
                     </a>
                 @endif
+
+                @if($order->ship_status === \App\Enums\OrderShipStatus::DELIVERED)
+                    <x-primary-button value="确认收货"
+                                      class="text-lg font-bold bg-active hover:bg-active/75"
+                                      @click="$dispatch('open-modal', 'confirm-receive-order')"
+                    />
+
+                    <x-modal name="confirm-receive-order">
+                        <div class="p-6 flex flex-col items-center">
+                            <x-heroicon-o-information-circle class="size-20 text-gray-400" />
+
+                            <h2 class="text-lg font-bold text-gray-900 mt-6">
+                                确认收货
+                            </h2>
+
+                            <div class="my-6 text-sm text-gray-600 flex flex-col gap-2">
+                                <span>订单：{{ $order->no }}</span>
+                                <span>确认收货不可撤销，请确定已收到商品。</span>
+                            </div>
+
+                            <div class="mt-6 flex gap-6">
+                                <x-secondary-button x-on:click="$dispatch('close')">
+                                    {{ __('Cancel') }}
+                                </x-secondary-button>
+
+                                <x-danger-button class="ms-3" wire:click.prevent="receive">
+                                    {{ __('Confirm') }}
+                                </x-danger-button>
+                            </div>
+                        </div>
+                    </x-modal>
+                @endif
             </section>
         </div>
 
