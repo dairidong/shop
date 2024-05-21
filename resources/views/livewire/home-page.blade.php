@@ -1,5 +1,5 @@
 <div>
-    <div class="dashboard-swiper relative w-screen overflow-hidden h-[300px] sm:h-[600px] md:h-[840px]"
+    <div class="dashboard-swiper relative w-screen overflow-hidden h-[300px] md:h-[600px] lg:h-[840px]"
          x-data="{}"
          x-init="
                 $nextTick(() => {
@@ -22,13 +22,13 @@
                         <div class="flex justify-center items-center swiper-slide bg-no-repeat bg-center bg-cover"
                              style="background-image: url({{ $image }})">
                             <div class="flex justify-center items-center flex-col size-full text-white">
-                                <h2 class="mt-4 mb-5 font-normal text-3xl text-uppercase">{{ $item->texts['sub'] }}</h2>
-                                <div class="mb-12 text-[80px] leading-[85px] font-medium text-uppercase">
+                                <h2 class="mt-4 mb-5 font-normal text-base md:text-2xl lg:text-3xl text-uppercase">{{ $item->texts['sub'] }}</h2>
+                                <div class="mb-12 text-2xl md:text-[50px] lg:text-[80px] leading-7 md:leading-[50px] lg:leading-[85px] font-medium text-uppercase">
                                     {{ $item->texts['main'] }}
                                 </div>
                                 <div>
                                     <a href="{{ $item->link }}"
-                                       class="inline-block border-2 border-white border-solid px-10 text-sm leading-[50px] font-normal text-uppercase cursor-pointer hover:bg-active hover:border-active transition-colors duration-300">
+                                       class="inline-block border-2 border-white border-solid px-10 text-xs md:text-sm leading-7 md:leading-[50px] font-normal text-uppercase cursor-pointer hover:bg-active hover:border-active transition-colors duration-300">
                                         {{ $item->texts['button'] }}
                                     </a>
                                 </div>
