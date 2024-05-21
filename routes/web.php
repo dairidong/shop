@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'dashboard')->name('home');
+Route::get('/',Livewire\HomePage::class)->name('home');
 
 Route::middleware('auth')->group(function () {
 

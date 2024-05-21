@@ -2,6 +2,12 @@ import axios from 'axios';
 import Big from "big.js";
 import noUiSlider from "nouislider";
 import '../css/nouislider.css'
+import Swiper from "swiper";
+import { Navigation,Autoplay } from "swiper/modules";
+import 'swiper/css';
+import 'swiper/css/navigation';
+
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
@@ -14,6 +20,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.Big = Big;
 
 window.noUiSlider = noUiSlider;
+
+window.Swiper = Swiper;
+window.SwiperNavigation = Navigation;
+window.SwiperAutoplay = Autoplay;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

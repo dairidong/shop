@@ -18,6 +18,7 @@
     "dependencies": {
         "big.js": "^6.2.1",
         "china-division": "^2.7.0",
-        "nouislider": "^15.7.1"
+        "nouislider": "^15.7.1",
+        "swiper": "^11.1.3"
     }
 }

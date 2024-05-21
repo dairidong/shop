@@ -35,7 +35,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read Carbon $paid_expired_at
  * @property-read \App\Models\Payment|null $payment
  * @property-read \App\Models\User|null $user
- *
  * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
@@ -58,7 +57,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Order withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class Order extends Model
