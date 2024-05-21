@@ -3,7 +3,7 @@ import Big from "big.js";
 import noUiSlider from "nouislider";
 import '../css/nouislider.css'
 import Swiper from "swiper";
-import { Navigation,Autoplay } from "swiper/modules";
+import { Navigation,Autoplay,Parallax } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
 
@@ -24,6 +24,7 @@ window.noUiSlider = noUiSlider;
 window.Swiper = Swiper;
 window.SwiperNavigation = Navigation;
 window.SwiperAutoplay = Autoplay;
+window.SwiperParallax = Parallax;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
