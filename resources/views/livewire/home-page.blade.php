@@ -23,7 +23,7 @@
         <div class="swiper-wrapper">
             @if($this->carousels)
                 @php $i = 0 @endphp
-                @foreach($this->carousels->items as $item)
+                @foreach($this->carousels->items->sortBy('sort') as $item)
                     @if($image = $item->getFirstMediaUrl('carousel'))
                         <div class="flex justify-center items-center swiper-slide bg-no-repeat bg-center bg-cover"
                              style="background-image: url({{ $image }})"

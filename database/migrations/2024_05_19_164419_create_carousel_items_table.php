@@ -16,6 +16,7 @@ return new class extends Migration
             $table->json('texts')->nullable()->comment('相关文本');
             $table->foreignIdFor(\App\Models\Carousel::class)->index();
             $table->string('link')->nullable()->comment('链接');
+            $table->unsignedTinyInteger('sort')->default(0)->comment('排序');
             $table->timestamps();
         });
     }

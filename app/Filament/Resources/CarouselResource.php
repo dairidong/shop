@@ -66,6 +66,9 @@ class CarouselResource extends Resource
                     Forms\Components\Repeater::make('items')
                         ->relationship()
                         ->label('轮播图')
+                        ->reorderable()
+                        ->orderColumn('sort')
+                        ->reorderableWithButtons()
                         ->schema(function (Forms\Get $get) {
                             $components = [
                                 Forms\Components\SpatieMediaLibraryFileUpload::make('image')
