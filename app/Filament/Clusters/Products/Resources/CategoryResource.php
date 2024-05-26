@@ -29,11 +29,6 @@ class CategoryResource extends Resource
                     ->label(__('Category Name'))
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('sort')
-                    ->label(__('admin.sort'))
-                    ->required()
-                    ->numeric()
-                    ->default(0),
                 Forms\Components\FileUpload::make('image')
                     ->label(__('Category Image'))
                     ->disk('public')
@@ -81,7 +76,7 @@ class CategoryResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->closeModalByClickingAway(false),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),
             ])
