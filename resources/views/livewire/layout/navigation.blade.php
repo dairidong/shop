@@ -18,7 +18,7 @@ on(['cart-update' => function () {
 
 ?>
 
-<nav class="bg-black text-white w-screen">
+<nav class="bg-black text-white">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-center items-center h-20">

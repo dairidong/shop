@@ -22,6 +22,19 @@ export default {
                 dark: '#1F2937',
                 light: '#F9FAFB',
                 active: '#a90a0a'
+            },
+            keyframes: {
+                'shake-x': {
+                    '16.65%': {transform: 'translateX(8px)'},
+                    '33.3%': {transform: 'translateX(-6px)'},
+                    '49.95%': {transform: 'translateX(4px)'},
+                    '66.6%': {transform: 'translateX(-2px)'},
+                    '83.25%': {transform: 'translateX(1px)'},
+                    '100%': {transform: 'translateX(0px)'},
+                }
+            },
+            animation:{
+                'shake-x': 'shake-x 1s ease-in-out'
             }
         },
     },
