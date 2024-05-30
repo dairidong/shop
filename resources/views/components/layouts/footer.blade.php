@@ -1,8 +1,3 @@
-<?php
-
-?>
-
-
 <footer class="bg-[#222] text-white">
     <section class="border-b border-[#393939] py-24 px-4">
         <div class="flex flex-wrap gap-y-14 my-0 mx-auto max-w-screen-2xl">

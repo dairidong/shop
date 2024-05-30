@@ -23,7 +23,7 @@
             </main>
         </div>
 
-        <livewire:layout.footer />
+        <x-layouts.footer />
 
         @livewireScriptConfig
     </body>
