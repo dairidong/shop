@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Orders;
 
+use App\Livewire\Actions\ReceiveOrder;
+use App\Models\Order;
 use App\Models\User;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -11,6 +13,13 @@ use Livewire\WithPagination;
 class OrderList extends Component
 {
     use WithPagination;
+
+    public function receive(Order $order, ReceiveOrder $action)
+    {
+        $this->authorize('own', $order);
+
+        $action($order);
+    }
 
     public function render()
     {

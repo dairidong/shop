@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',Livewire\HomePage::class)->name('home');
+Route::get('/', Livewire\HomePage::class)->name('home');
 
 Route::middleware('auth')->group(function () {
 
@@ -35,7 +35,10 @@ Route::middleware('auth')->group(function () {
         Route::get('orders', Livewire\Orders\OrderList::class)->name('orders.index');
         Route::get('orders/{order}', Livewire\Orders\OrderShow::class)
             ->name('orders.show')
-            ->can('view', 'order');
+            ->can('own', 'order');
+        Route::get('orders/{order}/review', Livewire\Orders\ReviewOrder::class)
+            ->name('orders.review')
+            ->can('review', 'order');
 
         Route::get('payment/{order}/alipay', [PaymentController::class, 'alipay'])
             ->name('payment.alipay');

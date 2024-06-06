@@ -71,8 +71,56 @@
                                             @if($order->paid_at)
                                                 @switch($order->ship_status)
                                                     @case(\App\Enums\OrderShipStatus::PENDING) 已支付 @break
-                                                    @case(\App\Enums\OrderShipStatus::DELIVERED) 已发货 @break
-                                                    @case(\App\Enums\OrderShipStatus::RECEIVED) 已收货 @break
+                                                    @case(\App\Enums\OrderShipStatus::DELIVERED)
+                                                        <span>已发货</span>
+                                                        <x-primary-button value="确认收货"
+                                                                          class="text-xs font-bold bg-active hover:bg-active/75 py-1 px-0 m-2"
+                                                                          @click="$dispatch('open-modal', 'confirm-receive-order-{{ $order->no }}')"
+                                                        />
+
+                                                        <x-modal name="confirm-receive-order-{{ $order->no }}">
+                                                            <div class="p-6 flex flex-col items-center">
+                                                                <x-heroicon-o-information-circle
+                                                                    class="size-20 text-gray-400" />
+
+                                                                <h2 class="text-lg font-bold text-gray-900 mt-6">
+                                                                    确认收货
+                                                                </h2>
+
+                                                                <div
+                                                                    class="my-6 text-sm text-gray-600 flex flex-col gap-2">
+                                                                    <span>订单：{{ $order->no }}</span>
+                                                                    <span>确认收货不可撤销，请确定已收到商品。</span>
+                                                                </div>
+
+                                                                <div class="mt-6 flex gap-6">
+                                                                    <x-secondary-button x-on:click="$dispatch('close')">
+                                                                        {{ __('Cancel') }}
+                                                                    </x-secondary-button>
+
+                                                                    <x-danger-button class="ms-3"
+                                                                                     wire:click.prevent="receive({{ $order->id }})">
+                                                                        {{ __('Confirm') }}
+                                                                    </x-danger-button>
+                                                                </div>
+                                                            </div>
+                                                        </x-modal>
+
+                                                        @break
+                                                    @case(\App\Enums\OrderShipStatus::RECEIVED)
+                                                        @if($order->reviewd)
+                                                            <span>已完成</span>
+                                                        @else
+                                                            <span>待评价</span>
+                                                            <a class="m-auto" wire:click
+                                                               href="{{ route('orders.review',[$order]) }}">
+                                                                <x-primary-button value="评价"
+                                                                                  class="text-xs font-bold bg-active hover:bg-active/75 py-1 px-2 m-2"
+                                                                />
+                                                            </a>
+
+                                                        @endif
+                                                        @break
                                                 @endswitch
 
                                             @elseif($order->closed)

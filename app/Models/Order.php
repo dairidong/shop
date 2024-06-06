@@ -22,8 +22,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $amount 订单总计
  * @property string|null $remark 备注
  * @property \Illuminate\Support\Carbon|null $paid_at 支付时间
- * @property int $closed 是否关闭
- * @property int $reviewed 是否已评论
+ * @property boolean $closed 是否关闭
+ * @property boolean $reviewed 是否已评论
  * @property OrderShipStatus $ship_status 配送状态
  * @property array|null $ship_data 物流信息
  * @property array|null $extra 额外信息
@@ -82,6 +82,8 @@ class Order extends Model
         'extra' => 'json',
         'paid_at' => 'datetime',
         'ship_status' => OrderShipStatus::class,
+        'reviewed' => 'boolean',
+        'closed' => 'boolean'
     ];
 
     protected static function booted()

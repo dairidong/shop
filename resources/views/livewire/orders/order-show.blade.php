@@ -151,7 +151,21 @@
                                 @switch($order->ship_status)
                                     @case(\App\Enums\OrderShipStatus::PENDING) 未支付 @break
                                     @case(\App\Enums\OrderShipStatus::DELIVERED) 已发货 @break
-                                    @case(\App\Enums\OrderShipStatus::RECEIVED) 已收货 @break
+                                    @case(\App\Enums\OrderShipStatus::RECEIVED)
+                                        @if($order->reviewd)
+                                            <span>已完成</span>
+                                        @else
+                                            <div class="inline-flex items-center">
+                                                <span>待评价</span>
+                                                 <a class="m-auto" wire:click
+                                                    href="{{ route('orders.review',[$order]) }}">
+                                                    <x-primary-button value="评价"
+                                                                      class="text-xs font-bold bg-active hover:bg-active/75 py-1 px-2 m-2"
+                                                    />
+                                                </a>
+                                            </div>
+                                        @endif
+                                        @break
                                 @endswitch
 
                             @elseif($order->closed)
@@ -175,7 +189,7 @@
             <table class="w-full border border-collapse text-center">
                 <thead>
                     <tr class="border-b bg-black text-white *:py-2">
-                        <th>商品</th>
+                        <th class="w-2/5">商品</th>
                         <th>商品价格</th>
                         <th>商品数量</th>
                         <th>操作</th>
@@ -185,7 +199,7 @@
                     @foreach($order->items as $item)
                         <tr class="border-b *:py-6">
                             <td>
-                                <div class="flex items-center justify-center">
+                                <div class="flex items-center justify-center gap-x-6">
                                     <a href="{{ route('products.show', [$item->sku_snapshot['product']['id']]) }}"
                                        wire:navigate
                                        class="block relative size-24"
@@ -198,6 +212,18 @@
                                             </div>
                                         @endif
                                     </a>
+
+                                    <div class="flex flex-col items-start">
+                                        <a href="{{ route('products.show', [$item->sku_snapshot['product']['id']]) }}"
+                                           wire:navigate
+                                           class="hover:text-active text-wrap"
+                                        >
+                                            {{ $item->sku_snapshot['product']['title'] }}
+                                        </a>
+                                        <span class="text-gray-400">
+                                            {{ $item->sku_snapshot['name'] }}
+                                        </span>
+                                    </div>
                                 </div>
                             </td>
                             <td>{{ $item->price }}</td>

@@ -111,4 +111,9 @@ class OrderPolicy
     {
         return $user->id === $order->user_id;
     }
+
+    public function review(User $user, Order $order): bool
+    {
+        return $this->own($user, $order) && $order->isFinish() && ! $order->reviewed;
+    }
 }
