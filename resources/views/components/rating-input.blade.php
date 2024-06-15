@@ -13,11 +13,12 @@
 		},
 	}"
     x-modelable="rating"
-    class="flex items-center justify-center"
+    {{ $attributes->twMerge('flex items-center justify-center') }}
 >
     <div class="flex space-x-0">
         <template x-for="(star, index) in ratings" :key="index">
             <button @click="rate(star.amount)" @mouseover="hoverRating = star.amount"
+                    type="button"
                     @mouseleave="hoverRating = rating"
                     aria-hidden="true"
                     :title="star.label"

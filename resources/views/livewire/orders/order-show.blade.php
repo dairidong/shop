@@ -152,7 +152,7 @@
                                     @case(\App\Enums\OrderShipStatus::PENDING) 未支付 @break
                                     @case(\App\Enums\OrderShipStatus::DELIVERED) 已发货 @break
                                     @case(\App\Enums\OrderShipStatus::RECEIVED)
-                                        @if($order->reviewd)
+                                        @if($order->reviewed)
                                             <span>已完成</span>
                                         @else
                                             <div class="inline-flex items-center">

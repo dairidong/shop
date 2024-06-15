@@ -108,7 +108,7 @@
 
                                                         @break
                                                     @case(\App\Enums\OrderShipStatus::RECEIVED)
-                                                        @if($order->reviewd)
+                                                        @if($order->reviewed)
                                                             <span>已完成</span>
                                                         @else
                                                             <span>待评价</span>
