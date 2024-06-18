@@ -22,8 +22,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $amount 订单总计
  * @property string|null $remark 备注
  * @property \Illuminate\Support\Carbon|null $paid_at 支付时间
- * @property boolean $closed 是否关闭
- * @property boolean $reviewed 是否已评论
+ * @property bool $closed 是否关闭
+ * @property bool $reviewed 是否已评论
  * @property OrderShipStatus $ship_status 配送状态
  * @property array|null $ship_data 物流信息
  * @property array|null $extra 额外信息
@@ -35,6 +35,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read Carbon $paid_expired_at
  * @property-read \App\Models\Payment|null $payment
  * @property-read \App\Models\User|null $user
+ *
  * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
@@ -57,6 +58,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Order withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Order extends Model
@@ -83,7 +85,7 @@ class Order extends Model
         'paid_at' => 'datetime',
         'ship_status' => OrderShipStatus::class,
         'reviewed' => 'boolean',
-        'closed' => 'boolean'
+        'closed' => 'boolean',
     ];
 
     protected static function booted()

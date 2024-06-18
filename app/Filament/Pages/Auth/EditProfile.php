@@ -5,7 +5,7 @@ namespace App\Filament\Pages\Auth;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use \Filament\Pages\Auth\EditProfile as FilamentEditProfile;
+use Filament\Pages\Auth\EditProfile as FilamentEditProfile;
 
 class EditProfile extends FilamentEditProfile
 {

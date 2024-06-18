@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CarouselItem> $items
  * @property-read int|null $items_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Carousel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Carousel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Carousel query()
@@ -28,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Carousel whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Carousel whereTextColumns($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Carousel whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Carousel extends Model

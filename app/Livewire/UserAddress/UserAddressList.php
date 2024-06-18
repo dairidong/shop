@@ -13,7 +13,7 @@ class UserAddressList extends Component
 
         $userAddress->delete();
 
-        $this->dispatch('close-modal', 'delete-address-confirm-' . $userAddress->id);
+        $this->dispatch('close-modal', 'delete-address-confirm-'.$userAddress->id);
     }
 
     public function render()

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AdministratorResource\Pages;
-use App\Filament\Resources\AdministratorResource\RelationManagers;
 use App\Models\Administrator;
 use Filament\Facades\Filament;
 use Filament\Forms;
@@ -15,7 +14,6 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 
 class AdministratorResource extends Resource
@@ -57,17 +55,17 @@ class AdministratorResource extends Resource
                         ->rule(Password::default())
                         ->revealable()
                         ->maxLength(255)
-                        ->dehydrated(fn($state): bool => filled($state))
+                        ->dehydrated(fn ($state): bool => filled($state))
                         ->live(debounce: 500)
-                        ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
+                        ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                         ->same('passwordConfirmation'),
                     Forms\Components\TextInput::make('passwordConfirmation')
                         ->label(__('filament-panels::pages/auth/edit-profile.form.password_confirmation.label'))
                         ->password()
                         ->revealable(filament()->arePasswordsRevealable())
                         ->required()
-                        ->visible(fn(Get $get): bool => filled($get('password')))
-                        ->dehydrated(false)
+                        ->visible(fn (Get $get): bool => filled($get('password')))
+                        ->dehydrated(false),
                 ]),
 
                 Forms\Components\Section::make([
@@ -89,7 +87,7 @@ class AdministratorResource extends Resource
             ->defaultSort('id', 'desc')
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar')
-                    ->state(fn(Administrator $admin): ?string => $admin->avatar ?? Filament::getUserAvatarUrl($admin))
+                    ->state(fn (Administrator $admin): ?string => $admin->avatar ?? Filament::getUserAvatarUrl($admin))
                     ->translateLabel()
                     ->circular(),
                 Tables\Columns\TextColumn::make('username')
@@ -123,7 +121,7 @@ class AdministratorResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                Tables\Actions\RestoreAction::make()
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

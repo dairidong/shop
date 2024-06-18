@@ -6,8 +6,6 @@ use App\Models\CartItem;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\Validator;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -35,9 +33,9 @@ class CartPage extends Component
      * @return EloquentCollection<CartItem>
      */
     #[Computed]
-    public function validItems():EloquentCollection
+    public function validItems(): EloquentCollection
     {
-        return $this->items->filter(fn(CartItem $item) => $item->checkValid());
+        return $this->items->filter(fn (CartItem $item) => $item->checkValid());
     }
 
     /**
@@ -46,7 +44,7 @@ class CartPage extends Component
     #[Computed]
     public function invalidItems(): Collection
     {
-        return $this->items->filter(fn(CartItem $item) => !$item->checkValid());
+        return $this->items->filter(fn (CartItem $item) => ! $item->checkValid());
     }
 
     public function remove(CartItem $cartItem): void
@@ -62,7 +60,7 @@ class CartPage extends Component
 
     public function clearInvalidItems(): void
     {
-        $this->invalidItems->each(fn(CartItem $item) => $item->delete());
+        $this->invalidItems->each(fn (CartItem $item) => $item->delete());
 
         // For reload all items
         $this->resetItems();
@@ -76,7 +74,7 @@ class CartPage extends Component
         }
 
         $this->validItems->each(function (CartItem $item) {
-            if (!$item->checkValid()) {
+            if (! $item->checkValid()) {
                 $this->addError("items.{$item->id}", '无效商品，请刷新页面');
             }
 
@@ -87,6 +85,7 @@ class CartPage extends Component
 
         if ($this->getErrorBag()->isNotEmpty()) {
             $this->errors = collect($this->getErrorBag());
+
             return;
         }
 

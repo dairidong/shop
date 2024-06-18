@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductAttribute> $attributes
  * @property-read int|null $attributes_count
  * @property-read \App\Models\Product|null $product
+ *
  * @method static \Database\Factories\ProductAttributeGroupFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|ProductAttributeGroup newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductAttributeGroup newQuery()
@@ -35,6 +36,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|ProductAttributeGroup whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductAttributeGroup withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductAttributeGroup withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class ProductAttributeGroup extends Model

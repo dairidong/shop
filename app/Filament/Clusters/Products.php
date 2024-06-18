@@ -12,26 +12,23 @@ class Products extends Cluster
 
     protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
-    /**
-     * @return string
-     */
     public static function getNavigationLabel(): string
     {
         return __('Product');
     }
 
-    public function getHeading(): string | Htmlable
+    public function getHeading(): string|Htmlable
     {
         return __('Product');
     }
 
-    public function getTitle(): string | Htmlable
+    public function getTitle(): string|Htmlable
     {
-        return  __('Product');
+        return __('Product');
     }
 
     public static function getClusterBreadcrumb(): ?string
     {
-        return  __('Product');
+        return __('Product');
     }
 }

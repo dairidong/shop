@@ -10,7 +10,7 @@ enum ProductSort: string
     case PRICE_ASC = 'price-asc';
     case PRICE_DESC = 'price-desc';
 
-    public function translateLabel()
+    public function translateLabel(): string
     {
         return match ($this) {
             ProductSort::DEFAULT => __('Default sorting'),

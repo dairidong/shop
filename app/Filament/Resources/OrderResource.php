@@ -83,7 +83,7 @@ class OrderResource extends Resource
                                         ->label('发货')
                                         ->size(ActionSize::ExtraSmall)
                                         ->button()
-                                        ->hidden(fn (Order $record) => ! $record->paid_at || ! $record->isAfterShipPending())
+                                        ->hidden(fn (Order $record) => ! $record->paid_at || $record->isAfterShipDelivered())
                                         ->form([
                                             Select::make('express_company')
                                                 ->label('物流公司')

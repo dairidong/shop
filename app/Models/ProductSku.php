@@ -26,6 +26,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Product|null $product
+ * @property-read bool $valid
+ *
  * @method static \Database\Factories\ProductSkuFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku newQuery()
@@ -47,8 +50,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductSku withoutTrashed()
- * @property-read \App\Models\Product|null $product
- * @property-read mixed $valid
+ *
  * @mixin \Eloquent
  */
 class ProductSku extends Model

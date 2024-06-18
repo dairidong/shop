@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $full_address
  * @property-read \App\Models\User|null $user
+ *
  * @method static \Database\Factories\UserAddressFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|UserAddress newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|UserAddress newQuery()
@@ -40,6 +41,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|UserAddress whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserAddress whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserAddress whereZip($value)
+ *
  * @mixin \Eloquent
  */
 class UserAddress extends Model

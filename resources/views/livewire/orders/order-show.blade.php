@@ -91,7 +91,7 @@
                                 @if($order->paid_at && $order->isAfterShipPending()) data-active @endif
                             >
                                 <x-heroicon-o-cube class="size-6" />
-                                <span>商品发货</span>
+                                <span>商品待发货</span>
                             </div>
                         </li>
                         <li class="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10">

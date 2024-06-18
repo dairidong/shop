@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\Administrator;
-
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AdministratorPolicy
@@ -12,9 +11,6 @@ class AdministratorPolicy
 
     /**
      * Determine whether the administrator can view any models.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return bool
      */
     public function viewAny(Administrator $administrator): bool
     {
@@ -23,9 +19,6 @@ class AdministratorPolicy
 
     /**
      * Determine whether the administrator can view the model.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return bool
      */
     public function view(Administrator $administrator): bool
     {
@@ -34,9 +27,6 @@ class AdministratorPolicy
 
     /**
      * Determine whether the administrator can create models.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return bool
      */
     public function create(Administrator $administrator): bool
     {
@@ -45,9 +35,6 @@ class AdministratorPolicy
 
     /**
      * Determine whether the administrator can update the model.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return bool
      */
     public function update(Administrator $administrator): bool
     {
@@ -56,9 +43,6 @@ class AdministratorPolicy
 
     /**
      * Determine whether the administrator can delete the model.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return bool
      */
     public function delete(Administrator $administrator): bool
     {
@@ -67,9 +51,6 @@ class AdministratorPolicy
 
     /**
      * Determine whether the administrator can bulk delete.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return bool
      */
     public function deleteAny(Administrator $administrator): bool
     {
@@ -78,9 +59,6 @@ class AdministratorPolicy
 
     /**
      * Determine whether the administrator can permanently delete.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return bool
      */
     public function forceDelete(Administrator $administrator): bool
     {
@@ -89,9 +67,6 @@ class AdministratorPolicy
 
     /**
      * Determine whether the administrator can permanently bulk delete.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return bool
      */
     public function forceDeleteAny(Administrator $administrator): bool
     {
@@ -100,9 +75,6 @@ class AdministratorPolicy
 
     /**
      * Determine whether the administrator can restore.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return bool
      */
     public function restore(Administrator $administrator): bool
     {
@@ -111,9 +83,6 @@ class AdministratorPolicy
 
     /**
      * Determine whether the administrator can bulk restore.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return bool
      */
     public function restoreAny(Administrator $administrator): bool
     {
@@ -122,9 +91,6 @@ class AdministratorPolicy
 
     /**
      * Determine whether the administrator can bulk restore.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return bool
      */
     public function replicate(Administrator $administrator): bool
     {
@@ -133,9 +99,6 @@ class AdministratorPolicy
 
     /**
      * Determine whether the administrator can reorder.
-     *
-     * @param  \App\Models\Administrator  $administrator
-     * @return bool
      */
     public function reorder(Administrator $administrator): bool
     {

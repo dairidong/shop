@@ -26,6 +26,6 @@ return [
         'bar_no' => 'sku 编号',
         'attributes' => 'sku 属性',
         'stock' => '库存',
-        'cost' => '成本价'
-    ]
+        'cost' => '成本价',
+    ],
 ];

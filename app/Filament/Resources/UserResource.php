@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
-use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -37,14 +35,14 @@ class UserResource extends Resource
                         ->required()
                         ->string()
                         ->maxLength(255)
-                        ->rule("alpha_dash:ascii")
+                        ->rule('alpha_dash:ascii')
                         ->unique(ignoreRecord: true)
                         ->label(__('Username'))
                         ->columnSpan(1),
                     Forms\Components\TextInput::make('name')
                         ->string()
                         ->maxLength(255)
-                        ->dehydrateStateUsing(fn(?string $state) => is_null($state) ? '' : $state)
+                        ->dehydrateStateUsing(fn (?string $state) => is_null($state) ? '' : $state)
                         ->label(__('Name'))
                         ->columnSpan(1),
                     Forms\Components\TextInput::make('email')
@@ -61,11 +59,11 @@ class UserResource extends Resource
                 Forms\Components\Section::make([
                     Forms\Components\Placeholder::make('created_at')
                         ->label(__('validation.attributes.created_at'))
-                        ->content(fn(User $user) => $user->created_at?->format('Y-m-d H:i:s')),
+                        ->content(fn (User $user) => $user->created_at?->format('Y-m-d H:i:s')),
 
                     Forms\Components\Placeholder::make('updated_at')
                         ->label(__('validation.attributes.updated_at'))
-                        ->content(fn(User $user) => $user->updated_at?->format('Y-m-d H:i:s')),
+                        ->content(fn (User $user) => $user->updated_at?->format('Y-m-d H:i:s')),
 
                     Forms\Components\Placeholder::make('email_verified_at')
                         ->label(__('Email verified at'))
@@ -77,8 +75,8 @@ class UserResource extends Resource
 
                     Forms\Components\Placeholder::make('email_verified_at')
                         ->label(__('validation.attributes.deleted_at'))
-                        ->hidden(fn(User $user) => is_null($user->deleted_at))
-                        ->content(fn(User $user) => $user->deleted_at?->format('Y-m-d H:i:s')),
+                        ->hidden(fn (User $user) => is_null($user->deleted_at))
+                        ->content(fn (User $user) => $user->deleted_at?->format('Y-m-d H:i:s')),
                 ])->columnSpan(4),
 
             ]);

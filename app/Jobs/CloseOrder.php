@@ -39,7 +39,7 @@ class CloseOrder implements ShouldQueue
         $result = Pay::alipay()->query(['out_trade_no' => $this->order->no]);
 
         if (AlipayNotifyStatus::success($result->get('trade_status'))) {
-            event(new OrderPaid($this->order, $result,PaymentNotifyMode::QUERY));
+            event(new OrderPaid($this->order, $result, PaymentNotifyMode::QUERY));
 
             return;
         }

@@ -47,6 +47,7 @@ class OrderService
             $orderItem->productSku()->associate($sku);
             $orderItem->product()->associate($sku->product);
             $orderItem->order()->associate($order);
+            $orderItem->user()->associate($user);
 
             $orderItem->save();
 

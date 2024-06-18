@@ -33,6 +33,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
+ *
  * @method static \Database\Factories\AdministratorFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Administrator newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Administrator newQuery()
@@ -53,21 +54,18 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|Administrator withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|Administrator withoutRole($roles, $guard = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Administrator withoutTrashed()
+ *
  * @mixin \Eloquent
  */
-class Administrator extends Model implements
-    AuthenticatableContract,
-    AuthorizableContract,
-    FilamentUser,
-    HasAvatar
+class Administrator extends Model implements AuthenticatableContract, AuthorizableContract, FilamentUser, HasAvatar
 {
-    use HasFactory, Authenticatable, Authorizable, SoftDeletes, HasRoles;
+    use Authenticatable, Authorizable, HasFactory, HasRoles, SoftDeletes;
 
     protected $fillable = [
         'username',
         'name',
         'password',
-        'avatar'
+        'avatar',
     ];
 
     protected $hidden = [
@@ -83,7 +81,7 @@ class Administrator extends Model implements
     public function avatarUrl(): Attribute
     {
         return Attribute::make(
-            get: fn($value, $attributes) => $attributes['avatar'] ? Storage::url($attributes['avatar']) : null
+            get: fn ($value, $attributes) => $attributes['avatar'] ? Storage::url($attributes['avatar']) : null
         );
     }
 

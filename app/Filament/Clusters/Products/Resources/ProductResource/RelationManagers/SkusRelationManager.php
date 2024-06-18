@@ -55,7 +55,7 @@ class SkusRelationManager extends RelationManager
                                 ->afterStateUpdated(function (RelationManager $livewire, Forms\Get $get, Forms\Set $set) {
                                     $groups = $livewire->getOwnerRecord()->load('attribute_groups.attributes')->attribute_groups;
                                     $selectedAttributes = $groups
-                                        ->map(fn(ProductAttributeGroup $group) => $group->attributes->firstWhere('id', $get($group->name)))
+                                        ->map(fn (ProductAttributeGroup $group) => $group->attributes->firstWhere('id', $get($group->name)))
                                         ->filter();
                                     $set('name', $selectedAttributes->pluck('value')->join('+'));
                                     $set('attributes', $selectedAttributes->map->only('id', 'value', 'product_attribute_group_id')->all());
@@ -149,7 +149,7 @@ class SkusRelationManager extends RelationManager
                     Tables\Actions\ForceDeleteBulkAction::make(),
                 ]),
             ])
-            ->modifyQueryUsing(fn(Builder $query) => $query->withoutGlobalScopes([
+            ->modifyQueryUsing(fn (Builder $query) => $query->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]));
     }

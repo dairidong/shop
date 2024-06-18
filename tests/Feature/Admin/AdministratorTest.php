@@ -3,6 +3,7 @@
 use App\Filament\Resources\AdministratorResource;
 use App\Models\Administrator;
 use Database\Seeders\ShieldSeeder;
+
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {
@@ -12,7 +13,7 @@ beforeEach(function () {
     $this->admin->assignRole('super_admin');
 });
 
-describe("admin administrator", function () {
+describe('admin administrator', function () {
 
     test('can access administrator list', function () {
         $administrators = Administrator::factory()->count(10)->create();
@@ -22,7 +23,7 @@ describe("admin administrator", function () {
             ->assertCanSeeTableRecords($administrators);
     });
 
-    test("can create administrator", function () {
+    test('can create administrator', function () {
         $admin = Administrator::factory()->make();
 
         livewire(AdministratorResource\Pages\CreateAdministrator::class)
@@ -30,7 +31,7 @@ describe("admin administrator", function () {
                 'username' => $admin->username,
                 'name' => $admin->name,
                 'password' => 'password',
-                'passwordConfirmation' => 'password'
+                'passwordConfirmation' => 'password',
             ])
             ->call('create')
             ->assertHasNoFormErrors();
@@ -41,14 +42,14 @@ describe("admin administrator", function () {
         ]);
     });
 
-    test("can update administrator", function () {
+    test('can update administrator', function () {
         $administrator = Administrator::factory()->create();
         $new_username = fake('en')->unique()->firstName;
         $new_name = fake()->unique()->name;
-        echo $new_name . PHP_EOL;
+        echo $new_name.PHP_EOL;
 
         livewire(AdministratorResource\Pages\EditAdministrator::class, [
-            'record' => $administrator->getRouteKey()
+            'record' => $administrator->getRouteKey(),
         ])->assertFormSet([
             'username' => $administrator->username,
             'name' => $administrator->name,
@@ -59,9 +60,8 @@ describe("admin administrator", function () {
 
         $this->assertDatabaseHas(Administrator::class, [
             'username' => $new_username,
-            'name' => $new_name
+            'name' => $new_name,
         ]);
     });
 
 });
-

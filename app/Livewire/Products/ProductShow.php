@@ -11,13 +11,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\Locked;
 use Livewire\Attributes\Renderless;
 use Livewire\Component;
+use Livewire\WithoutUrlPagination;
+use Livewire\WithPagination;
 
 class ProductShow extends Component
 {
-    #[Locked]
+    use WithoutUrlPagination, WithPagination;
+
     public Product $product;
 
     public int $skuId;
@@ -160,7 +162,15 @@ class ProductShow extends Component
 
     public function render(): View
     {
-        return view('livewire.products.product-show')
-            ->title($this->product->long_title);
+        $reviews = $this->product->orderItems()
+            ->select('rating', 'review', 'reviewed_at', 'user_id')
+            ->whereNotNull('review')
+            ->with('user')
+            ->latest('reviewed_at')
+            ->paginate();
+
+        return view('livewire.products.product-show', [
+            'reviews' => $reviews,
+        ])->title($this->product->long_title);
     }
 }

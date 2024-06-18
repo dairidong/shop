@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Product;
 use App\Models\ProductAttributeGroup;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

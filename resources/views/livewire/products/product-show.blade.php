@@ -6,7 +6,7 @@
      x-on:add-to-cart="addedCart = true"
 >
     <div class="bg-[#f3f3f3]">
-        <template  x-if="addedCart" >
+        <template x-if="addedCart">
             <div class="container pt-10" @click="addedCart = false">
                 <x-auth-session-status :status="__('Has been added to your cart!')" type="danger" />
             </div>
@@ -146,14 +146,15 @@
 
                         <div>
                             <div class="mb-1">
-                                <span class="text-gray-800 text-xs" x-text="currentSku ? `{{ __('Left stock') }} ${currentSku.stock}` : ''"></span>
+                                <span class="text-gray-800 text-xs"
+                                      x-text="currentSku ? `{{ __('Left stock') }} ${currentSku.stock}` : ''"></span>
                             </div>
                             <div class="flex gap-2">
                                 <x-product.number-input :min="1" :max="0"
-                                                x-init="$watch('currentSku', (value) => {
+                                                        x-init="$watch('currentSku', (value) => {
                                                     max = value ? value.stock : 1;
                                                 })"
-                                                wire:model.number="quantity"
+                                                        wire:model.number="quantity"
                                 />
 
                                 <x-primary-button
@@ -191,8 +192,8 @@
             x-data="{
                 currentTab: null,
                 tabs: [
-                    { key: 'description', label: @js(__('Description')) },
-                    { key: 'reviews', label: @js(__('Reviews')) },
+                    { key: 'description', label: '商品详情' },
+                    { key: 'reviews', label: '评论' },
                 ],
                 setTab(key) {
                     this.currentTab = key;
@@ -229,29 +230,43 @@
                 </section>
 
                 <section x-show="currentTab === 'reviews'" x-cloak>
-                    <ul>
-                        <li class="flex gap-8">
-                            {{--<x-lazy-image />--}}
-                            <x-lazy-image :src="url('default_avatar.png')" class="block size-16 rounded-full" />
-                            <div class="flex flex-col gap-3">
-                                <div class="flex items-center gap-3">
-                                    <div class="flex *:-m-0.5">
-                                        <template x-for="i in 5">
-                                            <x-heroicon-s-star class="size-6 text-yellow-500" />
-                                        </template>
+                    @if($reviews->isNotEmpty())
+                        <ul class="py-6 space-y-12">
+                            @foreach($reviews as $review)
+                                <li class="flex gap-8">
+                                    <div class="block size-16 rounded-full overflow-hidden">
+                                        <x-lazy-image :src="$review->user->avatar_url ?: url('default_avatar.png')" class="size-full object-center object-cover" />
                                     </div>
-                                    <div>
-                                        <strong>nambui</strong> - <span class="text-gray-400">2024-04-12</span>
+                                    <div class="flex flex-col gap-3">
+                                        <div class="flex items-center gap-3">
+                                            <div class="flex *:-m-0.5">
+                                                <template x-for="i in {{ $review->rating }}">
+                                                    <x-heroicon-s-star class="size-6 text-yellow-500" />
+                                                </template>
+
+                                                <template x-for="i in (5 - {{ $review->rating }})">
+                                                    <x-heroicon-s-star class="size-6 text-gray-400" />
+                                                </template>
+                                            </div>
+                                            <div>
+                                                <strong>{{ $review->user->name ?: $review->user->username }}</strong> -
+                                                <span
+                                                    class="text-gray-400 text-nowrap">{{ $review->reviewed_at->format('Y-m-d') }}</span>
+                                            </div>
+                                        </div>
+                                        <p>
+                                            {{ $review->review }}
+                                        </p>
                                     </div>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                    exercitation ullamco laboris nisi ut aliquip ex ea
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
+                                </li>
+                            @endforeach
+
+                        </ul>
+                    @else
+                        <div class="text-center text-gray-600 py-6">
+                            暂无评论
+                        </div>
+                    @endif
                 </section>
             </div>
         </div>
