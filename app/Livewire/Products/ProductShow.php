@@ -167,7 +167,7 @@ class ProductShow extends Component
             ->whereNotNull('review')
             ->with('user')
             ->latest('reviewed_at')
-            ->paginate();
+            ->paginate(5);
 
         return view('livewire.products.product-show', [
             'reviews' => $reviews,

@@ -260,8 +260,11 @@
                                     </div>
                                 </li>
                             @endforeach
-
                         </ul>
+
+                        <div>
+                            {{ $reviews->links() }}
+                        </div>
                     @else
                         <div class="text-center text-gray-600 py-6">
                             暂无评论
